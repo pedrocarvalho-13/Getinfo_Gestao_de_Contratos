@@ -51,8 +51,8 @@ const items = [
 
 export function AppSidebar() {
     return (
-        <Sidebar className="bg-gray-300">
-            <SidebarHeader>
+        <Sidebar className="border-none">
+            <SidebarHeader className="bg-gray-50">
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <Link href={"/dashboard"}>
@@ -81,10 +81,10 @@ export function AppSidebar() {
                                             </CollapsibleTrigger>
                                             <CollapsibleContent>
                                                 {item.submenu.map((submenu) => (
-                                                    <SidebarMenuItem key={submenu.title} className="pl-10 hover:bg-[#72F2E5]">
-                                                        <SidebarMenuButton asChild className="hover:bg-[#72F2E5]">
+                                                    <SidebarMenuItem key={submenu.title} className="pl-10 hover:bg-[#72F2E5] active:bg-[#76FFF1]">
+                                                        <SidebarMenuButton asChild className="hover:bg-[#72F2E5] active:bg-[#76FFF1]">
 
-                                                            <Link href={submenu.url}>
+                                                            <Link href={submenu.url} className="">
                                                                 <span>{submenu.title}</span>
                                                             </Link>
 
@@ -95,9 +95,9 @@ export function AppSidebar() {
                                             </CollapsibleContent>
                                         </Collapsible>
                                     ) : (
-                                        <SidebarMenuButton asChild className="hover:bg-[#72F2E5] h-[8vh]">
+                                        <SidebarMenuButton asChild className="hover:bg-[#72F2E5] active:bg-[#76FFF1] h-[8vh]">
                                             <Link href={item.url}>
-                                                <div className="flex item-center justify-center w-[2vw] bg-[#72F2E5] p-1 rounded-[12px]">
+                                                <div className="flex item-center justify-center w-[2vw] bg-[#72F2E5] active:bg-[#76FFF1] p-1 rounded-[12px]">
                                                     <item.icon className="w-4 text-white" />
                                                 </div>                                                <span>{item.title}</span>
                                             </Link>

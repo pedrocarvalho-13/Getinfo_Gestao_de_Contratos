@@ -1,17 +1,15 @@
-import { Calendar, ChevronDown, Home, File, Building, Inbox, Search, Settings } from "lucide-react"
+import { ChevronDown, Home, File, Building } from "lucide-react"
 import Style from "@/Styles/style.module.css"
-import DocIcon from "../../../public/doc-icon.png"
+// import DocIcon from "../../../public/doc-icon.png"
 import {
     Sidebar,
     SidebarContent,
     SidebarGroup,
     SidebarGroupContent,
-    SidebarGroupLabel,
     SidebarHeader,
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
-    SidebarTrigger,
 } from "@/components/ui/sidebar"
 import Link from "next/link"
 import {

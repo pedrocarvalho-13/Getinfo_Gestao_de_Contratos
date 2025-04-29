@@ -1,7 +1,7 @@
 import { DataTable } from "@/components/dataTable"
 import { companyList } from "@/data/companie"
 import { company } from "@/types/companyType"
-import { contract } from "@/types/contractType"
+// import { contract } from "@/types/contractType"
 // import { company } from "@/types/companyType"
 import { ColumnDef } from "@tanstack/react-table"
 

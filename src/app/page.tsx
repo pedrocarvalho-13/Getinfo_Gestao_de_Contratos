@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect } from "react";
-import Status from "@/services/statusService"
-import Teste from "@/app/teste/page"
+// import { useEffect } from "react";
+// import Status from "@/services/statusService"
+// import Teste from "@/app/teste/page"
 import Dashboard from "./dashboard/page";
 
 

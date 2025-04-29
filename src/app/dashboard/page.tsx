@@ -31,7 +31,7 @@ export default function Dashboard() {
                 {/* <LoaderCircle className="text-[#72F2E5] m-auto animate-spin size-15" /> */}
                 <div className="grid mt-4  gap-4 w-full text-bold items-center justify-between grid-cols-[repeat(auto-fit,_minmax(150px,_1fr))] ">
                     {dataCards.map((data) => (
-                        <DashCard label={data.label} value={data.value} />
+                        <DashCard key={data.label} label={data.label} value={data.value} />
                     ))}
                 </div>
                 <div className="flex flex-row w-full py-2 items-center justify-between ">

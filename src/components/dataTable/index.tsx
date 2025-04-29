@@ -1,10 +1,16 @@
 "use client"
 
+// import { HeaderGroup, Row, Cell } from '@tanstack/react-table'
+
+
 import {
     ColumnDef,
     flexRender,
     getCoreRowModel,
-    useReactTable
+    useReactTable,
+    HeaderGroup, 
+    Row, 
+    Cell
 } from "@tanstack/react-table"
 
 import {
@@ -16,26 +22,27 @@ import {
     TableRow,
 } from "@/components/ui/table"
 
-import {
-    Command,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-    CommandList,
-} from "@/components/ui/command"
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover"
+// import {
+//     Command,
+//     CommandEmpty,
+//     CommandGroup,
+//     CommandInput,
+//     CommandItem,
+//     CommandList,
+// } from "@/components/ui/command"
+// import {
+//     Popover,
+//     PopoverContent,
+//     PopoverTrigger,
+// } from "@/components/ui/popover"
 
-import { Key, SetStateAction } from "react"
-import { ChevronsUpDown, Ellipsis, EllipsisVertical, Pencil } from "lucide-react";
-import { Button } from "../ui/button"
+// import { Key } from "react"
+// import { ChevronsUpDown, Ellipsis, EllipsisVertical, Pencil } from "lucide-react";
+// import { Button } from "../ui/button"
 import React from "react"
 import RowActions from "../testePopup"
 import Link from "next/link"
+
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -61,11 +68,11 @@ import Link from "next/link"
 //     },
 // ]
 
-const options = [
-        "Visualizar",
-        "Editar",
-        "Arquivar",
-    ]
+// const options = [
+//         "Visualizar",
+//         "Editar",
+//         "Arquivar",
+//     ]
 
 interface DataTableProps<T> {
     columns: ColumnDef<T>[];
@@ -73,6 +80,11 @@ interface DataTableProps<T> {
     link: string
     contentLink: string
 }
+
+// type TableData =  {
+//     id: number;
+    
+// }
 
 export function DataTable<T>({ columns, data, link, contentLink }: DataTableProps<T>) {
 
@@ -82,7 +94,7 @@ export function DataTable<T>({ columns, data, link, contentLink }: DataTableProp
         getCoreRowModel: getCoreRowModel(),
     })
 
-    const [open, setOpen] = React.useState(false)
+    // const [open, setOpen] = React.useState(false)
     // const [value, setValue] = React.useState("")
     return (
         <div className="flex flex-col w-full h-[90vh] bg-white p-4 gap-2 rounded-xl">
@@ -91,7 +103,7 @@ export function DataTable<T>({ columns, data, link, contentLink }: DataTableProp
             </Link>
             <Table className="w-full  ">
                 <TableHeader >
-                    {table.getHeaderGroups().map((headerGroup: { id: Key | null | undefined; headers: any[] }) => (
+                    {table.getHeaderGroups().map((headerGroup: HeaderGroup<T>) => (
                         <TableRow key={headerGroup.id} >
                             {headerGroup.headers.map((header) => {
                                 return (
@@ -110,13 +122,13 @@ export function DataTable<T>({ columns, data, link, contentLink }: DataTableProp
                 </TableHeader>
                 <TableBody>
                     {table.getRowModel().rows?.length ? (
-                        table.getRowModel().rows.map((row: { id: Key | null | undefined; getIsSelected: () => any; getVisibleCells: () => any[] }) => (
+                        table.getRowModel().rows.map((row: Row<T>) => (
                             <TableRow
                                 className="hover:bg-[#72F2E5] active:bg-[#76FFF1] justify-between items-center"
                                 key={row.id}
                                 data-state={row.getIsSelected() && "selected"}
                             >
-                                {row.getVisibleCells().map((cell: { id: Key | null | undefined; column: { columnDef: { cell: any } }; getContext: () => any }) => (
+                                {row.getVisibleCells().map((cell: Cell<T, unknown>) => (
                                     <TableCell key={cell.id} className="w-1/2 justify-between items-center">
                                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                     </TableCell>

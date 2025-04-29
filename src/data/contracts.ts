@@ -1,4 +1,4 @@
-import { contract } from "@/types/contractType"
+// import { contract } from "@/types/contractType"
 
 export const contractList = {
     contracts: [

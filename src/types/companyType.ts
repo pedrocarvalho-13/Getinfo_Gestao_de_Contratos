@@ -1,5 +1,6 @@
 export type company = {
     nome_empresa: string,
-    nm_contratos: string,
+    qtd_contratos_ativos: string,
+    cnpj: string,
     // edit_contract: String
 }

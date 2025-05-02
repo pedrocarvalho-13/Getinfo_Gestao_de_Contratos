@@ -8,8 +8,8 @@ import {
     flexRender,
     getCoreRowModel,
     useReactTable,
-    HeaderGroup, 
-    Row, 
+    HeaderGroup,
+    Row,
     Cell
 } from "@tanstack/react-table"
 
@@ -83,7 +83,7 @@ interface DataTableProps<T> {
 
 // type TableData =  {
 //     id: number;
-    
+
 // }
 
 export function DataTable<T>({ columns, data, link, contentLink }: DataTableProps<T>) {
@@ -104,10 +104,10 @@ export function DataTable<T>({ columns, data, link, contentLink }: DataTableProp
             <Table className="w-full  ">
                 <TableHeader >
                     {table.getHeaderGroups().map((headerGroup: HeaderGroup<T>) => (
-                        <TableRow key={headerGroup.id} >
+                        <TableRow key={headerGroup.id} className="w-full" >
                             {headerGroup.headers.map((header) => {
                                 return (
-                                    <TableHead key={header.id} >
+                                    <TableHead key={header.id} className="text-center" >
                                         {header.isPlaceholder
                                             ? null
                                             : flexRender(
@@ -117,6 +117,7 @@ export function DataTable<T>({ columns, data, link, contentLink }: DataTableProp
                                     </TableHead>
                                 )
                             })}
+                            <p className="mt-5 text-foreground h-10 px-2 text-left align-middle font-medium whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">Ações</p>
                         </TableRow>
                     ))}
                 </TableHeader>
@@ -124,17 +125,17 @@ export function DataTable<T>({ columns, data, link, contentLink }: DataTableProp
                     {table.getRowModel().rows?.length ? (
                         table.getRowModel().rows.map((row: Row<T>) => (
                             <TableRow
-                                className="hover:bg-[#72F2E5] active:bg-[#76FFF1] justify-between items-center"
+                                className="w-full hover:bg-[#72F2E5] active:bg-[#76FFF1] justify-between items-center"
                                 key={row.id}
                                 data-state={row.getIsSelected() && "selected"}
                             >
                                 {row.getVisibleCells().map((cell: Cell<T, unknown>) => (
-                                    <TableCell key={cell.id} className="w-1/2 justify-between items-center">
+                                    <TableCell key={cell.id} className="  justify-between items-center text-center  ">
                                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                     </TableCell>
 
                                 ))}
-                                <RowActions/>
+                                <RowActions />
                                 {/* className="flex flex-row w-fit p-2 hover:bg-white rounded-md mt-1" */}
                             </TableRow>
                         ))
@@ -150,7 +151,7 @@ export function DataTable<T>({ columns, data, link, contentLink }: DataTableProp
         </div>
     )
 }
-                        {/* <Popover open={open} onOpenChange={setOpen}>
+{/* <Popover open={open} onOpenChange={setOpen}>
                             <PopoverTrigger asChild className="">
                                 <Button
                                     variant="outline"

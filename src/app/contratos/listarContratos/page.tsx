@@ -11,8 +11,24 @@ export default function ListarContratos() {
 
 const ColunaContratos: ColumnDef<contract>[] = [
     {
+        header: "N° Contrato",
+        accessorKey: "nm_contrato",
+    },
+    {
         header: "Nome Empresa",
         accessorKey: "nome_empresa",
+    },
+    {
+        header: "CNPJ",
+        accessorKey: "cnpj",
+    },
+    {
+        header: "Status",
+        accessorKey: "status",
+    },
+    {
+        header: "Início do Contrato",
+        accessorKey: "dt_inicio_contrato",
     },
     {
         header: "Fim do Contrato",

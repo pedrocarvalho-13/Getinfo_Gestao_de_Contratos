@@ -13,8 +13,12 @@ export default function ListarEmpresas() {
             accessorKey: "nome_empresa",
         },
         {
-            header: "Contratos",
-            accessorKey: "nm_contratos",
+            header: "CNPJ",
+            accessorKey: "cnpj",
+        },
+        {
+            header: "Qtd Contratos ativos",
+            accessorKey: "qtd_contratos_ativos",
         },
         
     ]

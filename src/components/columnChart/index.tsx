@@ -23,12 +23,12 @@ const chartConfig = {
 
 export function BarChartComponent() {
     return (
-        <Card className=" ">
+        <Card className="w-full h-full">
             <CardHeader>
-                <CardTitle className="text-center text-3xl">Contratos cadastos ao decorrer do ano</CardTitle>
+                <CardTitle className="text-center text-xl">Contratos cadastos ao decorrer do ano</CardTitle>
                 {/* <CardDescription>January - June 2024</CardDescription> */}
             </CardHeader>
-            <CardContent className="h-[33vh] w-[50vw]">
+            <CardContent className=" w-full h-[26vh]">
                 <ChartContainer config={chartConfig} className="w-full h-full">
                     <BarChart accessibilityLayer data={chartData} >
                         <CartesianGrid vertical={false} />

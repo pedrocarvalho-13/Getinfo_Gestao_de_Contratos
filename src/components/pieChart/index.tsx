@@ -1,7 +1,7 @@
 "use client"
 
 // import { TrendingUp } from "lucide-react"
-import { Pie, PieChart } from "recharts"
+import { Pie, PieChart, PolarAngleAxis, PolarGrid, Radar, RadarChart } from "recharts"
 
 import {
     Card,
@@ -20,15 +20,15 @@ import {
     ChartTooltipContent,
 } from "@/components/ui/chart"
 const chartData = [
-    { browser: "Fechados", visitors: 275, fill: "var(--color-chrome)" },
-    { browser: "Pendentes", visitors: 200, fill: "var(--color-safari)" },
+    { browser: "Norte", visitors: 37},
+    { browser: "Nordeste", visitors: 45,},
+    { browser: "Sudeste", visitors: 22,},
+    { browser: "Sul", visitors: 24,},
+    { browser: "C-Ost", visitors: 20,},
 
 ]
 
 const chartConfig = {
-    visitors: {
-        label: "Visitors",
-    },
     chrome: {
         label: "Fechados",
         color: "#0BE9D2",
@@ -41,35 +41,46 @@ const chartConfig = {
 
 export function PieChartComponent() {
     return (
-        <Card className="flex flex-col">
-            <CardHeader className="items-center pb-0">
-                <CardTitle className="text-center text-3xl">Contratos</CardTitle>
-                <CardDescription className="text-center text-sm">Fechados Aberto</CardDescription>
+        <Card className="flex flex-col w-[20vw] h-full">
+            <CardHeader className="">
+                <CardTitle className="text-center text-xl">Contratos por Região</CardTitle>
             </CardHeader>
-            <CardContent className="flex-1 pb-0  ">
+            <CardContent className="flex-1 pb-0">
                 <ChartContainer
                     config={chartConfig}
-                    className="mx-auto aspect-square w-[24vw] h-[30vh]"
+                    className="mx-auto aspect-square w-[16vw] h-[30vh]"
                 >
-                    <PieChart className=" h-[40vh]" >
+                    <RadarChart data={chartData}>
+                        <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+                        <PolarAngleAxis dataKey="browser" />
+                        <PolarGrid />
+                        <Radar
+                            dataKey="visitors"
+                            fill="#72F2E5"
+                            fillOpacity={0.6}
+                            dot={{
+                                r: 4,
+                                fillOpacity: 1,
+                            }}
+                        />
+                    </RadarChart>
+                </ChartContainer>
+            </CardContent>
+        </Card>
+    )
+}
+
+{/* <PieChart className=" " >
                         <ChartTooltip
                             cursor={true}
-                            content={<ChartTooltipContent hideLabel />}
+                            content={<ChartTooltipContent />}
                         />
-                        {/* <Pie
-                            // className="w-[20vw]"
-                            data={chartData}
-                            dataKey="visitors"
-                            nameKey="browser"
-                            innerRadius={40}
-
-                        /> */}
                         <Pie
 
                             data={chartData}
                             dataKey="visitors"
                             labelLine={true}
-                            innerRadius={30}
+                            innerRadius={10}
                             // outerRadius={10}
                             label={({ payload, ...props }) => {
                                 return (
@@ -81,7 +92,7 @@ export function PieChartComponent() {
                                         textAnchor={props.textAnchor}
                                         dominantBaseline={props.dominantBaseline}
                                         fill="hsla(var(--foreground))"
-                                        fontSize={8}
+                                        fontSize={10}
                                     >
                                         {payload.visitors}
                                     </text>
@@ -89,16 +100,4 @@ export function PieChartComponent() {
                             }}
                             nameKey="browser"
                         />
-                        <ChartLegend
-                            content={<ChartLegendContent nameKey="browser" />}
-                            className="-translate-y-2 flex-wrap gap-2 [&>*]:basis-1/4 [&>*]:justify-center pt-10"
-                        />
-                    </PieChart>
-                </ChartContainer>
-            </CardContent>
-            <CardFooter className="flex-col gap-2 text-sm">
-
-            </CardFooter>
-        </Card>
-    )
-}
+                    </PieChart> */}

@@ -9,17 +9,13 @@ export default function RootLayout({
   return (
     <html>
       <link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
-      <body className="bg-gray-50">
+      <body className="bg-gray-200">
 
 
-        <SidebarProvider className="w-full">
+        <SidebarProvider className="w-full bg-gray-200">
           <AppSidebar />
-          <main className="flex flex-col item-center justify-start w-full bg-gray-50">
-            <SidebarTrigger className="flex z-10 left-[-4] top-[-4] relative bg-gray-50" />
-            <div className="flex flex-row px-2 w-full h-fit text-xl font-bold items-center justify-between ">
-              <h1>Gestão de Contratos</h1>
-              <h1>Usuário X</h1>
-            </div>
+          <SidebarTrigger className="flex z-10 left-[0] top-[-4] relative bg-gray-200" />
+          <main className="flex flex-col item-center justify-start w-full bg-gray-200">
             {children}
           </main>
         </SidebarProvider>

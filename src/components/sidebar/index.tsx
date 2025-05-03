@@ -49,8 +49,8 @@ const items = [
 
 export function AppSidebar() {
     return (
-        <Sidebar className="border-none">
-            <SidebarHeader className="bg-gray-50">
+        <Sidebar className="border-none bg-gray-200">
+            <SidebarHeader className="bg-gray-200">
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <Link href={"/dashboard"}>
@@ -59,7 +59,7 @@ export function AppSidebar() {
                     </SidebarMenuItem>
                 </SidebarMenu>
             </SidebarHeader>
-            <SidebarContent>
+            <SidebarContent className="bg-gray-200">
                 <SidebarGroup>
                     <SidebarGroupContent>
 

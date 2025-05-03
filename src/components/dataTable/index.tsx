@@ -5,12 +5,16 @@
 
 import {
     ColumnDef,
+    ColumnFiltersState,
     flexRender,
     getCoreRowModel,
+    getFilteredRowModel,
+    getPaginationRowModel,
     useReactTable,
     HeaderGroup,
     Row,
-    Cell
+    Cell,
+    SortingState
 } from "@tanstack/react-table"
 
 import {
@@ -22,57 +26,14 @@ import {
     TableRow,
 } from "@/components/ui/table"
 
-// import {
-//     Command,
-//     CommandEmpty,
-//     CommandGroup,
-//     CommandInput,
-//     CommandItem,
-//     CommandList,
-// } from "@/components/ui/command"
-// import {
-//     Popover,
-//     PopoverContent,
-//     PopoverTrigger,
-// } from "@/components/ui/popover"
+import { Input } from "@/components/ui/input"
 
-// import { Key } from "react"
-// import { ChevronsUpDown, Ellipsis, EllipsisVertical, Pencil } from "lucide-react";
-// import { Button } from "../ui/button"
 import React from "react"
 import RowActions from "../testePopup"
 import Link from "next/link"
+import { Button } from "../ui/button"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
-
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-// export type Payment = {
-//     id: string
-//     amount: number
-//     status: "pending" | "processing" | "success" | "failed"
-//     email: string
-// }
-
-// export const columns: ColumnDef<T>[] = [
-//     {
-//         accessorKey: "status",
-//         header: "Status",
-//     },
-//     {
-//         accessorKey: "email",
-//         header: "Email",
-//     },
-//     {
-//         accessorKey: "amount",
-//         header: "Amount",
-//     },
-// ]
-
-// const options = [
-//         "Visualizar",
-//         "Editar",
-//         "Arquivar",
-//     ]
 
 interface DataTableProps<T> {
     columns: ColumnDef<T>[];
@@ -87,100 +48,126 @@ interface DataTableProps<T> {
 // }
 
 export function DataTable<T>({ columns, data, link, contentLink }: DataTableProps<T>) {
+    const [sorting, setSorting] = React.useState<SortingState>([])
+
+    const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+        []
+    )
 
     const table = useReactTable({
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
+        onColumnFiltersChange: setColumnFilters,
+        getFilteredRowModel: getFilteredRowModel(),
+        state: {
+            sorting,
+            columnFilters
+        },
+        globalFilterFn: (row, columnId, filterValue) => {
+            return String(row.getValue(columnId))
+                .toLowerCase()
+                .includes(filterValue.toLowerCase());
+        }
     })
 
-    // const [open, setOpen] = React.useState(false)
-    // const [value, setValue] = React.useState("")
+    let currentPage = 1
     return (
-        <div className="flex flex-col w-full h-[90vh] bg-white p-4 gap-2 rounded-xl">
-            <Link href={link} className="w-fit px-4 py-1 rounded-md bg-[#72F2E5]">
-                {contentLink}
-            </Link>
-            <Table className="w-full  ">
-                <TableHeader >
-                    {table.getHeaderGroups().map((headerGroup: HeaderGroup<T>) => (
-                        <TableRow key={headerGroup.id} className="w-full" >
-                            {headerGroup.headers.map((header) => {
-                                return (
-                                    <TableHead key={header.id} className="text-center" >
-                                        {header.isPlaceholder
-                                            ? null
-                                            : flexRender(
-                                                header.column.columnDef.header,
-                                                header.getContext()
-                                            )}
-                                    </TableHead>
-                                )
-                            })}
-                            <p className="mt-5 text-foreground h-10 px-2 text-left align-middle font-medium whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">Ações</p>
-                        </TableRow>
-                    ))}
-                </TableHeader>
-                <TableBody>
-                    {table.getRowModel().rows?.length ? (
-                        table.getRowModel().rows.map((row: Row<T>) => (
-                            <TableRow
-                                className="w-full hover:bg-[#72F2E5] active:bg-[#76FFF1] justify-between items-center"
-                                key={row.id}
-                                data-state={row.getIsSelected() && "selected"}
-                            >
-                                {row.getVisibleCells().map((cell: Cell<T, unknown>) => (
-                                    <TableCell key={cell.id} className="  justify-between items-center text-center  ">
-                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                    </TableCell>
+        <div className="flex flex-col w-full h-[90vh] bg-gray-50  justify-between p-4 gap-2 rounded-tl-xl">
+            <div className="h-full ">
 
-                                ))}
-                                <RowActions />
-                                {/* className="flex flex-row w-fit p-2 hover:bg-white rounded-md mt-1" */}
+                <div className="flex justify-between items-center py-2">
+                    <Link href={link} className="w-fit px-4 py-1 rounded-md bg-[#72F2E5] text-sm">
+                        {contentLink}
+                    </Link>
+                    <div className="flex flex-row items-center justify-center w-fit h-fit gap-2">
+
+                        <p>Filtros: </p>
+                        <Input
+                            placeholder="Filtre por algo específico"
+                            value={table.getState().globalFilter ?? ""}
+                            onChange={(event) => table.setGlobalFilter(event.target.value)
+                            }
+                            className="w-[20vw] border-gray-500 bg-white "
+                        />
+                    </div>
+                </div>
+                <Table className="w-full  ">
+                    <TableHeader >
+                        {table.getHeaderGroups().map((headerGroup: HeaderGroup<T>) => (
+                            <TableRow key={headerGroup.id} className="w-full" >
+                                {headerGroup.headers.map((header) => {
+                                    return (
+                                        <TableHead key={header.id} className="text-center" >
+                                            {header.isPlaceholder
+                                                ? null
+                                                : flexRender(
+                                                    header.column.columnDef.header,
+                                                    header.getContext()
+                                                )}
+                                        </TableHead>
+                                    )
+                                })}
+                                <p className="mt-5 text-foreground h-10 px-2 text-left align-middle font-medium whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">Ações</p>
                             </TableRow>
-                        ))
-                    ) : (
-                        <TableRow>
-                            <TableCell colSpan={columns.length} className="h-24 text-center">
-                                No results.
-                            </TableCell>
-                        </TableRow>
-                    )}
-                </TableBody>
-            </Table>
+                        ))}
+                    </TableHeader>
+                    <TableBody>
+                        {table.getRowModel().rows?.length ? (
+                            table.getRowModel().rows.map((row: Row<T>) => (
+                                <TableRow
+                                    className="w-full hover:bg-[#72F2E5] active:bg-[#76FFF1] justify-between items-center"
+                                    key={row.id}
+                                    data-state={row.getIsSelected() && "selected"}
+                                >
+                                    {row.getVisibleCells().map((cell: Cell<T, unknown>) => (
+                                        <TableCell key={cell.id} className="  justify-between items-center text-center  ">
+                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                        </TableCell>
+
+                                    ))}
+                                    <RowActions />
+                                    {/* className="flex flex-row w-fit p-2 hover:bg-white rounded-md mt-1" */}
+                                </TableRow>
+                            ))
+                        ) : (
+                            <TableRow>
+                                <TableCell colSpan={columns.length} className="h-24 text-center">
+                                    No results.
+                                </TableCell>
+                            </TableRow>
+                        )}
+                    </TableBody>
+                </Table>
+            </div>
+            <div className="flex flex-row w-full items-center justify-between ">
+
+                <div>
+                    <p>{data.length + 1} items</p>
+                </div>
+                <div className="flex items-center justify-center space-x-2 py-4.2">
+                    <Button
+                        className="hover:bg-[#72F2E5] bg-[#72F2E5] active:bg-[#76FFF1]"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => table.previousPage()}
+                        disabled={!table.getCanPreviousPage()}
+                    >
+                        <ChevronLeft />
+                    </Button>
+                    <p>{table.getState().pagination.pageIndex + 1} de {table.getPageCount()}</p>
+                    <Button
+                        className="hover:bg-[#72F2E5] bg-[#72F2E5] active:bg-[#76FFF1]"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => table.nextPage()}
+                        disabled={!table.getCanNextPage()}
+                    >
+                        <ChevronRight />
+                    </Button>
+                </div>
+            </div>
         </div>
     )
 }
-{/* <Popover open={open} onOpenChange={setOpen}>
-                            <PopoverTrigger asChild className="">
-                                <Button
-                                    variant="outline"
-                                    // role="combobox"
-                                    // aria-expanded={open}
-                                    className=" bg-transparent border-none shadow-none w-fit hover:bg-gray-50"
-                                >
-                                    <EllipsisVertical className="size-3" />
-                                </Button>
-                            </PopoverTrigger>
-
-                            <PopoverContent className="w-[200px] p-0 border-red-500 z-50" side="bottom">
-                                <Command>
-                                    <CommandList>
-                                        <CommandEmpty>Nenhuma Ação</CommandEmpty>
-                                        <CommandGroup>
-                                            {options.map((value) => (
-                                                <CommandItem
-                                                    key={value}
-                                                    value={value}
-                                                    onSelect={() => {
-                                                        setOpen(false)
-                                                    }}
-                                                >
-                                                    {value}
-                                                </CommandItem>
-                                            ))}
-                                        </CommandGroup>
-                                    </CommandList>
-                                </Command>
-                            </PopoverContent>
-                        </Popover> */}

@@ -5,62 +5,62 @@ export const companyList = {
         {
             nome_empresa: "Empresa 1",
             cnpj: "00.000.000/0001-01",
-            qtd_contratos_ativos: "2"
+            contratos_ativos: "2"
         },
         {
             nome_empresa: "Empresa 2",
             cnpj: "00.000.000/0002-02",
-            qtd_contratos_ativos: "4"
+            contratos_ativos: "4"
         },
         {
             nome_empresa: "Empresa 3",
             cnpj: "00.000.000/0003-03",
-            qtd_contratos_ativos: "2"
+            contratos_ativos: "2"
         },
         {
             nome_empresa: "Empresa 4",
             cnpj: "00.000.000/0004-04",
-            qtd_contratos_ativos: "5"
+            contratos_ativos: "5"
         },
         {
             nome_empresa: "Empresa 6",
             cnpj: "00.000.000/0006-06",
-            qtd_contratos_ativos: "1"
+            contratos_ativos: "1"
         },
         {
             nome_empresa: "Empresa 7",
             cnpj: "00.000.000/0007-07",
-            qtd_contratos_ativos: "2"
+            contratos_ativos: "2"
         },
         {
             nome_empresa: "Empresa 8",
             cnpj: "00.000.000/0008-08",
-            qtd_contratos_ativos: "2"
+            contratos_ativos: "2"
         },
         {
             nome_empresa: "Empresa 9",
             cnpj: "00.000.000/0009-09",
-            qtd_contratos_ativos: "3"
+            contratos_ativos: "3"
         },
         {
             nome_empresa: "Empresa 10",
             cnpj: "00.000.000/0010-10",
-            qtd_contratos_ativos: "4"
+            contratos_ativos: "4"
         },
         {
             nome_empresa: "Empresa 11",
             cnpj: "00.000.000/0011-11",
-            qtd_contratos_ativos: "2"
+            contratos_ativos: "2"
         },
         {
             nome_empresa: "Empresa 12",
             cnpj: "00.000.000/0012-12",
-            qtd_contratos_ativos: "1"
+            contratos_ativos: "1"
         },
         {
             nome_empresa: "Empresa 13",
             cnpj: "00.000.000/0013-13",
-            qtd_contratos_ativos: "1"
+            contratos_ativos: "1"
         }
     ]
 };

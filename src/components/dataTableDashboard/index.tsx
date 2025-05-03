@@ -26,13 +26,9 @@ import {
     TableRow,
 } from "@/components/ui/table"
 
-import { Input } from "@/components/ui/input"
 
 import React from "react"
 import RowActions from "../testePopup"
-import Link from "next/link"
-import { Button } from "../ui/button"
-import { ChevronLeft, ChevronRight } from "lucide-react"
 
 
 interface DataTableProps<T> {
@@ -47,8 +43,8 @@ interface DataTableProps<T> {
 
 // }
 
-export function DataTableDashBoard<T>({ columns, data, link, contentLink }: DataTableProps<T>) {
-    const [sorting, setSorting] = React.useState<SortingState>([])
+export function DataTableDashBoard<T>({ columns, data}: DataTableProps<T>) {
+    const [sorting] = React.useState<SortingState>([])
 
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
         []
@@ -77,7 +73,6 @@ export function DataTableDashBoard<T>({ columns, data, link, contentLink }: Data
         }
     })
 
-    let currentPage = 1
     return (
         <div className="flex flex-col w-full bg-white  justify-between px-4 py-2 gap-2 rounded-xl shadow-sm border">
             <div className="font-bold text-center text-xl">

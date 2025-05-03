@@ -48,7 +48,7 @@ interface DataTableProps<T> {
 // }
 
 export function DataTable<T>({ columns, data, link, contentLink }: DataTableProps<T>) {
-    const [sorting, setSorting] = React.useState<SortingState>([])
+    const [sorting] = React.useState<SortingState>([])
 
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
         []
@@ -72,7 +72,6 @@ export function DataTable<T>({ columns, data, link, contentLink }: DataTableProp
         }
     })
 
-    let currentPage = 1
     return (
         <div className="flex flex-col w-full h-[90vh] bg-gray-50  justify-between p-4 gap-2 rounded-tl-xl">
             <div className="h-full ">

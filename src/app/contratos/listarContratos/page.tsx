@@ -1,6 +1,5 @@
-import { DataTable } from "@/components/dataTable"
+import { DataTable } from "@/components/dataTable"// import { Payment, columns } from "@/components/payments/columns"
 import TitleSection from "@/components/TitleSection"
-// import { Payment, columns } from "@/components/payments/columns"
 import { contractList } from "@/data/contracts"
 import { contract } from "@/types/contractType"
 import { ColumnDef } from "@tanstack/react-table"
@@ -39,7 +38,7 @@ export default function ListarContratos() {
 
     return (
         <section>
-            <TitleSection/>
+            <TitleSection title={""}/>
             <section className="flex flex-col  item-center justify-center m-auto w-full">
                 <DataTable columns={ColunaContratos} data={contractList.contracts} link={"anexarContratos"} contentLink={"Anexar Contratos"}></DataTable>
             </section>

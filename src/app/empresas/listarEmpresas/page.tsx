@@ -26,7 +26,7 @@ export default function ListarEmpresas() {
 
     return (
         <section>
-            <TitleSection/>
+            <TitleSection title={"Gestão de Empresas"}/>
             <section className="flex flex-col item-center justify-center m-auto w-full">
                 {/* <h1 className="text-6xl font-bold">Listar Contrato</h1> */}
                 <DataTable columns={ColunaCompanies} data={companyList.companies} link={"cadastrarEmpresa"} contentLink={"Cadastrar Empresas"}></DataTable>

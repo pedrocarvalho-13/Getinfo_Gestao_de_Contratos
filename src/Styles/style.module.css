@@ -1,9 +1,10 @@
 .header {
     background-image: url("../../public/logo-getinfo.png");
     background-repeat: no-repeat;
-    background-size: 16vw;
+    background-size: 100%;
     background-position-y: center;
     background-position-X: center;
+    
 }
 
 @media screen and (max-width: 480px) {

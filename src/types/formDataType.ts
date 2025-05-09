@@ -29,7 +29,7 @@ export type FormDataLegalCompany = {
     cpf: string;
     rg: string;
     telefoneResponsavelLegal: string;
-    emailReponsavelLegal: string;
+    emailResponsavelLegal: string;
 }
 export type FormDataBankCompany = {
     // Informações Bancarias
@@ -66,7 +66,7 @@ export const initialFormData: AllFormData = {
     cpf: "",
     rg: "",
     telefoneResponsavelLegal: "",
-    emailReponsavelLegal: "",
+    emailResponsavelLegal: "",
 
     // FormDataBankCompany
     banco: "",

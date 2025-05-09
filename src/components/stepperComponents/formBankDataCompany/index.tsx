@@ -14,7 +14,7 @@ export default function BankInfoStep({ formData, handleInputChange, handleSelect
                         id="banco"
                         name="banco"
                         className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                        placeholder="Nome do banco"
+                        placeholder="Banco do Brasil"
                         value={formData.banco}
                         onChange={handleInputChange}
                     />
@@ -28,7 +28,7 @@ export default function BankInfoStep({ formData, handleInputChange, handleSelect
                         id="agencia"
                         name="agencia"
                         className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                        placeholder="Número da agência"
+                        placeholder="1234-5"
                         value={formData.agencia}
                         onChange={handleInputChange}
                     />
@@ -49,17 +49,17 @@ export default function BankInfoStep({ formData, handleInputChange, handleSelect
                 </div>
 
                 <div className="space-y-2">
-                    <label htmlFor="tipoConta" className="text-sm font-medium block">
+                    <label htmlFor="contaTipo" className="text-sm font-medium block">
                         Tipo de Conta
                     </label>
                     <select
-                        id="tipoConta"
-                        name="tipoConta"
+                        id="contaTipo"
+                        name="contaTipo"
                         className="w-full px-3 py-2 border border-gray-300 rounded-md"
                         value={formData.contaTipo}
                         onChange={handleSelectChange}
                     >
-                        <option value="">Selecione o tipo de conta</option>
+                        <option value="">--</option>
                         <option value="corrente">Conta Corrente</option>
                         <option value="poupanca">Conta Poupança</option>
                         <option value="salario">Conta Salário</option>

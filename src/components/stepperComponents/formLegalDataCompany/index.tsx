@@ -4,14 +4,14 @@ export default function LegalGuardianStep({ formData, handleInputChange }:formLe
     return (
         <div>
             <h2 className="text-2xl font-bold mb-6">Informações do Responsável Legal</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="space-y-2">
                     <label htmlFor="nomeLegal" className="text-sm font-medium block">
                         Nome Completo
                     </label>
                     <input
                         id="nomeLegal"
-                        name="nomeLegal"
+                        name="nomeCompleto"
                         className="w-full px-3 py-2 border border-gray-300 rounded-md"
                         placeholder="Nome completo do responsável"
                         value={formData.nomeCompleto}
@@ -25,9 +25,9 @@ export default function LegalGuardianStep({ formData, handleInputChange }:formLe
                     </label>
                     <input
                         id="cpfLegal"
-                        name="cpfLegal"
+                        name="cpf"
                         className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                        placeholder="CPF do responsável"
+                        placeholder="123.456.789-00"
                         value={formData.cpf}
                         onChange={handleInputChange}
                     />
@@ -39,9 +39,9 @@ export default function LegalGuardianStep({ formData, handleInputChange }:formLe
                     </label>
                     <input
                         id="rgLegal"
-                        name="rgLegal"
+                        name="rg"
                         className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                        placeholder="RG do responsável"
+                        placeholder="12.345.678-9 "
                         value={formData.rg}
                         onChange={handleInputChange}
                     />
@@ -53,9 +53,9 @@ export default function LegalGuardianStep({ formData, handleInputChange }:formLe
                     </label>
                     <input
                         id="telefoneLegal"
-                        name="telefoneLegal"
+                        name="telefoneResponsavelLegal"
                         className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                        placeholder="Telefone do responsável"
+                        placeholder="(79) 91234-5678"
                         value={formData.telefoneResponsavelLegal}
                         onChange={handleInputChange}
                     />
@@ -67,11 +67,11 @@ export default function LegalGuardianStep({ formData, handleInputChange }:formLe
                     </label>
                     <input
                         id="emailLegal"
-                        name="emailLegal"
+                        name="emailResponsavelLegal"
                         className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                        placeholder="Email do responsável"
+                        placeholder="exemplo@email.com"
                         type="email"
-                        value={formData.emailReponsavelLegal}
+                        value={formData.emailResponsavelLegal}
                         onChange={handleInputChange}
                     />
                 </div>

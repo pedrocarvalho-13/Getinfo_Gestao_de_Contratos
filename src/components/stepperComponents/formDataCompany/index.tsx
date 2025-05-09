@@ -15,7 +15,7 @@ export default function CompanyDataStep({ formData, handleInputChange, handleSel
                             id="cnpj"
                             name="cnpj"
                             className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                            placeholder="Digite o CNPJ da empresa"
+                            placeholder="12.345.678/0001-99"
                             value={formData.cnpj}
                             onChange={handleInputChange}
                         />
@@ -57,7 +57,7 @@ export default function CompanyDataStep({ formData, handleInputChange, handleSel
                             id="inscricaoEstadual"
                             name="inscricaoEstadual"
                             className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                            placeholder="Digite a inscrição estadual da empresa"
+                            placeholder="123456789-0"
                             value={formData.inscricaoEstadual}
                             onChange={handleInputChange}
                         />
@@ -71,7 +71,7 @@ export default function CompanyDataStep({ formData, handleInputChange, handleSel
                             id="inscricaoMunicipal"
                             name="inscricaoMunicipal"
                             className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                            placeholder="Digite a inscrição mun. da empresa"
+                            placeholder="987654321"
                             value={formData.inscricaoMunicipal}
                             onChange={handleInputChange}
                         />
@@ -93,7 +93,7 @@ export default function CompanyDataStep({ formData, handleInputChange, handleSel
                 </div>
             </div>
 
-            <div>
+            {/* <div>
                 <h2 className="text-2xl font-bold mb-6">Informações de Contato</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     <div className="space-y-2">
@@ -250,7 +250,7 @@ export default function CompanyDataStep({ formData, handleInputChange, handleSel
                             value={formData.webSite}
                             onChange={handleInputChange}
                         />
-                    </div>
+                    </div> */}
 
                     {/* <div className="space-y-2">
                         <label htmlFor="dataInicio" className="text-sm font-medium block">
@@ -279,8 +279,8 @@ export default function CompanyDataStep({ formData, handleInputChange, handleSel
                             onChange={handleInputChange}
                         />
                     </div> */}
-                </div>
-            </div>
+                {/* </div>
+            </div> */}
         </div>
     )
 }

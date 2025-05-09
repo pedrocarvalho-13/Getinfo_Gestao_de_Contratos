@@ -1,13 +1,14 @@
 "use client"
 
 import { useState } from "react"
-import { CheckIcon, User, Building2, Landmark } from "lucide-react"
+import { CheckIcon, ClipboardMinus, Landmark, Phone, Scale } from "lucide-react"
 import CompanyDataStep from "./formDataCompany"
 import LegalGuardianStep from "./formLegalDataCompany"
 import BankInfoStep from "./formBankDataCompany"
-import { formDataProps } from "@/types/formPropsType"
-import { AllFormData, FormData, FormDataBankCompany, FormDataLegalCompany, initialFormData } from "@/types/formDataType"
-import { company } from "@/types/companyType"
+// import { formDataProps } from "@/types/formPropsType"
+import { AllFormData, initialFormData } from "@/types/formDataType"
+import CompanyContactDataStep from "./formContactDataCompany"
+// import { company } from "@/types/companyType"
 
 interface StepperProps {
     currentStep: number;
@@ -58,7 +59,7 @@ export default function CompanyRegistrationForm({onCancel}:CompanyRegistrationFo
     }
 
     const nextStep = () => {
-        setCurrentStep((prev) => Math.min(prev + 1, 3))
+        setCurrentStep((prev) => Math.min(prev + 1, 4))
     }
 
     const prevStep = () => {
@@ -66,15 +67,20 @@ export default function CompanyRegistrationForm({onCancel}:CompanyRegistrationFo
     }
 
     const handleSubmit = (e: { preventDefault: () => void }) => {
-        e.preventDefault()
+        e.preventDefault();
+        if (currentStep < 4) {
+            setCurrentStep((prev) => prev + 1);
+            return;
+        }
         console.log("Form submitted:", formData)
         // Here you would typically send the data to your backend
         alert("Formulário enviado com sucesso!")
+        window.location.reload(); // Isso recarrega a página após o alert
     }
 
     return (
         <div className="container mx-auto py-8 px-4">
-            <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md">
+            <div className="max-w-5xl mx-auto bg-white rounded-lg shadow-md">
                 <div className="p-6">
                     <Stepper currentStep={currentStep} />
 
@@ -87,9 +93,17 @@ export default function CompanyRegistrationForm({onCancel}:CompanyRegistrationFo
                             />
                         )}
 
-                        {currentStep === 2 && <LegalGuardianStep formData={formData} handleInputChange={handleInputChange} />}
+                        {currentStep === 2 && (
+                            <CompanyContactDataStep
+                                formData={formData}
+                                handleInputChange={handleInputChange}
+                                handleSelectChange={handleSelectChange}
+                            />
+                        )}
 
-                        {currentStep === 3 && (
+                        {currentStep === 3 && <LegalGuardianStep formData={formData} handleInputChange={handleInputChange} />}
+
+                        {currentStep === 4 && (
                             <BankInfoStep
                                 formData={formData}
                                 handleInputChange={handleInputChange}
@@ -116,7 +130,7 @@ export default function CompanyRegistrationForm({onCancel}:CompanyRegistrationFo
                                 </button>
                             )}
 
-                            {currentStep < 3 ? (
+                            {currentStep < 4 ? (
                                 <button
                                     type="button"
                                     className="px-4 py-2 bg-[#5fe0d5] text-black rounded-md hover:bg-[#4bc0b5]"
@@ -146,23 +160,33 @@ function Stepper({ currentStep }: StepperProps) {
                 <span
                     className={`flex items-center justify-center w-10 h-10 rounded-full lg:h-12 lg:w-12 shrink-0 ${currentStep >= 1 ? "bg-[#5fe0d5]/20" : "bg-gray-100 dark:bg-gray-700"}`}
                 >
-                    {currentStep > 1 ? <CheckIcon className="w-5 h-5" /> : <Building2 className="w-5 h-5" />}
+                    {currentStep > 1 ? <CheckIcon className="w-5 h-5" /> : <ClipboardMinus className="w-5 h-5" />}
                 </span>
             </li>
-
+            
             <li
                 className={`flex w-full items-center ${currentStep >= 2 ? "text-[#5fe0d5]" : "text-gray-500"} after:content-[''] after:w-full after:h-1 after:border-b after:border-4 after:inline-block ${currentStep >= 2 ? "after:border-[#5fe0d5]/30" : "after:border-gray-100 dark:after:border-gray-700"}`}
             >
                 <span
                     className={`flex items-center justify-center w-10 h-10 rounded-full lg:h-12 lg:w-12 shrink-0 ${currentStep >= 2 ? "bg-[#5fe0d5]/20" : "bg-gray-100 dark:bg-gray-700"}`}
                 >
-                    {currentStep > 2 ? <CheckIcon className="w-5 h-5" /> : <User className="w-5 h-5" />}
+                    {currentStep > 2 ? <CheckIcon className="w-5 h-5" /> : <Phone className="w-5 h-5" />}
                 </span>
             </li>
 
-            <li className={`flex items-center ${currentStep >= 3 ? "text-[#5fe0d5]" : "text-gray-500"}`}>
+            <li
+                className={`flex w-full items-center ${currentStep >= 3 ? "text-[#5fe0d5]" : "text-gray-500"} after:content-[''] after:w-full after:h-1 after:border-b after:border-4 after:inline-block ${currentStep >= 3 ? "after:border-[#5fe0d5]/30" : "after:border-gray-100 dark:after:border-gray-700"}`}
+            >
                 <span
                     className={`flex items-center justify-center w-10 h-10 rounded-full lg:h-12 lg:w-12 shrink-0 ${currentStep >= 3 ? "bg-[#5fe0d5]/20" : "bg-gray-100 dark:bg-gray-700"}`}
+                >
+                    {currentStep > 3 ? <CheckIcon className="w-5 h-5" /> : <Scale className="w-5 h-5" />}
+                </span>
+            </li>
+
+            <li className={`flex items-center ${currentStep >= 4 ? "text-[#5fe0d5]" : "text-gray-500"}`}>
+                <span
+                    className={`flex items-center justify-center w-10 h-10 rounded-full lg:h-12 lg:w-12 shrink-0 ${currentStep >= 4 ? "bg-[#5fe0d5]/20" : "bg-gray-100 dark:bg-gray-700"}`}
                 >
                     <Landmark className="w-5 h-5" />
                 </span>

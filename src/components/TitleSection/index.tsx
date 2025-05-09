@@ -1,5 +1,5 @@
 interface titleProps {
-    title: String
+    title: string
 }
 
 export default function TitleSection({ title }:titleProps) {

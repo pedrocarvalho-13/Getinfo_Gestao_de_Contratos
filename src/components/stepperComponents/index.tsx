@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { ChangeEvent, FormEvent, useState } from "react"
 import { CheckIcon, ClipboardMinus, Landmark, Phone, Scale } from "lucide-react"
 import CompanyDataStep from "./formDataCompany"
 import LegalGuardianStep from "./formLegalDataCompany"
@@ -42,17 +42,17 @@ export default function CompanyRegistrationForm({onCancel}:CompanyRegistrationFo
     // });
     const [formData, setFormData] = useState<AllFormData>(initialFormData);
 
-    const handleInputChange = (e: { target: { name: any; value: any } }) => {
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target
-        setFormData((prev: any) => ({
+        setFormData((prev) => ({
             ...prev,
             [name]: value,
         }))
     }
 
-    const handleSelectChange = (e: { target: { name: any; value: any } }) => {
+    const handleSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
         const { name, value } = e.target
-        setFormData((prev: any) => ({
+        setFormData((prev) => ({
             ...prev,
             [name]: value,
         }))
@@ -66,7 +66,7 @@ export default function CompanyRegistrationForm({onCancel}:CompanyRegistrationFo
         setCurrentStep((prev) => Math.max(prev - 1, 1))
     }
 
-    const handleSubmit = (e: { preventDefault: () => void }) => {
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (currentStep < 4) {
             setCurrentStep((prev) => prev + 1);
@@ -139,7 +139,7 @@ export default function CompanyRegistrationForm({onCancel}:CompanyRegistrationFo
                                     Próximo
                                 </button>
                             ) : (
-                                <button type="submit" className="px-4 py-2 bg-[#5fe0d5] text-black rounded-md hover:bg-[#4bc0b5]">
+                                <button type="button" className="px-4 py-2 bg-[#5fe0d5] text-black rounded-md hover:bg-[#4bc0b5]">
                                     Salvar
                                 </button>
                             )}

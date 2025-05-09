@@ -1,7 +1,7 @@
 import { formDataProps } from "@/types/formPropsType";
 
 
-export default function CompanyDataStep({ formData, handleInputChange, handleSelectChange }:formDataProps) {
+export default function CompanyDataStep({ formData, handleInputChange }:formDataProps) {
     return (
         <div className="space-y-8">
             <div>

@@ -1,4 +1,4 @@
-import Style from "@/Styles/formContract.module.css"
+// import Style from "@/Styles/formContract.module.css"
 import { Search } from "lucide-react"
 
 interface FormContractProps {
@@ -6,10 +6,10 @@ interface FormContractProps {
 }
 
 export default function FormContract({ onVerifyCNPJ }: FormContractProps) {
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        onVerifyCNPJ();
-    };
+    // const handleSubmit = (e: React.FormEvent) => {
+    //     e.preventDefault();
+    //     onVerifyCNPJ();
+    // };
 
     // return (
     //     <form onSubmit={handleSubmit} className="flex flex-col">

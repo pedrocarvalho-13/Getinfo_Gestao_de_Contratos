@@ -1,18 +1,82 @@
+import { InputComponent } from "@/components/inputComponent/Input";
+import { EmpresaFormData } from "@/types/EnmpresaFormData";
 import { formDataProps } from "@/types/formPropsType";
+import { Control } from "react-hook-form";
 
-export default function CompanyContactDataStep({ formData, handleInputChange, handleSelectChange }: formDataProps) {
+interface AdressCompanyStepProps {
+    control: Control<EmpresaFormData>;
+}
+
+export default function AddressCompanyStep({ control }: AdressCompanyStepProps) {
     return (
         <div>
-            <h2 className="text-2xl font-bold mb-6">Informações de Contato</h2>
+            <h2 className="text-2xl font-bold mb-6">Endereço da Empresa</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div className="space-y-2">
+
+                {/* CEP */}
+                <InputComponent
+                    label="CEP"
+                    type={"text"}
+                    name={"cep"}
+                    placeholder={"49000-00"}
+                    mask={"99999-00"}
+                    control={control}
+                />
+
+
+                {/* Rua */}
+                <InputComponent
+                    label="Rua"
+                    type={"text"}
+                    name={"rua"}
+                    placeholder={"Av. Presidente Tancredo Neves"}
+                    control={control}
+                />
+
+                {/* Numero */}
+                <InputComponent
+                    label="Número"
+                    type={"text"}
+                    name={"numeroDaCasa"}
+                    placeholder={"0000"}
+                    control={control}
+                />
+
+                {/* Bairro */}
+                <InputComponent
+                    label="Bairro"
+                    type={"text"}
+                    name={"bairro"}
+                    placeholder={"São José"}
+                    control={control}
+                />
+
+
+                {/* Cidade */}
+                <InputComponent
+                    label="Cidade"
+                    type={"text"}
+                    name={"cidade"}
+                    placeholder={"Aracaju"}
+                    control={control}
+                />
+
+                {/* Estado */}
+                <InputComponent
+                    label="Estado"
+                    type={"text"}
+                    name={"estado"}
+                    placeholder={"Sergipe"}
+                    control={control}
+                />
+
+                {/* <div className="space-y-2">
                     <label htmlFor="cep" className="text-sm font-medium block">
                         CEP
                     </label>
                     <input
                         id="cep"
                         name="cep"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
                         placeholder="49000-000"
                         value={formData.cep}
                         onChange={handleInputChange}
@@ -26,7 +90,6 @@ export default function CompanyContactDataStep({ formData, handleInputChange, ha
                     <input
                         id="numero"
                         name="numero"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
                         placeholder="0000"
                         value={formData.numero}
                         onChange={handleInputChange}
@@ -37,43 +100,26 @@ export default function CompanyContactDataStep({ formData, handleInputChange, ha
                     <label htmlFor="estado" className="text-sm font-medium block">
                         Estado
                     </label>
-                    <select
-                        id="estado"
-                        name="estado"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                        value={formData.estado}
-                        onChange={handleSelectChange}
-                    >
-                        <option value="">Estado</option>
-                        <option value="SP">São Paulo</option>
-                        <option value="RJ">Rio de Janeiro</option>
-                        <option value="MG">Minas Gerais</option>
-                        <option value="RS">Rio Grande do Sul</option>
-                        <option value="PR">Paraná</option>
-                        <option value="SC">Santa Catarina</option>
-                        <option value="BA">Bahia</option>
-                        <option value="DF">Distrito Federal</option>
-                    </select>
+                    <input
+                        id="numero"
+                        name="numero"
+                        placeholder="0000"
+                        value={formData.numero}
+                        onChange={handleInputChange}
+                    />
                 </div>
 
                 <div className="space-y-2">
                     <label htmlFor="cidade" className="text-sm font-medium block">
                         Cidade
                     </label>
-                    <select
-                        id="cidade"
-                        name="cidade"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                        value={formData.cidade}
-                        onChange={handleSelectChange}
-                    >
-                        <option value="">Cidade</option>
-                        <option value="sao-paulo">São Paulo</option>
-                        <option value="rio-de-janeiro">Rio de Janeiro</option>
-                        <option value="belo-horizonte">Belo Horizonte</option>
-                        <option value="porto-alegre">Porto Alegre</option>
-                        <option value="curitiba">Curitiba</option>
-                    </select>
+                    <input
+                        id="numero"
+                        name="numero"
+                        placeholder="0000"
+                        value={formData.numero}
+                        onChange={handleInputChange}
+                    />
                 </div>
 
                 <div className="space-y-2">
@@ -102,8 +148,19 @@ export default function CompanyContactDataStep({ formData, handleInputChange, ha
                         value={formData.rua}
                         onChange={handleInputChange}
                     />
-                </div>
+                </div> */}
 
+
+
+
+
+
+
+
+
+
+
+                {/* 
                 <div className="space-y-2">
                     <label htmlFor="telefone" className="text-sm font-medium block">
                         Telefone
@@ -159,7 +216,10 @@ export default function CompanyContactDataStep({ formData, handleInputChange, ha
                         value={formData.webSite}
                         onChange={handleInputChange}
                     />
-                </div>
+                </div> */}
+
+
+                {/* acaba aqui */}
 
                 {/* <div className="space-y-2">
                         <label htmlFor="dataInicio" className="text-sm font-medium block">

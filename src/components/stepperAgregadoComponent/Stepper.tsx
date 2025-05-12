@@ -8,7 +8,7 @@ import { EmpresaFormData } from "@/types/EnmpresaFormData"
 // import { defaultValues } from "@/utils/formDefaults"
 
 import Link from "next/link"
-import DataAgregadoStep from "./formDataCompany/DataCompanyStep"
+import DataAgregadoStep from "./formDataCompany/DataAgregadoStep"
 
 
 

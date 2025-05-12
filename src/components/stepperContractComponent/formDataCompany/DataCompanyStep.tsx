@@ -59,13 +59,7 @@ export default function DataContractStep({ control }: DataCompanyStepProps) {
                     />
 
                     {/* Data de Fundação */}
-                    <InputComponent
-                        label="Tipo de Contrato"
-                        type={"text"}
-                        name={"tipoDeContrato"}
-                        placeholder={"000000000"}
-                        control={control}
-                    />
+                    <InputComponent label="Tipo de Contrato" select={true} name={"Tipo de Contrato"} placeholder="-.-" control={control} />
                 </div>
             </div>
         </div>

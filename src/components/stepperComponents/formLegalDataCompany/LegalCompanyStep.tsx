@@ -10,7 +10,7 @@ interface LegalCompanyStepProps {
 export default function LegalCompanyStep({ control }: LegalCompanyStepProps) {
     return (
         <div>
-            <h2 className="text-2xl font-bold mb-6">Informações Bancárias</h2>
+            <h2 className="text-2xl font-bold mb-6">Informações do Responsável Legal</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* CPF */}
                 <InputComponent
@@ -18,7 +18,6 @@ export default function LegalCompanyStep({ control }: LegalCompanyStepProps) {
                     type={"text"}
                     name={"cpfLegal"}
                     placeholder={"000.000.000-00"}
-                    mask={"000.000.000-00"}
                     control={control}
                 />
 
@@ -37,7 +36,6 @@ export default function LegalCompanyStep({ control }: LegalCompanyStepProps) {
                     type={"text"}
                     name={"telefone"}
                     placeholder={"(99) 99999-9999"}
-                    mask={"(99) 99999-9999"}
                     control={control}
                 />
 

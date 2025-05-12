@@ -9,7 +9,7 @@ interface ContactCompanyStepProps {
 export default function ContactCompanyStep({ control }: ContactCompanyStepProps) {
     return (
         <div>
-            <h2 className="text-2xl font-bold mb-6">Informações do Responsável Legal</h2>
+            <h2 className="text-2xl font-bold mb-6">Informações para Contato</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {/* Telefone Celular */}
                 <InputComponent
@@ -17,7 +17,6 @@ export default function ContactCompanyStep({ control }: ContactCompanyStepProps)
                     type={"text"}
                     name={"telefone"}
                     placeholder={"(99) 99999-9999"}
-                    mask={"(99) 99999-9999"}
                     control={control}
                 />
 
@@ -27,7 +26,6 @@ export default function ContactCompanyStep({ control }: ContactCompanyStepProps)
                     type={"text"}
                     name={"telefoneFixo"}
                     placeholder={"(99) 99999-9999"}
-                    mask={"(99) 99999-9999"}
                     control={control}
                 />
                 

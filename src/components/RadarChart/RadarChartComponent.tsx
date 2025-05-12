@@ -35,7 +35,7 @@ const chartConfig = {
     },
 } satisfies ChartConfig
 
-export function PieChartComponent() {
+export function RadarChartComponent() {
     return (
         <Card className="flex flex-col w-[20vw] h-full">
             <CardHeader className="">

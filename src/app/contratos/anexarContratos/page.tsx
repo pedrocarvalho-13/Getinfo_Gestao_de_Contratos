@@ -1,5 +1,5 @@
 // import FormContract from "@/components/formContractComponent";
-import TitleSection from "@/components/TitleSection";
+import TitleSection from "@/components/TitleSection/TitleSection";
 
 export default function AnexarContratos() {
     return (

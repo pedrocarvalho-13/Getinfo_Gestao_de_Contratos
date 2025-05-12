@@ -1,7 +1,7 @@
-import { BarChartComponent } from "@/components/columnChart";
-import DashCard from "@/components/dashCard";
-import { DataTableDashBoard } from "@/components/dataTableDashboard";
-import { PieChartComponent } from "@/components/pieChart";
+import { BarChartComponent } from "@/components/columnChart/BarChartComponent";
+import DashCard from "@/components/dashCard/KPIsCard";
+import { DataTableDashBoard } from "@/components/dataTableDashboard/DataTableDash";
+import { RadarChartComponent } from "@/components/RadarChart/RadarChartComponent";
 import { contractList } from "@/data/contracts";
 import { contract } from "@/types/contractType";
 import { ColumnDef } from "@tanstack/react-table";
@@ -11,20 +11,20 @@ import { Suspense } from "react";
 
 const dataCards = [
     {
-        label: "Contratos Públicos",
-        value: 12
+        label: "Contratos Ativos",
+        value: "012"
     },
     {
-        label: "Contratos Privados",
-        value: 8
+        label: "Contratos Vencidos",
+        value: "008"
     },
     {
-        label: "Entregáveis Concluidos",
-        value: 5
+        label: "Próximos a Vencer",
+        value: "005"
     },
     {
-        label: "Entregáveis Pendentes",
-        value: 15
+        label: "Entregáveis",
+        value: "Entregues: 15 | Pendentes: 004"
     },
 ]
 
@@ -67,7 +67,7 @@ export default function Dashboard() {
                 </div>
                 <div className="flex flex-row w-full h-[48vh] gap-2 items-center justify-between ">
                     <BarChartComponent />
-                    <PieChartComponent />
+                    <RadarChartComponent />
                     {/* <div className="flex flex-col h-full gap-2">
                     <PieChartComponent />
                     </div> */}

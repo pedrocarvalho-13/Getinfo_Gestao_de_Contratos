@@ -1,4 +1,4 @@
-import { ChevronDown, Home, File, Building } from "lucide-react"
+import { ChevronDown, Home, File, Building, Landmark } from "lucide-react"
 import Style from "@/Styles/style.module.css"
 // import DocIcon from "../../../public/doc-icon.png"
 import {
@@ -42,6 +42,15 @@ const items = [
         submenu: [
             { title: "Listar Contratos", url: "/contratos/listarContratos" },
             { title: "Anexar Contratos", url: "/contratos/anexarContratos" }
+        ],
+    },
+    {
+        title: "Agregados",
+        url: "#",
+        icon: Landmark,
+        submenu: [
+            { title: "Listar Agregados", url: "/contratos/listarContratos" },
+            { title: "Cadastrar Agregados", url: "/contratos/anexarContratos" }
         ],
     },
 ]

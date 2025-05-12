@@ -1,5 +1,5 @@
 import { DataTable } from "@/components/dataTable"// import { Payment, columns } from "@/components/payments/columns"
-import TitleSection from "@/components/TitleSection"
+import TitleSection from "@/components/TitleSection/TitleSection"
 import { contractList } from "@/data/contracts"
 import { contract } from "@/types/contractType"
 import { ColumnDef } from "@tanstack/react-table"
@@ -15,16 +15,16 @@ export default function ListarContratos() {
             accessorKey: "nm_contrato",
         },
         {
-            header: "Nome Empresa",
-            accessorKey: "nome_empresa",
-        },
-        {
             header: "CNPJ",
             accessorKey: "cnpj",
         },
         {
-            header: "Status",
-            accessorKey: "status",
+            header: "Nome Empresa",
+            accessorKey: "nome_empresa",
+        },
+        {
+            header: "Tipo",
+            accessorKey: "tipo_contrato",
         },
         {
             header: "Início do Contrato",
@@ -33,6 +33,10 @@ export default function ListarContratos() {
         {
             header: "Fim do Contrato",
             accessorKey: "dt_final_contrato",
+        },
+        {
+            header: "Status",
+            accessorKey: "status",
         },
     ]
 

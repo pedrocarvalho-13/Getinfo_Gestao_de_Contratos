@@ -1,5 +1,5 @@
 import { DataTable } from "@/components/dataTable"
-import TitleSection from "@/components/TitleSection"
+import TitleSection from "@/components/TitleSection/TitleSection"
 import { companyList } from "@/data/companie"
 import { company } from "@/types/companyType"
 // import { contract } from "@/types/contractType"

@@ -1,7 +1,7 @@
 "use client"
 import { useState } from "react"
 import FormContract from "@/components/formContractComponent";
-import CompanyRegistrationForm from "@/components/stepperComponents/Stepper";
+import CompanyRegistrationForm from "@/components/stepperCompanyComponent/Stepper";
 import TitleSection from "@/components/TitleSection/TitleSection";
 
 export default function CadastrarEmpresa() {

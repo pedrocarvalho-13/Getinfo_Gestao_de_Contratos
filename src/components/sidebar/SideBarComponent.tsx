@@ -49,8 +49,8 @@ const items = [
         url: "#",
         icon: Landmark,
         submenu: [
-            { title: "Listar Agregados", url: "/contratos/listarContratos" },
-            { title: "Cadastrar Agregados", url: "/contratos/anexarContratos" }
+            { title: "Listar Agregados", url: "/agregados/listarAgregados" },
+            { title: "Cadastrar Agregados", url: "/agregados/cadastrarAgregados" }
         ],
     },
 ]

@@ -1,5 +1,5 @@
 // import FormContract from "@/components/formContractComponent";
-import ContractRegistrationForm from "@/components/stepperContractComponent/Stepper";
+import AgregadosRegistrationForm from "@/components/stepperAgregadoComponent/Stepper";
 import TitleSection from "@/components/TitleSection/TitleSection";
 
 export default function AnexarContratos() {
@@ -10,7 +10,7 @@ export default function AnexarContratos() {
             <div className="flex flex-col item-center justify-start  w-full h-full p-4 bg-gray-50 rounded-tl-xl">
                 {/* <h1 className="text-6xl font-bold m-auto">Em desenvolvimento</h1> */}
                 <div className="flex flex-col item-center justify-start w-full h-full p-4 bg-gray-50 rounded-tl-xl">
-                    <ContractRegistrationForm />
+                    <AgregadosRegistrationForm />
                 </div>
             </div>
         </section>

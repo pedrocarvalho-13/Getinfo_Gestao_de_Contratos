@@ -20,7 +20,7 @@ interface StepperProps {
 }
 
 
-export default function CompanyRegistrationForm() {
+export default function ContractRegistrationForm() {
     const [currentStep, setCurrentStep] = useState<number>(1);
 
     const { control, handleSubmit, trigger } = useForm<EmpresaFormData>({

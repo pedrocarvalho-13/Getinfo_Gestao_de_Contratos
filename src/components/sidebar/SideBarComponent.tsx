@@ -45,12 +45,12 @@ const items = [
         ],
     },
     {
-        title: "Agregados",
+        title: "Colaboradores",
         url: "#",
         icon: Landmark,
         submenu: [
-            { title: "Listar Agregados", url: "/agregados/listarAgregados" },
-            { title: "Cadastrar Agregados", url: "/agregados/cadastrarAgregados" }
+            { title: "Listar Colaboradores", url: "/agregados/listarAgregados" },
+            { title: "Cadastrar Colaborador", url: "/agregados/cadastrarAgregados" }
         ],
     },
 ]

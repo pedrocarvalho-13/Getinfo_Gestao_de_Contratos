@@ -53,6 +53,11 @@ export function DataTable<T>({ columns, data, link, contentLink }: DataTableProp
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
         []
     )
+    // const getContratos = () =>{
+    //     fetch()
+
+
+    // }
 
     const table = useReactTable({
         data,

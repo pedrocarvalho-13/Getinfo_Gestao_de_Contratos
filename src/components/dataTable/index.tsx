@@ -42,6 +42,7 @@ interface DataTableProps<T> {
     link: string
     contentLink: string
     entityBasePath?: string; // "/empresas", "/contratos", etc.
+    onDelete?: (id: number) => void;
 }
 
 // type TableData =  {
@@ -49,7 +50,7 @@ interface DataTableProps<T> {
 
 // }
 
-export function DataTable<T>({ columns, data, link, contentLink, entityBasePath }: DataTableProps<T>) {
+export function DataTable<T>({ columns, data, link, contentLink, entityBasePath, onDelete }: DataTableProps<T>) {
     const [sorting] = React.useState<SortingState>([])
 
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -145,7 +146,15 @@ export function DataTable<T>({ columns, data, link, contentLink, entityBasePath 
                                     >
                                         <Clipboard />
                                     </Button>
-                                    <Button className="bg-transparent text-[black] hover:bg-[#5fb0a8]">
+                                    <Button className="bg-transparent text-[black] hover:bg-[#5fb0a8]" onClick={() => {
+                                        const rowData = row.original as { idContrato: number }; 
+                                        if (rowData.idContrato && onDelete) {
+                                            if (confirm("Tem certeza que deseja excluir este contrato?")) {
+                                                onDelete(rowData.idContrato);
+                                            }
+                                        }
+                                    }}
+                                    >
                                         <Trash2 />
                                     </Button>
                                     {/* className="flex flex-row w-fit p-2 hover:bg-white rounded-md mt-1" */}

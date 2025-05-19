@@ -37,5 +37,6 @@ export type ContractFormData = FieldValues & {
                 funcaoContrato: string
             }
         ],
-        dtFim: string
+        dtFim: string,
+        documentos?: File[];
 }

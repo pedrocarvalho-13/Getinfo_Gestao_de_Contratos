@@ -9,24 +9,48 @@ import { ColumnDef } from "@tanstack/react-table"
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
+interface ContractWithId extends contract {
+    idContrato: number;
+}
+
 export default function ListarContratos() {
     // "pending" | "processing" | "success" | "failed"
-    const [contracts, setContracts] = useState([]);
+    const [contracts, setContracts] = useState<ContractWithId[]>([]); // Use a nova interface
     const [carregando, setCarregando] = useState(true);
     useEffect(() => {
-        axios
-            .get("https://gestaocontratual.onrender.com/contratos/contratos")
-            .then((res) => {
-                setContracts(res.data);
-                setCarregando(false);
-            })
-            .catch((err) => {
+        const fetchContracts = async () => {
+            try {
+                const res = await axios.get("https://gestaocontratual.onrender.com/contratos/contratos");
+                const contratosComId = res.data.map((contrato: any) => ({
+                    ...contrato,
+                    idContrato: contrato.idContrato,
+                }));
+                setContracts(contratosComId);
+            } catch (err) {
                 console.error("Erro ao buscar dados da API:", err);
+            } finally {
                 setCarregando(false);
-            });
+            }
+        };
+        fetchContracts();
     }, []);
 
-    const ColunaContratos: ColumnDef<contract>[] = [
+    const handleDelete = async (id: number) => {
+        setCarregando(true)
+        try {
+            await axios.delete(`https://gestaocontratual.onrender.com/contratos/${id}`);
+            setContracts((prev) => prev.filter((contrato) => contrato.idContrato !== id));
+        } catch (err) {
+            console.error("Erro ao deletar contrato:", err);
+            alert("Erro ao deletar contrato.");
+
+        } finally {
+            setCarregando(false)
+        }
+    };
+
+
+    const ColunaContratos: ColumnDef<ContractWithId>[] = [
         {
             header: "N° Contrato",
             accessorKey: "numContrato",
@@ -54,15 +78,15 @@ export default function ListarContratos() {
             //     row.original.status === 1 ? "Ativo" :
             //     row.original.status === 2 ? "Inativo" :
             //     "Desconhecido"  
-},
+        },
     ]
 
-return (
-    <section>
-        <TitleSection title={""} />
-        <section className="flex flex-col  item-center justify-center m-auto w-full">
-            <DataTable columns={ColunaContratos} data={contracts} link={"cadastrarContratos"} contentLink={"Cadastrar Contratos"}></DataTable>
+    return (
+        <section>
+            <TitleSection title={""} />
+            <section className="flex flex-col  item-center justify-center m-auto w-full">
+                <DataTable columns={ColunaContratos} data={contracts} link={"cadastrarContratos"} onDelete={handleDelete} contentLink={"Cadastrar Contratos"}></DataTable>
+            </section>
         </section>
-    </section>
-)
+    )
 }

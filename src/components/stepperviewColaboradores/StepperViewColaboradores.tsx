@@ -1,7 +1,7 @@
 "use client"
 
 import { Users } from "lucide-react"
-import { useForm, SubmitHandler } from "react-hook-form"
+import { useForm } from "react-hook-form"
 
 // import { EmpresaFormData } from "@/types/EmpresaFormData"
 // import { defaultValues } from "@/utils/formDefaults"
@@ -12,7 +12,7 @@ import { useForm, SubmitHandler } from "react-hook-form"
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { colaboratorFormData } from "@/types/colaboratorFormData"
-import DataAgregadoStep from "../stepperAgregadoComponent/formDataCompany/DataAgregadoStep";
+// import DataAgregadoStep from "../stepperAgregadoComponent/formDataCompany/DataAgregadoStep";
 import { useRouter } from "next/navigation";
 import DataAgregadoViewStep from "./formViewAgregado/FormViewAgregado";
 

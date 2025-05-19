@@ -1,6 +1,6 @@
 import { InputComponent } from "@/components/inputComponent/Input";
 import { EmpresaFormData } from "@/types/EmpresaFormData";
-import { formDataProps } from "@/types/formPropsType";
+// import { formDataProps } from "@/types/formPropsType";
 import { Control } from "react-hook-form";
 
 interface AdressCompanyStepProps {

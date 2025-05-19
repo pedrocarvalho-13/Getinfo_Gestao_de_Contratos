@@ -10,10 +10,15 @@ import axios from "axios";
 import { colaboratorFormData } from "@/types/colaboratorFormData"
 import { LoaderCircle } from "lucide-react"
 
+interface ColaboradoresWithId extends colaboratorFormData {
+    id: number;
+}
 
 export default function ListarContratos() {
+    const [colaboradores, setColaboradores] = useState<ColaboradoresWithId[]>([]); // Use a nova interface
+
     // "pending" | "processing" | "success" | "failed"
-    const [colaboradores, setColaboradores] = useState([]);
+    // const [colaboradores, setColaboradores] = useState([]);
     const [carregando, setCarregando] = useState(true);
     useEffect(() => {
         axios
@@ -27,6 +32,20 @@ export default function ListarContratos() {
                 setCarregando(false);
             });
     }, []);
+
+    const handleDelete = async (id: number) => {
+        setCarregando(true)
+        try {
+            await axios.delete(`https://gestaocontratual.onrender.com/colaboradores/${id}`);
+            setColaboradores((prev) => prev.filter((colaboradores) => colaboradores.id !== id));
+        } catch (err) {
+            console.error("Erro ao deletar colaborador:", err);
+            alert("Erro ao deletar colaborador.");
+
+        } finally {
+            setCarregando(false)
+        }
+    };
 
     const ColunaColaboradores: ColumnDef<colaboratorFormData>[] = [
         {
@@ -52,7 +71,7 @@ export default function ListarContratos() {
             <section className="flex flex-col  item-center justify-center m-auto w-full">
                 <Suspense fallback={<LoaderCircle className="text-[#72F2E5] m-auto animate-spin size-15" />}>
 
-                    <DataTable columns={ColunaColaboradores} data={colaboradores} link={"cadastrarColaboradores"} contentLink={"Cadastrar Colaboradores"} entityBasePath="/colaboradores"></DataTable>
+                    <DataTable columns={ColunaColaboradores} data={colaboradores} onDelete={handleDelete} link={"cadastrarColaboradores"} contentLink={"Cadastrar Colaboradores"} entityBasePath="/colaboradores"></DataTable>
                 </Suspense>
             </section>
         </section>

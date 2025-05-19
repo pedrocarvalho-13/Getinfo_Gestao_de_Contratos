@@ -1,6 +1,6 @@
 "use client"
 
-import { CheckIcon, ClipboardMinus, MapPin, Phone, Scale, Users } from "lucide-react"
+import { CheckIcon, ClipboardMinus, MapPin, Phone, Scale } from "lucide-react"
 import { useForm } from "react-hook-form"
 
 // import { EmpresaFormData } from "@/types/EmpresaFormData"
@@ -11,7 +11,7 @@ import { useForm } from "react-hook-form"
 
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { colaboratorFormData } from "@/types/colaboratorFormData"
+// import { colaboratorFormData } from "@/types/colaboratorFormData"
 // import DataAgregadoStep from "../stepperAgregadoComponent/formDataCompany/DataAgregadoStep";
 import { useRouter } from "next/navigation";
 // import DataAgregadoViewStep from "./formViewAgregado/FormViewAgregado";
@@ -24,18 +24,19 @@ import { EmpresaFormData } from "@/types/EmpresaFormData";
 interface StepperProps {
     currentStep: number;
 }
-interface EmpresasViewFormProps {
-    id: string;
-}
+// interface EmpresasViewFormProps {
+//     id: string;
+// }
 
 
-export default function EmpresasViewForm({ id }: EmpresasViewFormProps) {
+export default function EmpresasViewForm({ params }: { params: { idContratante: string } }) {
     const [currentStep, setCurrentStep] = useState<number>(1);
 
     const [empresa, setEmpresa] = useState<EmpresaFormData | null>(null);
 
     const { control, reset, trigger } = useForm<EmpresaFormData>({
         defaultValues: {
+                idContratante: 0,
                 cnpj: "",
                 razaoSocial: "",
                 nomeFantasia: "",
@@ -73,13 +74,13 @@ export default function EmpresasViewForm({ id }: EmpresasViewFormProps) {
 
     useEffect(() => {
         const fetchEmpresa = async () => {
-            const res = await axios.get(`https://gestaocontratual.onrender.com/contratantes/${id}`);
+            const res = await axios.get(`https://gestaocontratual.onrender.com/contratantes/${params.idContratante}`);
             setEmpresa(res.data);
             reset(res.data); // ← Aqui você injeta os valores nos inputs via react-hook-form
         };
 
         fetchEmpresa();
-    }, [id, reset]);
+    }, [params.idContratante, reset]);
 
     if (!empresa) return <div>Carregando...</div>;
 

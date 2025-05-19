@@ -2,7 +2,7 @@
 
 import { DataTable } from "@/components/dataTable"// import { Payment, columns } from "@/components/payments/columns"
 import TitleSection from "@/components/TitleSection/TitleSection"
-import { contractList } from "@/data/contracts"
+// import { contractList } from "@/data/contracts"
 import { contract } from "@/types/contractType"
 import { ColumnDef } from "@tanstack/react-table"
 

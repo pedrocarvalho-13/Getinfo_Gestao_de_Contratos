@@ -130,7 +130,7 @@ export default function ContractEntregaveisStep({ control }: ContactCompanyStepP
                 onClick={() => append({ nome: "", dtInicio: "", dtFim: "", Status: "", descricao: "", colaboradores: [{ id: 0, funcaoEntregavel: "" }] })}
                 className="mt-4 px-4 py-2 bg-[#5fe0d5] text-black rounded hover:bg-[#68c0ba] focus:bg-[#5fe0d5] transition"
             >
-                Adicionar Entregáve
+                Adicionar Entregável
             </button>
 
         </div>

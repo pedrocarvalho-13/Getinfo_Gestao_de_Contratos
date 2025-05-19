@@ -77,6 +77,19 @@ export function DataTable<T>({ columns, data, link, contentLink, entityBasePath,
         }
     })
 
+
+    function getIdFromRow(row: any): number | null {
+        const possibleKeys = ['id', 'idContrato', 'idContratante'];
+
+        for (const key of possibleKeys) {
+            if (row[key]) {
+                return row[key];
+            }
+        }
+
+        return null;
+    }
+
     return (
         <div className="flex flex-col w-full h-[90vh] bg-gray-50  justify-between p-4 gap-2 rounded-tl-xl">
             <div className="h-full ">
@@ -137,9 +150,11 @@ export function DataTable<T>({ columns, data, link, contentLink, entityBasePath,
                                     </Button>
                                     <Button
                                         onClick={() => {
-                                            const rowData = row.original as { id: number };
-                                            if (entityBasePath && rowData.id) {
-                                                router.push(`${entityBasePath}/${rowData.id}`);
+                                            const rowData = row.original;
+                                            const id = getIdFromRow(rowData);
+
+                                            if (entityBasePath && id) {
+                                                router.push(`${entityBasePath}/${id}`);
                                             }
                                         }}
                                         className="bg-transparent text-[black] hover:bg-[#5fb0a8]"
@@ -147,10 +162,12 @@ export function DataTable<T>({ columns, data, link, contentLink, entityBasePath,
                                         <Clipboard />
                                     </Button>
                                     <Button className="bg-transparent text-[black] hover:bg-[#5fb0a8]" onClick={() => {
-                                        const rowData = row.original as { idContrato: number }; 
-                                        if (rowData.idContrato && onDelete) {
-                                            if (confirm("Tem certeza que deseja excluir este contrato?")) {
-                                                onDelete(rowData.idContrato);
+                                        const rowData = row.original;
+                                        const id = getIdFromRow(rowData);
+
+                                        if (id && onDelete) {
+                                            if (confirm("Tem certeza que deseja excluir?")) {
+                                                onDelete(id);
                                             }
                                         }
                                     }}

@@ -2,9 +2,9 @@
 import EmpresasViewForm from "@/components/stepperviewEmpresas/StepperViewEmpresas";
 
 export default async function EmpresaDetalhes({ params }: { params: { id: string } }) {
-    const { id } = params;
+    // const { id } = params;
     return (
-        <EmpresasViewForm id={id} />
+        <EmpresasViewForm params={{ idContratante: params.id }} />
     )
 
 }

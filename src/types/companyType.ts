@@ -1,5 +1,5 @@
 export type company = {
-    id: number,
+    idContratante: number,
     nomeFantasia: string,
     contratos_ativos: string,
     cnpj: string,

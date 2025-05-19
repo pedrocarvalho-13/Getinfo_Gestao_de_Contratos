@@ -1,7 +1,7 @@
 import { FieldValues } from "react-hook-form";
 
 export type EmpresaFormData = FieldValues & {
-        id?: number; // pode ser opcional se for gerado pelo backend
+        idContratante?: number; // pode ser opcional se for gerado pelo backend
         cnpj: string;
         razaoSocial: string;
         nomeFantasia: string;

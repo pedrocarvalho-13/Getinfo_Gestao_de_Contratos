@@ -41,7 +41,7 @@ const items = [
         icon: File,
         submenu: [
             { title: "Listar Contratos", url: "/contratos/listarContratos" },
-            { title: "Anexar Contratos", url: "/contratos/anexarContratos" }
+            { title: "Cadastrar Contratos", url: "/contratos/cadastrarContratos" }
         ],
     },
     {
@@ -49,8 +49,8 @@ const items = [
         url: "#",
         icon: Landmark,
         submenu: [
-            { title: "Listar Colaboradores", url: "/agregados/listarAgregados" },
-            { title: "Cadastrar Colaborador", url: "/agregados/cadastrarAgregados" }
+            { title: "Listar Colaboradores", url: "/colaboradores/listarColaboradores" },
+            { title: "Cadastrar Colaborador", url: "/colaboradores/cadastrarColaboradores" }
         ],
     },
 ]

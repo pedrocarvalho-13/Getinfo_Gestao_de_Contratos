@@ -2,96 +2,66 @@
 
 import { InputComponent } from "@/components/inputComponent/Input";
 import { SelectInput } from "@/components/inputComponent/Select";
+import { Textarea } from "@/components/ui/textarea";
 import { ContractFormData } from "@/types/contractFormData";
 import axios from "axios";
 import { Trash } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Control, useFieldArray } from "react-hook-form";
+import { Control, Controller, useFieldArray } from "react-hook-form";
 
 interface ColaboradoresContractProps {
     control: Control<ContractFormData>;
 }
 
-interface Colaborator {
-    id: number;
-    nome: string;
-    cargo: string;
-}
 
-export default function ColaboradoresContractStep({ control }: ColaboradoresContractProps) {
-    const [colaborators, setColaborators] = useState<Colaborator[]>([]);
-
+export default function PostosContractStep({ control }: ColaboradoresContractProps) {
     // Hook para array de campos
     const { fields, append, remove } = useFieldArray({
         control,
-        name: "colaboradores",
+        name: "postos",
     });
-
-    // Busca os colaboradores
-    useEffect(() => {
-        let isMounted = true;
-
-
-        axios.get("https://gestaocontratual.onrender.com/colaboradores")
-        .then((response) => {
-            if (isMounted) {
-                setColaborators(response.data);
-            }
-        })
-        .catch((error) => {
-            console.error("Erro ao buscar colaboradores:", error);
-        });
-        return () => {
-            isMounted = false;
-        };
-    }, []);
 
     return (
         <div className="w-full">
-        <h2 className="text-2xl font-bold mb-6">Agregados</h2>
+        <h2 className="text-2xl font-bold mb-6">Postos de Trabalho</h2>
 
         {fields.map((field, index) => (
             <div
             key={field.id}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4 items-center justify-between"
+            className="grid grid-cols-1 gap-4 mb-4 items-center justify-between"
             >
-            <SelectInput
-                name={`colaboradores.${index}.id`}
-                label="Nome do Agregado"
-                placeholder="Selecione um agregado"
-                control={control}
-                options={colaborators.map(c => ({
-                label: c.nome,
-                value: c.id,
-                }))}
-            />
 
             <InputComponent
-                name={`colaboradores.${index}.funcaoContrato`}
-                label="Função"
+                name={`postos.${index}.nome`}
+                label="Postos de Trabalho"
                 type="text"
-                placeholder="Informe a função do agregado no contrato"
+                placeholder="Digite um posto"
                 control={control}
             />
-
-            <button
-                type="button"
-                onClick={() => remove(index)}
-                className="text-red-500 underline hover:text-red-700 mt-4"
-                aria-label="Remover agregado"
-            >
-                <Trash/>
-                {/* Remover */}
-            </button>
+                <div className="flex flex-col w-full gap-1">
+                        <label className="font-medium text-sm">Descreva o Posto</label>
+                        <Controller
+                            control={control}
+                            name={`postos.${index}.descricao`}
+                            render={({ field }) => (
+                                <Textarea
+                                    rows={6}
+                                    className="w-full"
+                                    placeholder="Descreva o posto"
+                                    {...field}
+                                />
+                            )}
+                        />
+                    </div>
             </div>
         ))}
 
         <button
             type="button"
-            onClick={() => append({id: colaborators[0]?.id ?? 0, funcaoContrato: "" })}
+            onClick={() => append({ nome: "", descricao: "" })}
             className="mt-4 px-4 py-2 bg-[#5fe0d5] text-black rounded hover:bg-[#68c0ba] focus:bg-[#5fe0d5] transition"
         >
-            Adicionar Agregado
+            Adicionar Posto
         </button>
         </div>
     );

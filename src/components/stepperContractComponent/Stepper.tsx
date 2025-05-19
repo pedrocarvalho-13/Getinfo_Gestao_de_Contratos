@@ -1,18 +1,17 @@
 "use client"
 
-import { useState } from "react"
-import { BookUp, CheckIcon, ClipboardMinus, FileStack, Users } from "lucide-react"
+import { BookUp, Building2, CheckIcon, ClipboardMinus, FileStack, Users } from "lucide-react"
 import { useForm, SubmitHandler } from "react-hook-form"
-
-import { EmpresaFormData } from "@/types/EnmpresaFormData"
-// import { defaultValues } from "@/utils/formDefaults"
-
 import Link from "next/link"
 import ColaboradoresContractStep from "./formColaboradoresContract/ColaboradoresContractStep"
 import AnexoDocsStep from "./formAnexoDocsContract/AnexoDocsStep"
 import DataContractStep from "./formDataCompany/DataCompanyStep"
-import ContactEntregaveisStep from "./formEntregaveisContract/ContactEntregaveisStep"
+import ContractEntregaveisStep from "./formEntregaveisContract/ContactEntregaveisStep"
+import { ContractFormData } from "@/types/contractFormData"
 
+import axios from "axios";
+import { useState } from "react";
+import PostosContractStep from "./formPostosContract/PostosContract"
 
 
 interface StepperProps {
@@ -23,26 +22,43 @@ interface StepperProps {
 export default function ContractRegistrationForm() {
     const [currentStep, setCurrentStep] = useState<number>(1);
 
-    const { control, handleSubmit, trigger } = useForm<EmpresaFormData>({
+    const { control, handleSubmit, trigger } = useForm<ContractFormData>({
         defaultValues: {
-            empresa: {
-                cnpj: "",
-                razaoSocial: "",
-                nomeFantasia: "",
-                inscricaoEstadual: "",
-                inscricaoMunicipal: "",
-                emailCorporativo: "",
-                site: "",
-                dataFundacao: "",
-                telefone: "",
-                cep: "",
-                bairro: "",
-                numeroDaCasa: "",
-                rua: "",
-                estado: "",
-                banco: "",
-                agencia: "",
-            }
+            responsavel: "",
+            numContrato: 0,
+            postos: [
+                {
+                    nome: "",
+                    descricao: ""
+                }
+            ],
+            idStatus: 0,
+            tipoServico: "",
+            tipoContrato: "",
+            entregaveis: [
+                {
+                    nome: "",
+                    dtInicio: "",
+                    dtFim: "",
+                    Status: "",
+                    descricao: "",
+                    colaboradores: [
+                        {
+                            id: 0,
+                            funcaoEntregavel: ""
+                        }
+                    ]
+                }
+            ],
+            dtInicio: "",
+            idContratante: 0,
+            colaboradores: [
+                {
+                    id: 0,
+                    funcaoContrato: ""
+                }
+            ],
+            dtFim: ""
         }
     });
 
@@ -50,18 +66,24 @@ export default function ContractRegistrationForm() {
         const isValid = await trigger(); // Valida os campos atuais antes de avançar
         if (!isValid) return;
 
-        setCurrentStep((prev) => Math.min(prev + 1, 5));
+        setCurrentStep((prev) => Math.min(prev + 1, 6));
     };
 
     const prevStep = () => {
         setCurrentStep((prev) => Math.max(prev - 1, 1));
     };
 
-    const onSubmit: SubmitHandler<EmpresaFormData> = (data) => {
-        console.log("Formulário enviado:", data);
-        alert("Formulário enviado com sucesso!");
-        window.location.reload();
+    const onSubmit: SubmitHandler<ContractFormData> = async (data) => {
+        try {
+            const response = await axios.post("https://gestaocontratual.onrender.com/contratos/criarContrato", data);
+            console.log("Contrato cadastrado com sucesso:", response.data);
+            alert("Contrato cadastrado com sucesso!");
+        } catch (error) {
+            console.error("Erro ao cadastrar contrato:", error);
+            alert("Erro ao cadastrar contrato.");
+        }
     };
+
 
     return (
         <div className="container mx-auto py-8 px-4">
@@ -71,50 +93,123 @@ export default function ContractRegistrationForm() {
 
                     <form onSubmit={handleSubmit(onSubmit)} className="mt-8">
                         {currentStep === 1 && (
-                            <DataContractStep control={control} />
+                            <div>
+                                <DataContractStep control={control} />
+                                <div className="my-8 flex items-center justify-between">
+
+                                    <button
+                                        type="button"
+                                        className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
+                                        onClick={prevStep}
+                                    >
+                                        Anterior
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="px-4 py-2 bg-[#5fe0d5] text-black rounded-md hover:bg-[#4bc0b5]"
+                                        onClick={nextStep}
+                                    >
+                                        Próximo
+                                    </button>
+                                </div>
+                            </div>
                         )}
                         {currentStep === 2 && (
-                            <ColaboradoresContractStep control={control} />
+                            <div>
+
+                                <PostosContractStep control={control} />
+                                <div className="my-8 flex items-center justify-between">
+
+                                    <button
+                                        type="button"
+                                        className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
+                                        onClick={prevStep}
+                                    >
+                                        Anterior
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="px-4 py-2 bg-[#5fe0d5] text-black rounded-md hover:bg-[#4bc0b5]"
+                                        onClick={nextStep}
+                                    >
+                                        Próximo
+                                    </button>
+                                </div>
+                            </div>
                         )}
                         {currentStep === 3 && (
-                            <ContactEntregaveisStep control={control} />
+                            <div>
+
+                                <ColaboradoresContractStep control={control} />
+                                <div className="my-8 flex items-center justify-between">
+
+                                    <button
+                                        type="button"
+                                        className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
+                                        onClick={prevStep}
+                                    >
+                                        Anterior
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="px-4 py-2 bg-[#5fe0d5] text-black rounded-md hover:bg-[#4bc0b5]"
+                                        onClick={nextStep}
+                                    >
+                                        Próximo
+                                    </button>
+                                </div>
+                            </div>
                         )}
                         {currentStep === 4 && (
-                            <AnexoDocsStep control={control} />
+                            <div>
+                                <ContractEntregaveisStep control={control} />
+                                <div className="my-8 flex items-center justify-between">
+
+                                    <button
+                                        type="button"
+                                        className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
+                                        onClick={prevStep}
+                                    >
+                                        Anterior
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="px-4 py-2 bg-[#5fe0d5] text-black rounded-md hover:bg-[#4bc0b5]"
+                                        onClick={nextStep}
+                                    >
+                                        Próximo
+                                    </button>
+                                </div>
+                            </div>
                         )}
+                        {currentStep === 5 && (
+                            <div>
 
-                        <div className="flex justify-between mt-8">
-                            {currentStep > 1 ? (
-                                <button
-                                    type="button"
-                                    className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
-                                    onClick={prevStep}
-                                >
-                                    Anterior
-                                </button>
-                            ) : (
+                                <AnexoDocsStep control={control} />
+                                <div className="my-8 flex items-center justify-between">
 
-                                <Link href={"/"} className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300" >Cancelar</Link>
-                            )}
-
-                            {currentStep < 4 ? (
-                                <button
-                                    type="button"
-                                    className="px-4 py-2 bg-[#5fe0d5] text-black rounded-md hover:bg-[#4bc0b5]"
-                                    onClick={nextStep}
-                                >
-                                    Próximo
-                                </button>
-                            ) : (
-                                <button
-                                    type="button"
-                                    className="px-4 py-2 bg-[#5fe0d5] text-black rounded-md hover:bg-[#4bc0b5]"
-                                    // onClick={onSubmit}
-                                >
-                                    Salvar
-                                </button>
-                            )}
-                        </div>
+                                    <button
+                                        type="button"
+                                        className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
+                                        onClick={prevStep}
+                                    >
+                                        Anterior
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        className="px-4 py-2 bg-[#5fe0d5] text-black rounded-md hover:bg-[#4bc0b5]"
+                                    >
+                                        Salvar
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={handleSubmit((data) => console.log("Dados:", data))}
+                                    >
+                                        Ver dados
+                                    </button>
+                                </div>
+                            </div>
+                        )}
                     </form>
                 </div>
             </div>
@@ -125,12 +220,12 @@ export default function ContractRegistrationForm() {
 function Stepper({ currentStep }: StepperProps) {
     return (
         <ol className="flex items-center justify-between w-full">
-            {[ClipboardMinus, Users, BookUp, FileStack].map((Icon, index) => {
+            {[ClipboardMinus, Building2, Users, BookUp, FileStack].map((Icon, index) => {
                 const step = index + 1;
                 const active = currentStep >= step;
                 const done = currentStep > step;
 
-                if (step !== 4) {
+                if (step !== 5) {
                     return (
                         <li
                             key={step}

@@ -5,11 +5,6 @@ import CompanyRegistrationForm from "@/components/stepperCompanyComponent/Steppe
 import TitleSection from "@/components/TitleSection/TitleSection";
 
 export default function CadastrarEmpresa() {
-    const [showForm, setShowForm] = useState(false);
-
-    const handleVerifyCNPJ = () => {
-        setShowForm(true);
-    }
 
     return (
         <section className="h-full">

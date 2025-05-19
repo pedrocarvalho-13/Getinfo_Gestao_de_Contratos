@@ -1,10 +1,10 @@
 import { InputComponent } from "@/components/inputComponent/Input";
 import Style from "@/Styles/style.module.css"
-import { EmpresaFormData } from "@/types/EnmpresaFormData";
+import { ContractFormData } from "@/types/contractFormData";
 import { Control } from "react-hook-form";
 
 interface LegalCompanyStepProps {
-    control: Control<EmpresaFormData>;
+    control: Control<ContractFormData>;
 }
 
 export default function AnexoDocsStepStep({ control }: LegalCompanyStepProps) {

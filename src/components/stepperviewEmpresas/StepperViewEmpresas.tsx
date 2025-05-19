@@ -1,29 +1,40 @@
 "use client"
 
-import { CheckIcon, ClipboardMinus, MapPin, Phone, Scale } from "lucide-react"
-import { useForm, SubmitHandler } from "react-hook-form"
+import { CheckIcon, ClipboardMinus, MapPin, Phone, Scale, Users } from "lucide-react"
+import { useForm } from "react-hook-form"
 
-import { EmpresaFormData } from "@/types/EmpresaFormData"
+// import { EmpresaFormData } from "@/types/EmpresaFormData"
 // import { defaultValues } from "@/utils/formDefaults"
 
-import DataCompanyStep from "./formDataCompany/DataCompanyStep"
-import AdressCompanyStep from "./formAdressDataCompany/AdressCompanyStep"
-import ContactCompanyStep from "./formContactDataCompany/ContactCompanyStep"
-import LegalCompanyStep from "./formLegalDataCompany/LegalCompanyStep"
-import Link from "next/link"
+// import Link from "next/link"
+
 
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { colaboratorFormData } from "@/types/colaboratorFormData"
+// import DataAgregadoStep from "../stepperAgregadoComponent/formDataCompany/DataAgregadoStep";
+import { useRouter } from "next/navigation";
+// import DataAgregadoViewStep from "./formViewAgregado/FormViewAgregado";
+import DataViewCompanyStep from "./formViewDataCompany/FormViewDataCompany";
+import AdressViewCompanyStep from "./formViewAdressCompany/FormViewAdressCompany";
+import ContactViewCompanyStep from "./formViewContactCompany/FormViewContactCompany";
+import LegalViewCompanyStep from "./formViewLegalCompany/formViewLegalCompany";
+import { EmpresaFormData } from "@/types/EmpresaFormData";
 
 interface StepperProps {
     currentStep: number;
 }
+interface EmpresasViewFormProps {
+    id: string;
+}
 
 
-export default function ContractRegistrationForm() {
+export default function EmpresasViewForm({ id }: EmpresasViewFormProps) {
     const [currentStep, setCurrentStep] = useState<number>(1);
 
-    const { control, handleSubmit, trigger } = useForm<EmpresaFormData>({
+    const [empresa, setEmpresa] = useState<EmpresaFormData | null>(null);
+
+    const { control, reset, trigger } = useForm<EmpresaFormData>({
         defaultValues: {
                 cnpj: "",
                 razaoSocial: "",
@@ -48,6 +59,7 @@ export default function ContractRegistrationForm() {
             }
     });
 
+
     const nextStep = async () => {
         const isValid = await trigger(); // Valida os campos atuais antes de avançar
         if (!isValid) return;
@@ -59,17 +71,20 @@ export default function ContractRegistrationForm() {
         setCurrentStep((prev) => Math.max(prev - 1, 1));
     };
 
-    const onSubmit: SubmitHandler<EmpresaFormData> = async (data) => {
-        try {
-            const response = await axios.post("https://gestaocontratual.onrender.com/contratantes", data);
-            console.log("Empresa cadastrada com sucesso:", response.data);
-            alert("Empresa cadastrada com sucesso!");
-        } catch (error) {
-            console.error("Erro ao cadastrar empresa:", error);
-            alert("Erro ao cadastrar empresa.");
-        }
-    };
+    useEffect(() => {
+        const fetchEmpresa = async () => {
+            const res = await axios.get(`https://gestaocontratual.onrender.com/contratantes/${id}`);
+            setEmpresa(res.data);
+            reset(res.data); // ← Aqui você injeta os valores nos inputs via react-hook-form
+        };
 
+        fetchEmpresa();
+    }, [id, reset]);
+
+    if (!empresa) return <div>Carregando...</div>;
+
+
+    const router = useRouter();
 
 
     return (
@@ -78,17 +93,17 @@ export default function ContractRegistrationForm() {
                 <div className="p-6">
                     <Stepper currentStep={currentStep} />
 
-                    <form onSubmit={handleSubmit(onSubmit)} className="mt-8">
+                    <form className="mt-8">
                         {currentStep === 1 && (
                             <div>
 
-                                <DataCompanyStep control={control} />
+                                <DataViewCompanyStep control={control} />
                                 <div className="my-8 flex items-center justify-between">
 
                                     <button
                                         type="button"
                                         className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
-                                        onClick={prevStep}
+                                        onClick={() => router.push(`/`)}
                                     >
                                         Anterior
                                     </button>
@@ -104,7 +119,7 @@ export default function ContractRegistrationForm() {
                         )}
                         {currentStep === 2 && (
                             <div>
-                                <AdressCompanyStep control={control} />
+                                <AdressViewCompanyStep control={control} />
                                 <div className="my-8 flex items-center justify-between" >
 
                                     <button
@@ -126,7 +141,7 @@ export default function ContractRegistrationForm() {
                         )}
                         {currentStep === 3 && (
                             <div>
-                                <ContactCompanyStep control={control} />
+                                <ContactViewCompanyStep control={control} />
                                 <div className="my-8 flex items-center justify-between">
                                     <button
                                         type="button"
@@ -147,7 +162,7 @@ export default function ContractRegistrationForm() {
                         )}
                         {currentStep === 4 && (
                             <div >
-                                <LegalCompanyStep control={control} />
+                                <LegalViewCompanyStep control={control} />
                                 <div className="my-8 flex items-center justify-between">
 
                                     <button
@@ -157,12 +172,12 @@ export default function ContractRegistrationForm() {
                                     >
                                         Anterior
                                     </button>
-                                    <button
+                                    {/* <button
                                         type="submit"
                                         className="px-4 py-2 bg-[#5fe0d5] text-black rounded-md hover:bg-[#4bc0b5]"
                                     >
                                         Salvar
-                                    </button>
+                                    </button> */}
                                 </div>
                             </div>
                         )}

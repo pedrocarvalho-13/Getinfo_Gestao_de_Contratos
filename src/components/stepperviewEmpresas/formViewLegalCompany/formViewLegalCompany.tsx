@@ -7,7 +7,7 @@ interface LegalCompanyStepProps {
     control: Control<EmpresaFormData>;
 }
 
-export default function LegalCompanyStep({ control }: LegalCompanyStepProps) {
+export default function LegalViewCompanyStep({ control }: LegalCompanyStepProps) {
     return (
         <div>
             <h2 className="text-2xl font-bold mb-6">Informações do Responsável Legal</h2>
@@ -19,7 +19,8 @@ export default function LegalCompanyStep({ control }: LegalCompanyStepProps) {
                     name={"responsavelLegalCpf"}
                     placeholder={"000.000.000-00"}
                     control={control}
-                />
+                    readOnly={true}
+                    />
 
                 {/* Nome Completo */}
                 <InputComponent
@@ -28,7 +29,8 @@ export default function LegalCompanyStep({ control }: LegalCompanyStepProps) {
                     name={"responsavelLegalNome"}
                     placeholder={"Nome do responsável legal"}
                     control={control}
-                />
+                    readOnly={true}
+                    />
 
                 {/* Telefone Celular */}
                 <InputComponent
@@ -37,7 +39,8 @@ export default function LegalCompanyStep({ control }: LegalCompanyStepProps) {
                     name={"telefoneLegal"}
                     placeholder={"(99) 99999-9999"}
                     control={control}
-                />
+                    readOnly={true}
+                    />
 
                 {/* Email Legal */}
                 <InputComponent
@@ -46,6 +49,7 @@ export default function LegalCompanyStep({ control }: LegalCompanyStepProps) {
                     name={"responsavelLegalEmail"}
                     placeholder={"exemplo@gmail.com"}
                     control={control}
+                    readOnly={true}
                 />
 
             </div>

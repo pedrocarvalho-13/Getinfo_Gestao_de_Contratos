@@ -6,7 +6,7 @@ interface ContactCompanyStepProps {
     control: Control<EmpresaFormData>;
 }
 
-export default function ContactCompanyStep({ control }: ContactCompanyStepProps) {
+export default function ContactViewCompanyStep({ control }: ContactCompanyStepProps) {
     return (
         <div>
             <h2 className="text-2xl font-bold mb-6">Informações para Contato</h2>
@@ -18,7 +18,8 @@ export default function ContactCompanyStep({ control }: ContactCompanyStepProps)
                     name={"telefone"}
                     placeholder={"(99) 99999-9999"}
                     control={control}
-                />
+                    readOnly={true}
+                    />
 
                 {/* Telefone Fixo */}
                 <InputComponent
@@ -27,8 +28,9 @@ export default function ContactCompanyStep({ control }: ContactCompanyStepProps)
                     name={"telefoneFixo"}
                     placeholder={"(99) 99999-9999"}
                     control={control}
-                />
-                
+                    readOnly={true}
+                    />
+
                 {/* Email Corporativo */}
                 <InputComponent
                     label="Email Corporativo"
@@ -36,7 +38,8 @@ export default function ContactCompanyStep({ control }: ContactCompanyStepProps)
                     name={"emailCorporativo"}
                     placeholder={"exemplo@gmail.com"}
                     control={control}
-                />
+                    readOnly={true}
+                    />
                 {/* Website */}
                 <InputComponent
                     label="Website"
@@ -44,6 +47,7 @@ export default function ContactCompanyStep({ control }: ContactCompanyStepProps)
                     name={"site"}
                     placeholder={"https://www.empresa.com.br"}
                     control={control}
+                    readOnly={true}
                 />
             </div>
         </div>

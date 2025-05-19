@@ -7,7 +7,7 @@ interface DataCompanyStepProps {
     control: Control<EmpresaFormData>;
 }
 
-export default function DataCompanyStep({ control }: DataCompanyStepProps) {
+export default function DataViewCompanyStep({ control }: DataCompanyStepProps) {
     return (
         <div className="space-y-8">
             <div>
@@ -20,7 +20,8 @@ export default function DataCompanyStep({ control }: DataCompanyStepProps) {
                         name={"cnpj"}
                         placeholder={"00.000.000/0000-00"}
                         control={control}
-                    />
+                        readOnly={true}
+                        />
 
                     {/* Razão Social */}
                     <InputComponent
@@ -29,7 +30,8 @@ export default function DataCompanyStep({ control }: DataCompanyStepProps) {
                         name={"razaoSocial"}
                         placeholder={"Digite a razão social da empresa"}
                         control={control}
-                    />
+                        readOnly={true}
+                        />
 
                     {/* Nome Fantasia */}
                     <InputComponent
@@ -38,7 +40,8 @@ export default function DataCompanyStep({ control }: DataCompanyStepProps) {
                         name={"nomeFantasia"}
                         placeholder={"Digite o nome fantasia da empresa"}
                         control={control}
-                    />
+                        readOnly={true}
+                        />
 
                     {/* Inscrição Estadual */}
                     <InputComponent
@@ -47,7 +50,8 @@ export default function DataCompanyStep({ control }: DataCompanyStepProps) {
                         name={"inscricaoEstadual"}
                         placeholder={"000000000"}
                         control={control}
-                    />
+                        readOnly={true}
+                        />
 
                     {/* Inscrição Municipal */}
                     <InputComponent
@@ -56,7 +60,8 @@ export default function DataCompanyStep({ control }: DataCompanyStepProps) {
                         name={"inscricaoMunicipal"}
                         placeholder={"000000000"}
                         control={control}
-                    />
+                        readOnly={true}
+                        />
 
                     {/* Data de Fundação */}
                     <InputComponent
@@ -64,6 +69,7 @@ export default function DataCompanyStep({ control }: DataCompanyStepProps) {
                         type={"date"}
                         name={"dataFundacao"}
                         control={control}
+                        readOnly={true}
                     />
                 </div>
             </div>

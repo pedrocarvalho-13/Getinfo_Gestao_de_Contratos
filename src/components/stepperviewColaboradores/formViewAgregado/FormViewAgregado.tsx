@@ -9,7 +9,7 @@ interface DataAgregadoStepProps {
     control: Control<colaboratorFormData>;
 }
 
-export default function DataAgregadoStep({ control }: DataAgregadoStepProps) {
+export default function DataAgregadoViewStep({ control }: DataAgregadoStepProps) {
     return (
         <div className="space-y-8">
             <div>
@@ -26,7 +26,8 @@ export default function DataAgregadoStep({ control }: DataAgregadoStepProps) {
                                 name={"cpf"}
                                 placeholder={"00.000.000/0000-00"}
                                 control={control}
-                            />
+                                readOnly={true}
+                                />
                         </div>
 
                         {/* Razão Social */}
@@ -36,7 +37,8 @@ export default function DataAgregadoStep({ control }: DataAgregadoStepProps) {
                             name={"nome"}
                             placeholder={"Nome Completo"}
                             control={control}
-                        />
+                            readOnly={true}
+                            />
                     </div>
                     <div className="grid grid-cols-2 gap-2">
 
@@ -47,7 +49,8 @@ export default function DataAgregadoStep({ control }: DataAgregadoStepProps) {
                             name={"cargo"}
                             placeholder={"Técnico Nível II"}
                             control={control}
-                        />
+                            readOnly={true}
+                            />
 
                         <div>
                             <CheckInputComponent 
@@ -55,6 +58,7 @@ export default function DataAgregadoStep({ control }: DataAgregadoStepProps) {
                             name={"colaboradores.situacao"} 
                             type={"checkbox"} 
                             placeholder={""} 
+                            readOnly={true}
                             control={control}/>
                         </div>
                     </div>

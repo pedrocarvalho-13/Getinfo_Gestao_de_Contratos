@@ -7,7 +7,7 @@ interface AdressCompanyStepProps {
     control: Control<EmpresaFormData>;
 }
 
-export default function AddressCompanyStep({ control }: AdressCompanyStepProps) {
+export default function AddressViewCompanyStep({ control }: AdressCompanyStepProps) {
     return (
         <div>
             <h2 className="text-2xl font-bold mb-6">Endereço da Empresa</h2>
@@ -20,7 +20,8 @@ export default function AddressCompanyStep({ control }: AdressCompanyStepProps) 
                     name={"cep"}
                     placeholder={"49000-00"}
                     control={control}
-                />
+                    readOnly={true}
+                    />
 
 
                 {/* Rua */}
@@ -30,7 +31,8 @@ export default function AddressCompanyStep({ control }: AdressCompanyStepProps) 
                     name={"rua"}
                     placeholder={"Av. Presidente Tancredo Neves"}
                     control={control}
-                />
+                    readOnly={true}
+                    />
 
                 {/* Numero */}
                 <InputComponent
@@ -39,7 +41,8 @@ export default function AddressCompanyStep({ control }: AdressCompanyStepProps) 
                     name={"numeroDaCasa"}
                     placeholder={"0000"}
                     control={control}
-                />
+                    readOnly={true}
+                    />
 
                 {/* Bairro */}
                 <InputComponent
@@ -48,7 +51,8 @@ export default function AddressCompanyStep({ control }: AdressCompanyStepProps) 
                     name={"bairro"}
                     placeholder={"São José"}
                     control={control}
-                />
+                    readOnly={true}
+                    />
 
 
                 {/* Cidade */}
@@ -58,7 +62,8 @@ export default function AddressCompanyStep({ control }: AdressCompanyStepProps) 
                     name={"cidade"}
                     placeholder={"Aracaju"}
                     control={control}
-                />
+                    readOnly={true}
+                    />
 
                 {/* Estado */}
                 <InputComponent
@@ -67,6 +72,7 @@ export default function AddressCompanyStep({ control }: AdressCompanyStepProps) 
                     name={"estado"}
                     placeholder={"Sergipe"}
                     control={control}
+                    readOnly={true}
                 />
             </div>
         </div>

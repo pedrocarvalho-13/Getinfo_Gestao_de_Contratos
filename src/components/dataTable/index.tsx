@@ -29,17 +29,19 @@ import {
 import { Input } from "@/components/ui/input"
 
 import React from "react"
-import RowActions from "../testePopup"
+// import RowActions from "../testePopup"
 import Link from "next/link"
 import { Button } from "../ui/button"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { ChevronLeft, ChevronRight, Clipboard, Edit, LoaderCircle, Plus, Trash2 } from "lucide-react"
 
+import { useRouter } from "next/navigation";
 
 interface DataTableProps<T> {
     columns: ColumnDef<T>[];
     data: T[]
     link: string
     contentLink: string
+    entityBasePath?: string; // "/empresas", "/contratos", etc.
 }
 
 // type TableData =  {
@@ -47,17 +49,14 @@ interface DataTableProps<T> {
 
 // }
 
-export function DataTable<T>({ columns, data, link, contentLink }: DataTableProps<T>) {
+export function DataTable<T>({ columns, data, link, contentLink, entityBasePath }: DataTableProps<T>) {
     const [sorting] = React.useState<SortingState>([])
 
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
         []
     )
-    // const getContratos = () =>{
-    //     fetch()
 
-
-    // }
+    const router = useRouter();
 
     const table = useReactTable({
         data,
@@ -82,8 +81,8 @@ export function DataTable<T>({ columns, data, link, contentLink }: DataTableProp
             <div className="h-full ">
 
                 <div className="flex justify-between items-center py-2">
-                    <Link href={link} className="w-fit px-4 py-1 rounded-md bg-[#72F2E5] text-sm">
-                        {contentLink}
+                    <Link href={link} className="flex items-center justify-center gap-2 w-fit px-4 py-1 rounded-md text-[#4ccec1] text-sm">
+                        <Plus className="size-4" /> {contentLink}
                     </Link>
                     <div className="flex flex-row items-center justify-center w-fit h-fit gap-2">
 
@@ -131,14 +130,31 @@ export function DataTable<T>({ columns, data, link, contentLink }: DataTableProp
                                         </TableCell>
 
                                     ))}
-                                    <RowActions />
+                                    {/* <RowActions /> */}
+                                    <Button className="bg-transparent text-[black] hover:bg-[#5fb0a8]">
+                                        <Edit />
+                                    </Button>
+                                    <Button
+                                        onClick={() => {
+                                            const rowData = row.original as { id: number };
+                                            if (entityBasePath && rowData.id) {
+                                                router.push(`${entityBasePath}/${rowData.id}`);
+                                            }
+                                        }}
+                                        className="bg-transparent text-[black] hover:bg-[#5fb0a8]"
+                                    >
+                                        <Clipboard />
+                                    </Button>
+                                    <Button className="bg-transparent text-[black] hover:bg-[#5fb0a8]">
+                                        <Trash2 />
+                                    </Button>
                                     {/* className="flex flex-row w-fit p-2 hover:bg-white rounded-md mt-1" */}
                                 </TableRow>
                             ))
                         ) : (
                             <TableRow>
                                 <TableCell colSpan={columns.length} className="h-24 text-center">
-                                    No results.
+                                    <LoaderCircle className="text-[#72F2E5] m-auto animate-spin size-15" />
                                 </TableCell>
                             </TableRow>
                         )}

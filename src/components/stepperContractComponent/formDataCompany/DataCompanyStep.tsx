@@ -107,7 +107,7 @@ export default function DataContractStep({ control }: DataContractStepProps) {
                         label="Responsável pelo Contrato"
                         placeholder={"Nome Completo"}
                         control={control}
-                        options={colaborators.map(c => ({ label: c.nome, value: c.id.toString() }))}
+                        options={colaborators.map(c => ({ label: c.nome, value: c.id.toString(), key: c.id }))}
                     />
 
                     {/* <SelectInput

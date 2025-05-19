@@ -41,7 +41,7 @@ export default function ContractEntregaveisStep({ control }: ContactCompanyStepP
         <div className="w-full">
             <h2 className="text-2xl font-bold mb-6">Entregáveis</h2>
             {fields.map((field, index) => (
-                <div className="grid w-full grid-cols-1 md:grid-cols-2  lg:flex lg:flex-col gap-2 items-center justify-between py-4">
+                <div key = {index} className="grid w-full grid-cols-1 md:grid-cols-2  lg:flex lg:flex-col gap-2 items-center justify-between py-4">
 
                     <div className="flex flex-col gap-2 lg:grid lg:grid-cols-2 w-full">
                         <InputComponent

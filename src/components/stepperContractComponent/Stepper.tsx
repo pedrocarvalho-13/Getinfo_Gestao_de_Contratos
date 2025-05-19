@@ -63,7 +63,7 @@ export default function ContractRegistrationForm() {
     });
 
     const nextStep = async () => {
-        const isValid = await trigger(); // Valida os campos atuais antes de avançar
+        const isValid = await trigger(); 
         if (!isValid) return;
 
         setCurrentStep((prev) => Math.min(prev + 1, 6));
@@ -73,16 +73,43 @@ export default function ContractRegistrationForm() {
         setCurrentStep((prev) => Math.max(prev - 1, 1));
     };
 
-    const onSubmit: SubmitHandler<ContractFormData> = async (data) => {
+    const onSubmit = async (data: ContractFormData) => {
         try {
-            const response = await axios.post("https://gestaocontratual.onrender.com/contratos/criarContrato", data);
-            console.log("Contrato cadastrado com sucesso:", response.data);
+
+            const formData = new FormData();
+
+            const contratoBlob = new Blob([JSON.stringify(data)], {
+                type: "application/json",
+            });
+            formData.append("contrato", contratoBlob);
+
+            if (data.documentos && data.documentos.length > 0) {
+                for (const file of data.documentos) {
+                    formData.append("documentos", file); 
+                }
+            }
+
+            const response = await fetch("https://gestaocontratual.onrender.com/contratos/criarContrato", {
+                method: "POST",
+                body: formData,
+            });
+
+            if (!response.ok) {
+                const text = await response.text();
+                throw new Error(`Erro ao cadastrar contrato: ${response.status} - ${text}`);
+            }
+
+            const responseText = await response.text();
+            console.log("Contrato cadastrado com sucesso:", responseText);
             alert("Contrato cadastrado com sucesso!");
-        } catch (error) {
+
+        } catch (error: any) {
             console.error("Erro ao cadastrar contrato:", error);
-            alert("Erro ao cadastrar contrato.");
+            alert(`Erro: ${error.message}`);
         }
     };
+
+
 
 
     return (

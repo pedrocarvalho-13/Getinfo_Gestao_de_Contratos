@@ -18,6 +18,7 @@ export type EmpresaFormData = FieldValues & {
         rua: string;
         cidade: string;
         estado: string;
+        tipoEmpresa: number;
         banco: string;
         agencia: string;
         cpfLegal: string;

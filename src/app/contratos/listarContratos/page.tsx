@@ -85,7 +85,7 @@ export default function ListarContratos() {
         <section>
             <TitleSection title={""} />
             <section className="flex flex-col  item-center justify-center m-auto w-full">
-                <DataTable columns={ColunaContratos} data={contracts} link={"cadastrarContratos"} onDelete={handleDelete} contentLink={"Cadastrar Contratos"}></DataTable>
+                <DataTable columns={ColunaContratos} data={contracts} link={"cadastrarContratos"} onDelete={handleDelete} contentLink={"Cadastrar Contratos"} entityBasePath="/contratos"></DataTable>
             </section>
         </section>
     )

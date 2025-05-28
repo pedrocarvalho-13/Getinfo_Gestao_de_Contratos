@@ -1,52 +1,78 @@
 "use client"
 
 import { CheckIcon, ClipboardMinus, MapPin, Phone, Scale } from "lucide-react"
-import { useForm, SubmitHandler } from "react-hook-form"
+import { useForm } from "react-hook-form"
 
-import { EmpresaFormData } from "@/types/EmpresaFormData"
+// import { EmpresaFormData } from "@/types/EmpresaFormData"
 // import { defaultValues } from "@/utils/formDefaults"
 
-import DataCompanyStep from "./formDataCompany/DataCompanyStep"
-import AdressCompanyStep from "./formAdressDataCompany/AdressCompanyStep"
-import ContactCompanyStep from "./formContactDataCompany/ContactCompanyStep"
-import LegalCompanyStep from "./formLegalDataCompany/LegalCompanyStep"
-import Link from "next/link"
+// import Link from "next/link"
+
 
 import axios from "axios";
-import { useState } from "react";
-import router from "next/router"
+import { useEffect, useState } from "react";
+
+import { useRouter } from "next/navigation";
+
+import { ContractFormData } from "@/types/contractFormData";
+import ContactViewCompanyStep from "../stepperviewEmpresas/formViewContactCompany/FormViewContactCompany";
+import LegalViewCompanyStep from "../stepperviewEmpresas/formViewLegalCompany/formViewLegalCompany";
+import DataViewContractStep from "./formViewDataCompany/DataViewCompanyStep";
+import PostosViewContractStep from "./formViewPostosContract/PostosViewContract";
+import ColaboradoresViewContractStep from "./formViewColaboradoresContract/ColaboradoresViewContractStep";
+import ContractViewEntregaveisStep from "./formViewEntregaveisContract/ContactViewEntregaveisStep";
+import AnexoViewDocsStep from "./formViewAnexoDocsContract/AnexoViewDocsStep";
 
 interface StepperProps {
     currentStep: number;
 }
+// interface EmpresasViewFormProps {
+//     id: string;
+// }
 
 
-export default function ContractRegistrationForm() {
+export default function EmpresasViewForm({ params }: { params: { idContrato: string } }) {
     const [currentStep, setCurrentStep] = useState<number>(1);
 
-    const { control, handleSubmit, trigger } = useForm<EmpresaFormData>({
+    const [empresa, setEmpresa] = useState<ContractFormData | null>(null);
+
+    const { control, reset, trigger } = useForm<ContractFormData>({
         defaultValues: {
-            cnpj: "",
-            razaoSocial: "",
-            nomeFantasia: "",
-            inscricaoEstadual: "",
-            inscricaoMunicipal: "",
-            emailCorporativo: "",
-            site: "",
-            dataFundacao: "",
-            telefone: "",
-            telefoneFixo: "",
-            cep: "",
-            bairro: "",
-            numeroDaCasa: "",
-            rua: "",
-            estado: "",
-            tipoEmpresa: 0,
-            cidade: "",
-            cpfLegal: "",
-            responsavelLegalCpf: "",
-            responsavelLegalNome: "",
-            responsavelLegalEmail: "",
+            responsavel: "",
+            numContrato: 0,
+            postos: [
+                {
+                    nome: "",
+                    descricao: ""
+                }
+            ],
+            idStatus: 0,
+            tipoServico: "",
+            tipoContrato: "",
+            entregaveis: [
+                {
+                    nome: "",
+                    dtInicio: "",
+                    dtFim: "",
+                    Status: "",
+                    descricao: "",
+                    colaboradores: [
+                        {
+                            id: 0,
+                            funcaoEntregavel: ""
+                        }
+                    ]
+                }
+            ],
+            dtInicio: "",
+            idContratante: 0,
+            colaboradores: [
+                {
+                    id: 0,
+                    funcaoContrato: ""
+                }
+            ],
+            dtFim: ""
         }
     });
 
@@ -61,17 +87,20 @@ export default function ContractRegistrationForm() {
         setCurrentStep((prev) => Math.max(prev - 1, 1));
     };
 
-    const onSubmit: SubmitHandler<EmpresaFormData> = async (data) => {
-        try {
-            const response = await axios.post("https://gestaocontratual.onrender.com/contratantes", data);
-            console.log("Empresa cadastrada com sucesso:", response.data);
-            alert("Empresa cadastrada com sucesso!");
-        } catch (error) {
-            console.error("Erro ao cadastrar empresa:", error);
-            alert("Erro ao cadastrar empresa.");
-        }
-    };
+    useEffect(() => {
+        const fetchEmpresa = async () => {
+            const res = await axios.get(`https://gestaocontratual.onrender.com/contratos/${params.idContrato}`);
+            setEmpresa(res.data);
+            reset(res.data); // ← Aqui você injeta os valores nos inputs via react-hook-form
+        };
 
+        fetchEmpresa();
+    }, [params.idContrato, reset]);
+
+    if (!empresa) return <div>Carregando...</div>;
+
+
+    const router = useRouter();
 
 
     return (
@@ -80,17 +109,16 @@ export default function ContractRegistrationForm() {
                 <div className="p-6">
                     <Stepper currentStep={currentStep} />
 
-                    <form onSubmit={handleSubmit(onSubmit)} className="mt-8">
+                    <form className="mt-8">
                         {currentStep === 1 && (
                             <div>
 
-                                <DataCompanyStep control={control} />
+                                <DataViewContractStep  control={control}/>
                                 <div className="my-8 flex items-center justify-between">
-
                                     <button
                                         type="button"
                                         className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
-                                        onClick={() => router.push(`/empresas/listarEmpresas`)}
+                                        onClick={() => router.push(`/contratos/listarContratos`)}
                                     >
                                         Voltar
                                     </button>
@@ -106,9 +134,8 @@ export default function ContractRegistrationForm() {
                         )}
                         {currentStep === 2 && (
                             <div>
-                                <AdressCompanyStep control={control} />
-                                <div className="my-8 flex items-center justify-between" >
-
+                                <ColaboradoresViewContractStep control={control} />
+                                <div className="my-8 flex items-center justify-between">
                                     <button
                                         type="button"
                                         className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
@@ -127,8 +154,8 @@ export default function ContractRegistrationForm() {
                             </div>
                         )}
                         {currentStep === 3 && (
-                            <div>
-                                <ContactCompanyStep control={control} />
+                            <div >
+                                <ContractViewEntregaveisStep control={control} idContrato={params.idContrato} />
                                 <div className="my-8 flex items-center justify-between">
                                     <button
                                         type="button"
@@ -136,34 +163,20 @@ export default function ContractRegistrationForm() {
                                         onClick={prevStep}
                                     >
                                         Anterior
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className="px-4 py-2 bg-[#5fe0d5] text-black rounded-md hover:bg-[#4bc0b5]"
-                                        onClick={nextStep}
-                                    >
-                                        Próximo
                                     </button>
                                 </div>
                             </div>
                         )}
                         {currentStep === 4 && (
                             <div >
-                                <LegalCompanyStep control={control} />
+                                <AnexoViewDocsStep control={control} />
                                 <div className="my-8 flex items-center justify-between">
-
                                     <button
                                         type="button"
                                         className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
                                         onClick={prevStep}
                                     >
                                         Anterior
-                                    </button>
-                                    <button
-                                        type="submit"
-                                        className="px-4 py-2 bg-[#5fe0d5] text-black rounded-md hover:bg-[#4bc0b5]"
-                                    >
-                                        Salvar
                                     </button>
                                 </div>
                             </div>

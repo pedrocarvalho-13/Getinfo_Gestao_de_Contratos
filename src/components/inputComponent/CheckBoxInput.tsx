@@ -7,6 +7,7 @@ import { InputType } from "@/types/inputTypes"
 import { Label } from "@/components/ui/label";
 
 import { Control, Controller, FieldValues, Path } from "react-hook-form";
+import { useState } from "react"
 
 
 interface ColaboradorStepProps {
@@ -19,6 +20,9 @@ interface ColaboradorStepProps {
 }
 
 export function CheckInputComponent({ label, name, type, placeholder, control, readOnly }: ColaboradorStepProps) {
+      const [isChecked, setIsChecked] = useState(true);  // marcado por padrão
+
+    
     return (
         <div className="grid w-full max-w-sm items-center h-full">
             {label && <Label htmlFor={name}>{label}</Label>}
@@ -27,12 +31,11 @@ export function CheckInputComponent({ label, name, type, placeholder, control, r
                 <Controller
                     name="situacao"
                     control={control}
-                    defaultValue={false} // isso é importante!
+                    // defaultValue={false} // isso é importante!
                     render={({ field: { onChange, onBlur, name, ref, value } }) => (
                         <div className="flex items-center gap-2 ml-2">
                             <input
                                 type="checkbox"
-                                checked={!!value} // Isso já basta
                                 onChange={(e) => onChange(e.target.checked)}
                                 className="w-4 h-4"
                                 id="situacao"
@@ -40,6 +43,7 @@ export function CheckInputComponent({ label, name, type, placeholder, control, r
                                 ref={ref}
                                 onBlur={onBlur}
                                 readOnly={readOnly}
+                                checked={isChecked}
                             />
                             <label htmlFor="situacao">Marque se o colaborador está ativo</label>
                         </div>

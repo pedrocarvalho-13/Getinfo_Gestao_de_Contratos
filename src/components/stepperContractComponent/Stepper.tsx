@@ -12,6 +12,7 @@ import { ContractFormData } from "@/types/contractFormData"
 import axios from "axios";
 import { useState } from "react";
 import PostosContractStep from "./formPostosContract/PostosContract"
+import router from "next/router"
 
 
 interface StepperProps {
@@ -26,15 +27,8 @@ export default function ContractRegistrationForm() {
         defaultValues: {
             responsavel: "",
             numContrato: 0,
-            postos: [
-                {
-                    nome: "",
-                    descricao: ""
-                }
-            ],
             idStatus: 0,
             tipoServico: "",
-            tipoContrato: "",
             entregaveis: [
                 {
                     nome: "",
@@ -66,7 +60,7 @@ export default function ContractRegistrationForm() {
         const isValid = await trigger(); 
         if (!isValid) return;
 
-        setCurrentStep((prev) => Math.min(prev + 1, 6));
+        setCurrentStep((prev) => Math.min(prev + 1, 5));
     };
 
     const prevStep = () => {
@@ -127,9 +121,9 @@ export default function ContractRegistrationForm() {
                                     <button
                                         type="button"
                                         className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
-                                        onClick={prevStep}
+                                        onClick={() => router.push(`/contratos/listarContratos`)}
                                     >
-                                        Anterior
+                                        Voltar
                                     </button>
                                     <button
                                         type="button"
@@ -141,30 +135,8 @@ export default function ContractRegistrationForm() {
                                 </div>
                             </div>
                         )}
+                        
                         {currentStep === 2 && (
-                            <div>
-
-                                <PostosContractStep control={control} />
-                                <div className="my-8 flex items-center justify-between">
-
-                                    <button
-                                        type="button"
-                                        className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
-                                        onClick={prevStep}
-                                    >
-                                        Anterior
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className="px-4 py-2 bg-[#5fe0d5] text-black rounded-md hover:bg-[#4bc0b5]"
-                                        onClick={nextStep}
-                                    >
-                                        Próximo
-                                    </button>
-                                </div>
-                            </div>
-                        )}
-                        {currentStep === 3 && (
                             <div>
 
                                 <ColaboradoresContractStep control={control} />
@@ -187,7 +159,7 @@ export default function ContractRegistrationForm() {
                                 </div>
                             </div>
                         )}
-                        {currentStep === 4 && (
+                        {currentStep === 3 && (
                             <div>
                                 <ContractEntregaveisStep control={control} />
                                 <div className="my-8 flex items-center justify-between">
@@ -209,7 +181,7 @@ export default function ContractRegistrationForm() {
                                 </div>
                             </div>
                         )}
-                        {currentStep === 5 && (
+                        {currentStep === 4 && (
                             <div>
 
                                 <AnexoDocsStep control={control} />
@@ -247,12 +219,12 @@ export default function ContractRegistrationForm() {
 function Stepper({ currentStep }: StepperProps) {
     return (
         <ol className="flex items-center justify-between w-full">
-            {[ClipboardMinus, Building2, Users, BookUp, FileStack].map((Icon, index) => {
+            {[ClipboardMinus, Users, BookUp, FileStack].map((Icon, index) => {
                 const step = index + 1;
                 const active = currentStep >= step;
                 const done = currentStep > step;
 
-                if (step !== 5) {
+                if (step !== 4) {
                     return (
                         <li
                             key={step}

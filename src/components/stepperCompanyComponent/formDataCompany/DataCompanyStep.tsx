@@ -1,4 +1,5 @@
 import { InputComponent } from "@/components/inputComponent/Input";
+import { SelectInput } from "@/components/inputComponent/Select";
 import { EmpresaFormData } from "@/types/EmpresaFormData";
 import { Control } from "react-hook-form";
 // import { formDataProps } from "@/types/formPropsType";
@@ -20,6 +21,7 @@ export default function DataCompanyStep({ control }: DataCompanyStepProps) {
                         name={"cnpj"}
                         placeholder={"00.000.000/0000-00"}
                         control={control}
+                        maxLength={14}
                     />
 
                     {/* Razão Social */}
@@ -64,6 +66,17 @@ export default function DataCompanyStep({ control }: DataCompanyStepProps) {
                         type={"date"}
                         name={"dataFundacao"}
                         control={control}
+                    />
+
+                    <SelectInput
+                        name={"tipoEmpresa"}
+                        label="Tipo de Empresa"
+                        placeholder={"Selecione um tipo"}
+                        control={control}
+                        options={[
+                            { label: "Público", value: 0 },
+                            { label: "Privado", value: 1 },
+                        ]}
                     />
                 </div>
             </div>

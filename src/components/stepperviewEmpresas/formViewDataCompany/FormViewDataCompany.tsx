@@ -21,7 +21,7 @@ export default function DataViewCompanyStep({ control }: DataCompanyStepProps) {
                         placeholder={"00.000.000/0000-00"}
                         control={control}
                         readOnly={true}
-                        />
+                    />
 
                     {/* Razão Social */}
                     <InputComponent
@@ -31,7 +31,7 @@ export default function DataViewCompanyStep({ control }: DataCompanyStepProps) {
                         placeholder={"Digite a razão social da empresa"}
                         control={control}
                         readOnly={true}
-                        />
+                    />
 
                     {/* Nome Fantasia */}
                     <InputComponent
@@ -41,7 +41,7 @@ export default function DataViewCompanyStep({ control }: DataCompanyStepProps) {
                         placeholder={"Digite o nome fantasia da empresa"}
                         control={control}
                         readOnly={true}
-                        />
+                    />
 
                     {/* Inscrição Estadual */}
                     <InputComponent
@@ -51,7 +51,7 @@ export default function DataViewCompanyStep({ control }: DataCompanyStepProps) {
                         placeholder={"000000000"}
                         control={control}
                         readOnly={true}
-                        />
+                    />
 
                     {/* Inscrição Municipal */}
                     <InputComponent
@@ -61,13 +61,21 @@ export default function DataViewCompanyStep({ control }: DataCompanyStepProps) {
                         placeholder={"000000000"}
                         control={control}
                         readOnly={true}
-                        />
+                    />
 
                     {/* Data de Fundação */}
                     <InputComponent
                         label="Data de Fundação"
                         type={"date"}
                         name={"dataFundacao"}
+                        control={control}
+                        readOnly={true}
+                        />
+
+                    <InputComponent
+                        name={"tipoEmpresa"}
+                        label="Tipo de Empresa"
+                        placeholder={"Selecione um tipo"}
                         control={control}
                         readOnly={true}
                     />

@@ -34,7 +34,7 @@ interface Status {
 }
 
 
-export default function DataContractStep({ control }: DataContractStepProps) {
+export default function DataViewContractStep({ control }: DataContractStepProps) {
 
     const [contratantes, setContratantes] = useState<Contratante[]>([]);
     const [colaborators, setColaborators] = useState<Colaborator[]>([]);
@@ -76,24 +76,6 @@ export default function DataContractStep({ control }: DataContractStepProps) {
             <div>
                 <h2 className="text-2xl font-bold mb-6">Dados Básicos do Contrato</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {/* CNPJ */}
-                    {/* <InputComponent
-                        label="CNPJ"
-                        type={"text"}
-                        name={"cnpj"}
-                        placeholder={"00.000.000/0000-00"}
-                        control={control}
-                    /> */}
-
-                    {/* <SelectInput
-                        name={"cnpj"}
-                        label="CNPJ"
-                        placeholder={"00.000.000/0000-00"}
-                        control={control}
-                        options={contratantes.map(c => ({ label: c.cnpj, value: c.cnpj }))}
-                    /> */}
-
-                    {/* Razão Social */}
                     <SelectInput
                         name={"idContratante"}
                         label="Nome da Empresa"
@@ -110,13 +92,13 @@ export default function DataContractStep({ control }: DataContractStepProps) {
                         options={colaborators.map(c => ({ label: c.nome, value: c.id.toString(), key: c.id }))}
                     />
 
-                    {/* Inscrição Estadual */}
                     <InputComponent
                         label="Data de Início"
                         type={"date"}
                         name={"dtInicio"}
                         placeholder={"000000000"}
                         control={control}
+                        readOnly={true}
                     />
 
                     {/* Inscrição Municipal */}
@@ -126,6 +108,16 @@ export default function DataContractStep({ control }: DataContractStepProps) {
                         name={"dtFim"}
                         placeholder={"000000000"}
                         control={control}
+                        readOnly={true}
+                    />
+
+
+                    <InputComponent
+                        name={"tipoContrato"}
+                        label="Tipo do Contrato"
+                        placeholder={"Selecione um tipo"}
+                        control={control}
+                        readOnly={true}
                     />
 
                     <InputComponent
@@ -134,16 +126,16 @@ export default function DataContractStep({ control }: DataContractStepProps) {
                         name={"tipoServico"}
                         placeholder={"Desenvolvimento de Software"}
                         control={control}
+                        readOnly={true}
                     />
 
-                    {/* <SelectInput
-                        name={"idStatus"}
+                    <InputComponent
+                        name={"status"}
                         label="Status do Contrato"
                         placeholder={"Ativo"}
                         control={control}
-                        options={status.map(c => ({ label: c.nome.toLocaleUpperCase(), value: c.idStatus}))}
-                    /> */}
-
+                        readOnly={true}
+                    />
                 </div>
             </div>
         </div>

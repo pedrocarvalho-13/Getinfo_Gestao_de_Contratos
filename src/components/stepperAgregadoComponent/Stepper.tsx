@@ -12,6 +12,7 @@ import DataAgregadoStep from "./formDataCompany/DataAgregadoStep"
 import axios from "axios";
 import { useState } from "react";
 import { colaboratorFormData } from "@/types/colaboratorFormData"
+import router from "next/router";
 
 
 interface StepperProps {
@@ -24,10 +25,10 @@ export default function AgregadosRegistrationForm() {
 
     const { control, handleSubmit, trigger } = useForm<colaboratorFormData>({
         defaultValues: {
-                cpf: "",
-                nome: "",
-                cargo: "",
-                situacao: false,
+            cpf: "",
+            nome: "",
+            cargo: "",
+            situacao: false,
         }
     });
 
@@ -71,9 +72,9 @@ export default function AgregadosRegistrationForm() {
                                     <button
                                         type="button"
                                         className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
-                                        onClick={prevStep}
+                                        onClick={() => router.push(`/colaboradores/listarColaboradores`)}
                                     >
-                                        Anterior
+                                        Voltar
                                     </button>
                                     <button
                                         type="submit"

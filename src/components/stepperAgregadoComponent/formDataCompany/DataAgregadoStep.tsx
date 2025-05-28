@@ -24,8 +24,9 @@ export default function DataAgregadoStep({ control }: DataAgregadoStepProps) {
                                 label="CPF"
                                 type={"text"}
                                 name={"cpf"}
-                                placeholder={"00.000.000/0000-00"}
+                                placeholder={"000.000.0000-00"}
                                 control={control}
+                                maxLength={11}
                             />
                         </div>
 

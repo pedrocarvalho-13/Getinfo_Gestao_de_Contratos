@@ -24,6 +24,7 @@ type InputProps<T extends FieldValues> = {
     value?: string; // Novo
     onChange?: (value: string) => void; // Novo
     readOnly?: boolean
+    maxLength?: number
 };
 
 export const InputComponent = <T extends FieldValues>({
@@ -36,7 +37,8 @@ export const InputComponent = <T extends FieldValues>({
     options = [],
     value,
     onChange,
-    readOnly
+    readOnly,
+    maxLength
 }: InputProps<T>) => {
     const [open, setOpen] = useState(false);
 
@@ -78,6 +80,7 @@ export const InputComponent = <T extends FieldValues>({
                 placeholder={placeholder}
                 type={type}
                 readOnly={readOnly}
+                maxLength={maxLength}
                 className="w-full"
             />
         );

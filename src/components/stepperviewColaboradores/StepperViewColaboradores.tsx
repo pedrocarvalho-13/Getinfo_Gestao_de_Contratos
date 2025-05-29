@@ -1,6 +1,6 @@
 "use client"
 
-import { Users } from "lucide-react"
+import { LoaderCircle, Users } from "lucide-react"
 import { useForm } from "react-hook-form"
 
 // import { EmpresaFormData } from "@/types/EmpresaFormData"
@@ -57,7 +57,7 @@ export default function AgregadosViewForm({ params }: { params: { id: string } }
         fetchColaborador();
     }, [params.id, reset]);
 
-    if (!colaborador) return <div>Carregando...</div>;
+    if (!colaborador) return <LoaderCircle className="text-[#03a796] m-auto animate-spin size-15" />;
 
 
     const router = useRouter();

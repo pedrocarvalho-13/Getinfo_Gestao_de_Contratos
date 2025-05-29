@@ -154,7 +154,7 @@ export function DataTable<T>({ columns, data, link, contentLink, entityBasePath,
                                             const id = getIdFromRow(rowData);
 
                                             if (entityBasePath && id) {
-                                                router.push(`${entityBasePath}/${id}`);
+                                                router.push(`${entityBasePath}/view/${id}`);
                                             }
                                         }}
                                         className="bg-transparent text-[black] hover:bg-[#5fb0a8]"

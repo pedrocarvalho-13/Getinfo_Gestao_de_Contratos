@@ -1,13 +1,15 @@
-import { InputComponent } from "@/components/inputComponent/Input";
-import { InputAddComponent } from "@/components/inputComponent/InputAdd";
-import { SelectInput } from "@/components/inputComponent/Select";
-import { SelectInputS } from "@/components/inputComponent/SelectString";
-import { Textarea } from "@/components/ui/textarea";
+// import { InputComponent } from "@/components/inputComponent/Input";
+// import { InputAddComponent } from "@/components/inputComponent/InputAdd";
+// import { SelectInput } from "@/components/inputComponent/Select";
+// import { SelectInputS } from "@/components/inputComponent/SelectString";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+// import { Textarea } from "@/components/ui/textarea";
 import { ContractFormData } from "@/types/contractFormData";
+// import { Popover } from "@radix-ui/react-popover";
 import axios from "axios";
-import { Plus, Trash } from "lucide-react";
+// import { Plus, Trash } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Control, Controller, useFieldArray } from "react-hook-form";
+import { Control, useFieldArray } from "react-hook-form";
 
 interface ContactCompanyStepProps {
     control: Control<ContractFormData>;
@@ -26,8 +28,10 @@ interface Colaborador {
 interface Entregavel {
     id: number;
     nome: string;
+    dtInicio: string;
     dtFim: string;
     status: string;
+    descricao: string;
     colaborador: Colaborador[];
 }
 
@@ -49,23 +53,6 @@ export default function ContractViewEntregaveisStep({ control, idContrato }: Con
             });
     }, []);
 
-    const listaTeste = [
-        {
-            titulo: "Task 01",
-            dueTo: "10/10/2025",
-            responsavel: "Pedro",
-        },
-        {
-            titulo: "Task 01",
-            dueTo: "10/10/2025",
-            responsavel: "Pedro",
-        },
-        {
-            titulo: "Task 01",
-            dueTo: "10/10/2025",
-            responsavel: "Pedro",
-        },
-    ]
     return (
         <div className="flex h-fit w-full gap-2 items-start justify-between">
             <div className="flex flex-col h-full w-full items-start justify-start gap-1">
@@ -78,12 +65,45 @@ export default function ContractViewEntregaveisStep({ control, idContrato }: Con
                             entregavel
                                 .filter(task => task.status === "A_FAZER")
                                 .map((task) => (
-                                    <li key={task.id} className="flex flex-col w-full bg-gray-50 rounded-md p-2 shadow-2xl">
-                                        <div className="flex items-center justify-between">
-                                            <p>{task.nome}</p>
-                                            <p>{task.dtFim}</p>
-                                        </div>
-                                        <p>{task.colaborador[0]?.cpf}</p>                                    </li>
+                                    <Popover>
+                                        <PopoverTrigger className="flex w-full items-center justify-start">
+                                            <li key={task.id} className="flex flex-col w-full items-center justify-between gap-2 bg-gray-50 rounded-md p-2 shadow-2xl">
+                                                <div className="flex w-full items-center justify-between gap-2">
+                                                    <p>{task.nome}</p>
+                                                    <p>{task.dtFim}</p>
+                                                </div>
+                                                <p className="w-full text-start">{task.colaborador[0]?.nome}</p>
+                                            </li>
+                                        </PopoverTrigger>
+                                        <PopoverContent side="top" className="flex flex-col h-fit w-fit bg-gray-300 ml-[15vw]">
+                                            <div className="flex flex-col gap-4 ">
+                                                <div className="flex w-full gap-2 items-center justify-between">
+                                                    <div className="flex flex-col bg-gray-100 w-[30vw] rounded-md p-2">
+                                                        <p className="font-bold ">Título do Entregável:</p>
+                                                        <p className="">{task.nome}</p>
+                                                    </div>
+                                                    <div className="flex w-fit gap-2 text-center items-center justify-between">
+                                                        <div className="flex flex-col w-[16vw] bg-gray-100  rounded-md p-2">
+                                                            <p  className="font-bold">Inicio Desejado</p>
+                                                            <p>{task.dtInicio}</p>
+                                                        </div>
+                                                        <div className="flex flex-col bg-gray-100 w-[16vw] rounded-md p-2">
+                                                            <p  className="font-bold">Término Desejado</p>
+                                                            <p>{task.dtFim}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="flex flex-col bg-gray-100 w-full rounded-md p-2">
+                                                    <p className="font-bold">Executor Previsto:</p>
+                                                    <p className="w-full text-start">{task.colaborador[0]?.nome}</p>
+                                                </div>
+                                                <div className="flex flex-col bg-gray-100 w-full rounded-md p-2">
+                                                <p className="font-bold">Descrição da entrega:</p>
+                                                <p>{task.descricao}</p>
+                                                </div>
+                                            </div>
+                                        </PopoverContent>
+                                    </Popover>
                                 ))
                         )
                     }
@@ -99,15 +119,47 @@ export default function ContractViewEntregaveisStep({ control, idContrato }: Con
                             entregavel
                                 .filter(task => task.status === "FAZENDO")
                                 .map((task) => (
-                                    <li key={task.id} className="flex flex-col w-full bg-gray-50 rounded-md p-2 shadow-2xl">
-                                        <div className="flex items-center justify-between">
-                                            <p>{task.nome}</p>
-                                            <p>{task.dtFim}</p>
-                                        </div>
-                                        <p>{task.colaborador[0]?.cpf}</p>
-                                    </li>
+                                    <Popover>
+                                        <PopoverTrigger className="flex w-full items-center justify-start">
+                                            <li key={task.id} className="flex flex-col w-full items-center justify-between gap-2 bg-gray-50 rounded-md p-2 shadow-2xl">
+                                                <div className="flex w-full items-start justify-between gap-2">
+                                                    <p className="w-[14vw] text-start">{task.nome}</p>
+                                                    <p>{task.dtFim}</p>
+                                                </div>
+                                                <p className="w-full text-start">{task.colaborador[0]?.nome}</p>
+                                            </li>
+                                        </PopoverTrigger>
+                                        <PopoverContent className="flex flex-col h-fit w-fit bg-gray-300">
+                                            <div className="flex flex-col gap-4">
+                                                <div className="flex w-full gap-2 items-center justify-between">
+                                                    <div className="flex flex-col bg-gray-100 w-full rounded-md p-2">
+                                                        <p className="font-bold">Título do Entregável:</p>
+                                                        <p className="">{task.nome}</p>
+                                                    </div>
+                                                    <div className="flex w-fit gap-2 text-center items-center justify-between">
+                                                        <div className="flex flex-col w-[20vw] bg-gray-100  rounded-md p-2">
+                                                            <p  className="font-bold">Inicio Desejado</p>
+                                                            <p>{task.dtInicio}</p>
+                                                        </div>
+                                                        <div className="flex flex-col bg-gray-100 w-[20vw] rounded-md p-2">
+                                                            <p  className="font-bold">Término Desejado</p>
+                                                            <p>{task.dtFim}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="flex flex-col bg-gray-100 w-full rounded-md p-2">
+                                                    <p className="font-bold">Executor Previsto:</p>
+                                                    <p>{task.colaborador[0]?.nome}</p>
+                                                </div>
+                                                <div className="flex flex-col bg-gray-100 w-full rounded-md p-2">
+                                                <p className="font-bold">Descrição da entrega:</p>
+                                                <p>{task.descricao}</p>
+                                                </div>
+                                            </div>
+                                        </PopoverContent>
+                                    </Popover>
                                 ))
-                            )
+                        )
                     }
                 </ul>
             </div>
@@ -121,13 +173,45 @@ export default function ContractViewEntregaveisStep({ control, idContrato }: Con
                             entregavel
                                 .filter(task => task.status === "FEITO")
                                 .map((task) => (
-                                    <li key={task.id} className="flex flex-col w-full bg-gray-50 rounded-md p-2 shadow-2xl">
-                                        <div className="flex items-center justify-between">
-                                            <p>{task.nome}</p>
-                                            <p>{task.dtFim}</p>
-                                        </div>
-                                        <p>{task.colaborador[0]?.cpf}</p>
-                                    </li>
+                                    <Popover>
+                                        <PopoverTrigger className="flex w-full items-center justify-start">
+                                            <li key={task.id} className="flex flex-col w-full items-center justify-between gap-2 bg-gray-50 rounded-md p-2 shadow-2xl">
+                                                <div className="flex w-full items-center justify-between gap-2">
+                                                    <p>{task.nome}</p>
+                                                    <p>{task.dtFim}</p>
+                                                </div>
+                                                <p className="text-start w-full">{task.colaborador[0]?.nome}</p>
+                                            </li>
+                                        </PopoverTrigger>
+                                        <PopoverContent className="flex flex-col h-fit w-fit bg-gray-300 mr-[15vw]">
+                                            <div className="flex flex-col gap-4">
+                                                <div className="flex w-full gap-2 items-center justify-between">
+                                                    <div className="flex flex-col bg-gray-100 w-full rounded-md p-2">
+                                                        <p className="font-bold">Título do Entregável:</p>
+                                                        <p className="">{task.nome}</p>
+                                                    </div>
+                                                    <div className="flex w-fit gap-2 text-center items-center justify-between">
+                                                        <div className="flex flex-col w-[20vw] bg-gray-100  rounded-md p-2">
+                                                            <p  className="font-bold">Inicio Desejado</p>
+                                                            <p>{task.dtInicio}</p>
+                                                        </div>
+                                                        <div className="flex flex-col bg-gray-100 w-[20vw] rounded-md p-2">
+                                                            <p  className="font-bold">Término Desejado</p>
+                                                            <p>{task.dtFim}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="flex flex-col bg-gray-100 w-full rounded-md p-2">
+                                                    <p className="font-bold">Executor Previsto:</p>
+                                                    <p>{task.colaborador[0]?.nome}</p>
+                                                </div>
+                                                <div className="flex flex-col bg-gray-100 w-full rounded-md p-2">
+                                                <p className="font-bold">Descrição da entrega:</p>
+                                                <p>{task.descricao}</p>
+                                                </div>
+                                            </div>
+                                        </PopoverContent>
+                                    </Popover>
                                 ))
                         )
                     }

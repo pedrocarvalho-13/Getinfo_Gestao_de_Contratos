@@ -63,7 +63,7 @@ export function AppSidebar() {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <Link href={"/dashboard"}>
-                            <div className={`bg-transparent h-30 ${Style.header}`}></div>
+                            <div className={`bg-transparent h-30 ml-4 ${Style.header}`}></div>
                         </Link>
                     </SidebarMenuItem>
                 </SidebarMenu>

@@ -1,34 +1,56 @@
-import { Control, Controller } from "react-hook-form";
+import { Control, Controller, useFieldArray } from "react-hook-form";
 import { ContractFormData } from "@/types/contractFormData";
 import Style from "@/Styles/style.module.css";
+import axios from "axios";
+import { useState, useEffect } from "react";
 
 interface AnexoDocsStepProps {
   control: Control<ContractFormData>;
+  idContrato: string
 }
 
-export default function AnexoViewDocsStep({ control }: AnexoDocsStepProps) {
+interface docs {
+  idDocumento: string,
+  nome: string,
+  url: string
+}
+
+
+export default function AnexoViewDocsStep({ control, idContrato }: AnexoDocsStepProps) {
+
+  const [documentos, setDocumento] = useState<docs[]>([]);
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "entregaveis",
+  });
+
+  useEffect(() => {
+    axios.get(`https://gestaocontratual.onrender.com/documentos/${idContrato}`)
+      .then((response) => {
+        setDocumento(response.data);
+      })
+      .catch((error) => {
+        console.error("Erro ao buscar documento:", error);
+      });
+  }, []);
+
+  const abrirDocumento = (url: string) => {
+    window.open(url, '_blank');
+  };
+
   return (
-    <div>
-      <h2 className="text-2xl font-bold mb-6">Documentos Anexados</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Controller
-          control={control}
-          name="documentos"
-          render={({ field: { onChange, ref } }) => (
-            <input
-              type="file"
-              multiple
-              ref={ref}
-              onChange={(e) => {
-                if (e.target.files) {
-                  onChange(Array.from(e.target.files)); // envia como File[]
-                }
-              }}
-              className={`${Style.fileInput} block placeholder-gray-500 cursor-pointer border border-gray-200`}
-            />
-          )}
-        />
-      </div>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {documentos.map(doc => (
+        <div
+          key={doc.idDocumento}
+          className="border rounded-lg p-4 shadow hover:shadow-lg cursor-pointer"
+          onClick={() => abrirDocumento(doc.url)}
+        >
+          <h2 className="text-lg font-bold">{doc.nome}</h2>
+          
+        </div>
+      ))}
     </div>
   );
 }

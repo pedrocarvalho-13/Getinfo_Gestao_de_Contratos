@@ -1,6 +1,6 @@
 "use client"
 
-import { CheckIcon, ClipboardMinus, MapPin, Phone, Scale } from "lucide-react"
+import { CheckIcon, ClipboardMinus, LoaderCircle, MapPin, Phone, Scale } from "lucide-react"
 import { useForm } from "react-hook-form"
 
 // import { EmpresaFormData } from "@/types/EmpresaFormData"
@@ -82,7 +82,7 @@ export default function EmpresasViewForm({ params }: { params: { idContratante: 
         fetchEmpresa();
     }, [params.idContratante, reset]);
 
-    if (!empresa) return <div>Carregando...</div>;
+    if (!empresa) return <LoaderCircle className="text-[#03a796] m-auto animate-spin size-15" />;
 
 
     const router = useRouter();

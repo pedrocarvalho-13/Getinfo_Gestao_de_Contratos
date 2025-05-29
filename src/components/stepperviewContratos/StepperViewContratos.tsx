@@ -1,6 +1,6 @@
 "use client"
 
-import { CheckIcon, ClipboardMinus, MapPin, Phone, Scale } from "lucide-react"
+import { CheckIcon, ClipboardMinus, LoaderCircle, MapPin, Phone, Scale } from "lucide-react"
 import { useForm } from "react-hook-form"
 
 // import { EmpresaFormData } from "@/types/EmpresaFormData"
@@ -34,7 +34,7 @@ interface StepperProps {
 export default function EmpresasViewForm({ params }: { params: { idContrato: string } }) {
     const [currentStep, setCurrentStep] = useState<number>(1);
 
-    const [empresa, setEmpresa] = useState<ContractFormData | null>(null);
+    const [contrato, setContrato] = useState<ContractFormData | null>(null);
 
     const { control, reset, trigger } = useForm<ContractFormData>({
         defaultValues: {
@@ -90,14 +90,14 @@ export default function EmpresasViewForm({ params }: { params: { idContrato: str
     useEffect(() => {
         const fetchEmpresa = async () => {
             const res = await axios.get(`https://gestaocontratual.onrender.com/contratos/${params.idContrato}`);
-            setEmpresa(res.data);
+            setContrato(res.data);
             reset(res.data); // ← Aqui você injeta os valores nos inputs via react-hook-form
         };
 
         fetchEmpresa();
     }, [params.idContrato, reset]);
 
-    if (!empresa) return <div>Carregando...</div>;
+    if (!contrato) return <LoaderCircle className="text-[#03a796] m-auto animate-spin size-15" />;
 
 
     const router = useRouter();
@@ -134,7 +134,7 @@ export default function EmpresasViewForm({ params }: { params: { idContrato: str
                         )}
                         {currentStep === 2 && (
                             <div>
-                                <ColaboradoresViewContractStep control={control} />
+                                <ColaboradoresViewContractStep control={control} idContrato={params.idContrato} />
                                 <div className="my-8 flex items-center justify-between">
                                     <button
                                         type="button"
@@ -164,12 +164,19 @@ export default function EmpresasViewForm({ params }: { params: { idContrato: str
                                     >
                                         Anterior
                                     </button>
+                                    <button
+                                        type="button"
+                                        className="px-4 py-2 bg-[#5fe0d5] text-black rounded-md hover:bg-[#4bc0b5]"
+                                        onClick={nextStep}
+                                    >
+                                        Próximo
+                                    </button>
                                 </div>
                             </div>
                         )}
                         {currentStep === 4 && (
                             <div >
-                                <AnexoViewDocsStep control={control} />
+                                <AnexoViewDocsStep control={control} idContrato={params.idContrato} />
                                 <div className="my-8 flex items-center justify-between">
                                     <button
                                         type="button"

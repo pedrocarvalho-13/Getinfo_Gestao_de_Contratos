@@ -1,0 +1,240 @@
+"use client"
+
+import { CheckIcon, ClipboardMinus, LoaderCircle, MapPin, Phone, Scale } from "lucide-react"
+import { useForm, SubmitHandler } from "react-hook-form"
+
+import { EmpresaFormData } from "@/types/EmpresaFormData"
+// import { defaultValues } from "@/utils/formDefaults"
+
+import DataCompanyStep from "./formDataCompany/DataCompanyStep"
+import AdressCompanyStep from "./formAdressDataCompany/AdressCompanyStep"
+import ContactCompanyStep from "./formContactDataCompany/ContactCompanyStep"
+import LegalCompanyStep from "./formLegalDataCompany/LegalCompanyStep"
+import Link from "next/link"
+
+import axios from "axios";
+import { useEffect, useState } from "react";
+import router from "next/router"
+
+interface StepperProps {
+    currentStep: number;
+}
+
+
+export default function EmpresaUpdateForm({ params }: { params: { idContratante: string } }) {
+    const [currentStep, setCurrentStep] = useState<number>(1);
+    const [empresa, setEmpresa] = useState<EmpresaFormData | null>(null);
+
+    const { control, reset, handleSubmit, trigger } = useForm<EmpresaFormData>({
+        defaultValues: {
+            cnpj: "",
+            razaoSocial: "",
+            nomeFantasia: "",
+            inscricaoEstadual: "",
+            inscricaoMunicipal: "",
+            emailCorporativo: "",
+            site: "",
+            dataFundacao: "",
+            telefone: "",
+            telefoneFixo: "",
+            cep: "",
+            bairro: "",
+            numeroDaCasa: "",
+            rua: "",
+            estado: "",
+            tipoEmpresa: 0,
+            cidade: "",
+            cpfLegal: "",
+            responsavelLegalCpf: "",
+            responsavelLegalNome: "",
+            responsavelLegalEmail: "",
+        }
+    });
+
+    const nextStep = async () => {
+        const isValid = await trigger(); // Valida os campos atuais antes de avançar
+        if (!isValid) return;
+
+        setCurrentStep((prev) => Math.min(prev + 1, 5));
+    };
+
+    const prevStep = () => {
+        setCurrentStep((prev) => Math.max(prev - 1, 1));
+    };
+
+    useEffect(() => {
+        const fetchEmpresa = async () => {
+            const res = await axios.get(`https://gestaocontratual.onrender.com/contratantes/${params.idContratante}`);
+            setEmpresa(res.data);
+            reset(res.data); // ← Aqui você injeta os valores nos inputs via react-hook-form
+        };
+
+        fetchEmpresa();
+    }, [params.idContratante, reset]);
+
+    if (!empresa) return <LoaderCircle className="text-[#03a796] m-auto animate-spin size-15" />;
+
+    const onSubmit: SubmitHandler<EmpresaFormData> = async (data) => {
+        try {
+            const response = await axios.put(`https://gestaocontratual.onrender.com/contratantes/${params.idContratante}`, data);
+            console.log("Empresa atualizada com sucesso:", response.data);
+            alert("Empresa atualizada com sucesso!");
+        } catch (error) {
+            console.error("Erro ao atualizar empresa:", error);
+            alert("Erro ao atualizar empresa.");
+        }
+    };
+
+
+
+    return (
+        <div className="container mx-auto py-8 px-4">
+            <div className="max-w-5xl mx-auto bg-white rounded-lg shadow-md">
+                <div className="p-6">
+                    <Stepper currentStep={currentStep} />
+
+                    <form onSubmit={handleSubmit(onSubmit)} className="mt-8">
+                        {currentStep === 1 && (
+                            <div>
+
+                                <DataCompanyStep control={control} />
+                                <div className="my-8 flex items-center justify-between">
+
+                                    <button
+                                        type="button"
+                                        className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
+                                        onClick={() => router.push(`/empresas/listarEmpresas`)}
+                                    >
+                                        Voltar
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="px-4 py-2 bg-[#5fe0d5] text-black rounded-md hover:bg-[#4bc0b5]"
+                                        onClick={nextStep}
+                                    >
+                                        Próximo
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                        {currentStep === 2 && (
+                            <div>
+                                <AdressCompanyStep control={control} />
+                                <div className="my-8 flex items-center justify-between" >
+
+                                    <button
+                                        type="button"
+                                        className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
+                                        onClick={prevStep}
+                                    >
+                                        Anterior
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="px-4 py-2 bg-[#5fe0d5] text-black rounded-md hover:bg-[#4bc0b5]"
+                                        onClick={nextStep}
+                                    >
+                                        Próximo
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                        {currentStep === 3 && (
+                            <div>
+                                <ContactCompanyStep control={control} />
+                                <div className="my-8 flex items-center justify-between">
+                                    <button
+                                        type="button"
+                                        className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
+                                        onClick={prevStep}
+                                    >
+                                        Anterior
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="px-4 py-2 bg-[#5fe0d5] text-black rounded-md hover:bg-[#4bc0b5]"
+                                        onClick={nextStep}
+                                    >
+                                        Próximo
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                        {currentStep === 4 && (
+                            <div >
+                                <LegalCompanyStep control={control} />
+                                <div className="my-8 flex items-center justify-between">
+
+                                    <button
+                                        type="button"
+                                        className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
+                                        onClick={prevStep}
+                                    >
+                                        Anterior
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        className="px-4 py-2 bg-[#5fe0d5] text-black rounded-md hover:bg-[#4bc0b5]"
+                                    >
+                                        Salvar
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </form>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function Stepper({ currentStep }: StepperProps) {
+    return (
+        <ol className="flex items-center justify-between w-full">
+            {[ClipboardMinus, MapPin, Phone, Scale].map((Icon, index) => {
+                const step = index + 1;
+                const active = currentStep >= step;
+                const done = currentStep > step;
+
+                if (step !== 4) {
+                    return (
+                        <li
+                            key={step}
+                            className={`flex w-full items-center ${active ? "text-[#05b7a5]" : "text-gray-500"
+                                } after:content-[''] after:w-full after:h-1 after:border-b after:border-4 after:inline-block ${active
+                                    ? "after:border-[#5fe0d5]/30"
+                                    : "after:border-gray-100 dark:after:border-gray-700"
+                                }`}
+                        >
+                            <span
+                                className={`flex items-center justify-center w-10 h-10 rounded-full lg:h-12 lg:w-12 shrink-0 ${active ? "bg-[#5fe0d5]/15" : "bg-gray-100 dark:bg-gray-700"
+                                    }`}
+                            >
+                                {done ? (
+                                    <CheckIcon className="w-5 h-5" />
+                                ) : (
+                                    <Icon className="w-5 h-5" />
+                                )}
+                            </span>
+                        </li>
+                    );
+                } else {
+                    return (
+                        <li
+                            key={step}
+                            className={`flex items-center ${active ? "text-[#05b7a5]" : "text-gray-500"
+                                }`}
+                        >
+                            <span
+                                className={`flex items-center justify-center w-10 h-10 rounded-full lg:h-12 lg:w-12 shrink-0 ${active ? "bg-[#5fe0d5]/15" : "bg-gray-100 dark:bg-gray-700"
+                                    }`}
+                            >
+                                <Scale className="w-5 h-5" />
+                            </span>
+                        </li>
+                    );
+                }
+            })}
+        </ol>
+    );
+}

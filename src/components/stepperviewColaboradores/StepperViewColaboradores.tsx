@@ -36,17 +36,6 @@ export default function AgregadosViewForm({ params }: { params: { id: string } }
         }
     });
 
-    // const nextStep = async () => {
-    //     const isValid = await trigger(); // Valida os campos atuais antes de avançar
-    //     if (!isValid) return;
-
-    //     setCurrentStep((prev) => Math.min(prev + 1, 5));
-    // };
-
-    // const prevStep = () => {
-    //     setCurrentStep((prev) => Math.max(prev - 1, 1));
-    // };
-
     useEffect(() => {
         const fetchColaborador = async () => {
             const res = await axios.get(`https://gestaocontratual.onrender.com/colaboradores/${params.id}`);

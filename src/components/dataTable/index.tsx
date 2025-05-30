@@ -145,9 +145,19 @@ export function DataTable<T>({ columns, data, link, contentLink, entityBasePath,
 
                                     ))}
                                     {/* <RowActions /> */}
-                                    <Button className="bg-transparent text-[black] hover:bg-[#5fb0a8]">
+                                    <Button 
+                                    onClick={() => {
+                                        const rowData = row.original;
+                                        const id = getIdFromRow(rowData);
+
+                                        if (entityBasePath && id) {
+                                            router.push(`${entityBasePath}/update/${id}`);
+                                        }
+                                    }}
+                                    className="bg-transparent text-[black] hover:bg-[#5fb0a8]">
                                         <Edit />
                                     </Button>
+
                                     <Button
                                         onClick={() => {
                                             const rowData = row.original;
@@ -161,6 +171,7 @@ export function DataTable<T>({ columns, data, link, contentLink, entityBasePath,
                                     >
                                         <Clipboard />
                                     </Button>
+                                    
                                     <Button className="bg-transparent text-[black] hover:bg-[#5fb0a8]" onClick={() => {
                                         const rowData = row.original;
                                         const id = getIdFromRow(rowData);

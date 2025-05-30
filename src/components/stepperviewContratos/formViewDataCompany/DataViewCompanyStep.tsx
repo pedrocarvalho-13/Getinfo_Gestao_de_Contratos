@@ -1,15 +1,10 @@
 'use client'
 
 import { InputComponent } from "@/components/inputComponent/Input";
-import { SelectInput } from "@/components/inputComponent/Select";
 import { ContractFormData } from "@/types/contractFormData";
-import { Control } from "react-hook-form";
+import { Control, useWatch } from "react-hook-form";
+import { useEffect, useState } from "react";
 
-import axios from "axios";
-import { useState, useEffect } from "react";
-import { SelectInputS } from "@/components/inputComponent/SelectString";
-
-// import { formDataProps } from "@/types/formPropsType";
 
 interface DataContractStepProps {
     control: Control<ContractFormData>;
@@ -19,77 +14,64 @@ interface Contratante {
     idContratante: number;
     cnpj: string;
     nomeFantasia: string;
+    tipoEmpresa: number;
 }
 
-interface Colaborator {
-    id: number;
-    nome: string;
-    cargo: string;
-}
 
-interface Status {
-    idStatus: number;
-    nome: string;
-    descricao: string;
-}
 
 
 export default function DataViewContractStep({ control }: DataContractStepProps) {
 
-    const [contratantes, setContratantes] = useState<Contratante[]>([]);
-    const [colaborators, setColaborators] = useState<Colaborator[]>([]);
-    const [status, setStatus] = useState<Status[]>([]);
+    const contratanteData = useWatch({
+        control,
+        name: "contratante"
+    });
 
+    const statusContrato = useWatch({
+        control,
+        name: "status" 
+    });
 
-    useEffect(() => {
-        axios.get("https://gestaocontratual.onrender.com/contratantes") // <-- Altere a URL para sua rota real
-            .then((response) => {
-                setContratantes(response.data);
-            })
-            .catch((error) => {
-                console.error("Erro ao buscar contratantes:", error);
-            });
-    }, []);
+    const [displayedTipoContrato, setDisplayedTipoContrato] = useState<string>("")
 
     useEffect(() => {
-        axios.get("https://gestaocontratual.onrender.com/colaboradores") // <-- Altere a URL para sua rota real
-            .then((response) => {
-                setColaborators(response.data);
-            })
-            .catch((error) => {
-                console.error("Erro ao buscar colaboradores:", error);
-            });
-    }, []);
-
-    useEffect(() => {
-        axios.get("https://gestaocontratual.onrender.com/statusContrato/listarStatus") // <-- Altere a URL para sua rota real
-            .then((response) => {
-                setStatus(response.data);
-            })
-            .catch((error) => {
-                console.error("Erro ao buscar status:", error);
-            });
-    }, []);
+        console.log("Dados do Contratante (via useWatch):", contratanteData);
+        if (contratanteData) {
+            console.log("Tipo da Empresa (contratanteData.tipoEmpresa):", contratanteData.tipoEmpresa);
+        }
+        if (contratanteData) {
+            if (contratanteData.tipoEmpresa === 0) {
+                setDisplayedTipoContrato("Público");
+            } else if (contratanteData.tipoEmpresa === 1) {
+                setDisplayedTipoContrato("Privado");
+            } else {
+                setDisplayedTipoContrato(""); 
+            }
+        } else {
+            setDisplayedTipoContrato("");
+        }
+        console.log(displayedTipoContrato)
+    }, [contratanteData]);
 
     return (
         <div className="space-y-8">
             <div>
                 <h2 className="text-2xl font-bold mb-6">Dados Básicos do Contrato</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <SelectInput
-                        name={"idContratante"}
+                    <InputComponent
+                        name={"contratante.nomeFantasia"} 
                         label="Nome da Empresa"
                         placeholder={"Informe o nome da empresa"}
                         control={control}
-                        options={contratantes.map(c => ({ label: c.nomeFantasia, value: c.idContratante }))}
+                        readOnly={true}
                     />
 
-                    <SelectInputS
+                    <InputComponent
                         name={"responsavel"}
                         label="Responsável pelo Contrato"
                         placeholder={"Nome Completo"}
                         control={control}
-                        options={colaborators.map(c => ({ label: c.nome, value: c.id.toString(), key: c.id }))}
+                        readOnly={true}
                     />
 
                     <InputComponent
@@ -101,7 +83,6 @@ export default function DataViewContractStep({ control }: DataContractStepProps)
                         readOnly={true}
                     />
 
-                    {/* Inscrição Municipal */}
                     <InputComponent
                         label="Data Final"
                         type={"date"}
@@ -111,13 +92,11 @@ export default function DataViewContractStep({ control }: DataContractStepProps)
                         readOnly={true}
                     />
 
-
                     <InputComponent
-                        name={"tipoContrato"}
+                        name={"tipoContratoCalculado"} 
                         label="Tipo do Contrato"
-                        placeholder={"Selecione um tipo"}
-                        control={control}
                         readOnly={true}
+                        value={displayedTipoContrato} 
                     />
 
                     <InputComponent

@@ -15,10 +15,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { ContractFormData } from "@/types/contractFormData";
-import ContactViewCompanyStep from "../stepperviewEmpresas/formViewContactCompany/FormViewContactCompany";
-import LegalViewCompanyStep from "../stepperviewEmpresas/formViewLegalCompany/formViewLegalCompany";
 import DataViewContractStep from "./formViewDataCompany/DataViewCompanyStep";
-import PostosViewContractStep from "./formViewPostosContract/PostosViewContract";
 import ColaboradoresViewContractStep from "./formViewColaboradoresContract/ColaboradoresViewContractStep";
 import ContractViewEntregaveisStep from "./formViewEntregaveisContract/ContactViewEntregaveisStep";
 import AnexoViewDocsStep from "./formViewAnexoDocsContract/AnexoViewDocsStep";

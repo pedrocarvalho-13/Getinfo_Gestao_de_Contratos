@@ -66,7 +66,7 @@ export default function ContractViewEntregaveisStep({ control, idContrato }: Con
                                 .filter(task => task.status === "A_FAZER")
                                 .map((task) => (
                                     <Popover>
-                                        <PopoverTrigger className="flex w-full items-center justify-start">
+                                        <PopoverTrigger className="flex w-full items-center justify-start cursor-pointer">
                                             <li key={task.id} className="flex flex-col w-full items-center justify-between gap-2 bg-gray-50 rounded-md p-2 shadow-2xl">
                                                 <div className="flex w-full items-center justify-between gap-2">
                                                     <p>{task.nome}</p>
@@ -120,7 +120,7 @@ export default function ContractViewEntregaveisStep({ control, idContrato }: Con
                                 .filter(task => task.status === "FAZENDO")
                                 .map((task) => (
                                     <Popover>
-                                        <PopoverTrigger className="flex w-full items-center justify-start">
+                                        <PopoverTrigger className="flex w-full items-center justify-start cursor-pointer">
                                             <li key={task.id} className="flex flex-col w-full items-center justify-between gap-2 bg-gray-50 rounded-md p-2 shadow-2xl">
                                                 <div className="flex w-full items-start justify-between gap-2">
                                                     <p className="w-[14vw] text-start">{task.nome}</p>
@@ -174,7 +174,7 @@ export default function ContractViewEntregaveisStep({ control, idContrato }: Con
                                 .filter(task => task.status === "FEITO")
                                 .map((task) => (
                                     <Popover>
-                                        <PopoverTrigger className="flex w-full items-center justify-start">
+                                        <PopoverTrigger className="flex w-full items-center justify-start cursor-pointer">
                                             <li key={task.id} className="flex flex-col w-full items-center justify-between gap-2 bg-gray-50 rounded-md p-2 shadow-2xl">
                                                 <div className="flex w-full items-center justify-between gap-2">
                                                     <p>{task.nome}</p>

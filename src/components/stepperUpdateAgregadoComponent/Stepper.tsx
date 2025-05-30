@@ -19,8 +19,14 @@ interface StepperProps {
     currentStep: number;
 }
 
+interface AgregadosUpdateFormProps {
+    params: {
+        id: string;
+    };
+}
 
-export default function AgregadosUpdateForm({ params }: { params: { id: string } }) {
+
+export default function AgregadosUpdateForm({ params }: AgregadosUpdateFormProps) {
     const [currentStep, setCurrentStep] = useState<number>(1);
     const [colaborador, setColaborador] = useState<colaboratorFormData | null>(null);
 

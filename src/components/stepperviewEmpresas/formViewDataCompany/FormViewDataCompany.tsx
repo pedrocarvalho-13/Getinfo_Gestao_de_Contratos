@@ -1,5 +1,6 @@
 import { InputComponent } from "@/components/inputComponent/Input";
 import { EmpresaFormData } from "@/types/EmpresaFormData";
+import { useState, useEffect } from "react";
 import { Control } from "react-hook-form";
 // import { formDataProps } from "@/types/formPropsType";
 
@@ -8,6 +9,23 @@ interface DataCompanyStepProps {
 }
 
 export default function DataViewCompanyStep({ control }: DataCompanyStepProps) {
+
+    const [displayedTipoContrato, setDisplayedTipoContrato] = useState<string>("")
+
+
+    useEffect(() => {
+        console.log(control._defaultValues.tipoEmpresa)
+        if (control._defaultValues.tipoEmpresa === 0) {
+                setDisplayedTipoContrato("Público");
+            } else if (control._defaultValues.tipoEmpresa === 1) {
+                setDisplayedTipoContrato("Privado");
+            } else {
+                setDisplayedTipoContrato(""); 
+            }
+        
+        console.log(displayedTipoContrato)
+    }, [displayedTipoContrato]);
+
     return (
         <div className="space-y-8">
             <div>
@@ -70,13 +88,13 @@ export default function DataViewCompanyStep({ control }: DataCompanyStepProps) {
                         name={"dataFundacao"}
                         control={control}
                         readOnly={true}
-                        />
+                    />
 
                     <InputComponent
                         name={"tipoEmpresa"}
                         label="Tipo de Empresa"
                         placeholder={"Selecione um tipo"}
-                        control={control}
+                        value={displayedTipoContrato}
                         readOnly={true}
                     />
                 </div>

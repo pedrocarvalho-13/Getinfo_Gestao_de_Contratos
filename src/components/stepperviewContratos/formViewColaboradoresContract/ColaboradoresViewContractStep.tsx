@@ -51,9 +51,9 @@ export default function ColaboradoresContractStep({ control, idContrato }: Colab
     return (
         <div>
             <h1 className="py-6 text-xl font-bold">Agregados</h1>
-        <div className="grid grid-cols-2 w-full ml-4">
+        <div className="grid grid-cols-2 w-full ml-4 ">
             {colaborators.map((col) => (
-                <div className="flex gap-4 w-fit border rounded-lg p-4 shadow hover:shadow-lg cursor-pointer">
+                <div className="flex gap-4 w-[34vw] mb-4 h-fit border items-center  rounded-lg p-4 shadow hover:shadow-lg cursor-pointer">
                         
                     <div className="flex flex-col">
                         <p className="font-bold">Nome</p>

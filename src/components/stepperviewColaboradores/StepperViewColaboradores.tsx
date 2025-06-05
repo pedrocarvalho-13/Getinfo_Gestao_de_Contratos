@@ -15,6 +15,7 @@ import { colaboratorFormData } from "@/types/colaboratorFormData"
 // import DataAgregadoStep from "../stepperAgregadoComponent/formDataCompany/DataAgregadoStep";
 import { useRouter } from "next/navigation";
 import DataAgregadoViewStep from "./formViewAgregado/FormViewAgregado";
+import Link from "next/link";
 
 
 interface StepperProps {
@@ -65,13 +66,12 @@ export default function AgregadosViewForm({ params }: { params: { id: string } }
                             <DataAgregadoViewStep control={control} />
                             <div className="my-8 flex items-center justify-between">
 
-                                <button
-                                    type="button"
-                                    className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
-                                    onClick={() => router.push(`/colaboradores/listarColaboradores`)}
+                                <Link
+                                    href={"../listarColaboradores"}
+                                    className="px-4 py-2 bg-[#5fe0d5] text-gray-800 rounded-md hover:bg-[#4bc0b5]"
                                 >
-                                    Voltar
-                                </button>
+                                    Sair
+                                </Link>
 
                             </div>
                         </div>

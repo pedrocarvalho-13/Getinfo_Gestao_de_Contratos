@@ -13,6 +13,8 @@ import { useEffect, useState } from "react";
 import { colaboratorFormData } from "@/types/colaboratorFormData"
 import DataUpdateAgregadoStep from "./formDataCompany/DataUpdateAgregadoStep";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import ModalForm from "../modalForm/ModalForm";
 
 
 interface StepperProps {
@@ -29,6 +31,12 @@ interface AgregadosUpdateFormProps {
 export default function AgregadosUpdateForm({ params }: AgregadosUpdateFormProps) {
     const [currentStep, setCurrentStep] = useState<number>(1);
     const [colaborador, setColaborador] = useState<colaboratorFormData | null>(null);
+
+    const [showModal, setShowModal] = useState(false);
+    const [modalMessage, setModalMessage] = useState("");
+    const [modalHref, setModalHref] = useState("");
+
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const { control, reset, handleSubmit, trigger } = useForm<colaboratorFormData>({
         defaultValues: {
@@ -67,14 +75,24 @@ export default function AgregadosUpdateForm({ params }: AgregadosUpdateFormProps
 
     const onSubmit: SubmitHandler<colaboratorFormData> = async (data) => {
         console.log(data)
+
+        setIsSubmitting(true);
         try {
             const response = await axios.put(`https://gestaocontratual.onrender.com/colaboradores/${params.id}`, data);
             console.log("Colaborador atualizado com sucesso:", response.data);
             alert("Colaborador atualizado com sucesso!");
+            setModalMessage("Colaborador atualizado com sucesso!");
+            setModalHref("listarColaboradores");
+            setShowModal(true);
         } catch (error) {
             console.log(data)
             console.error("Erro ao atualizar colaborador:", error);
-            alert("Erro ao atualizar colaborador.");
+            // alert("Erro ao atualizar colaborador.");
+            setModalMessage("Erro ao atualizar colaborador");
+            setModalHref("listarColaboradores");
+            setShowModal(true);
+        } finally {
+            setIsSubmitting(false)
         }
     };
     return (
@@ -83,32 +101,43 @@ export default function AgregadosUpdateForm({ params }: AgregadosUpdateFormProps
                 <div className="p-6">
                     <Stepper currentStep={currentStep} />
 
+                    {/* ✅ ModalForm sendo renderizado condicionalmente */}
+                    {showModal && (
+                        <div className="fixed inset-0 flex items-center justify-center  z-50">
+
+                            <ModalForm
+                                menssagem={modalMessage}
+                                href={modalHref}
+                                onClose={() => setShowModal(false)}
+                            />
+                        </div>
+                    )}
                     <form onSubmit={handleSubmit(onSubmit)} className="mt-8">
                         {currentStep === 1 && (
                             <div>
 
-                                <DataUpdateAgregadoStep control={control}/>
+                                <DataUpdateAgregadoStep control={control} />
                                 <div className="my-8 flex items-center justify-between">
 
-                                    <button
-                                        type="button"
-                                        className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
-                                        onClick={() => router.push(`/colaboradores/listarColaboradores`)}
+                                    <Link
+                                        href={"../listarColaboradores"}
+                                        className="px-4 py-2 bg-[#5fe0d5] text-gray-800 rounded-md hover:bg-[#4bc0b5]"
                                     >
-                                        Voltar
-                                    </button>
+                                        Sair
+                                    </Link>
                                     <button
                                         type="submit"
-                                        className="px-4 py-2 bg-[#5fe0d5] text-black rounded-md hover:bg-[#4bc0b5]"
+                                        disabled={isSubmitting}
+                                        className={`px-4 py-2 rounded-md ${isSubmitting ? "bg-gray-400 cursor-not-allowed" : "bg-[#5fe0d5] hover:bg-[#4bc0b5]"} text-black`}
                                     >
                                         Salvar
                                     </button>
-                                    <button
+                                    {/* <button
                                         type="button"
                                         onClick={handleSubmit((data) => console.log("Dados:", data))}
                                     >
                                         Ver dados
-                                    </button>
+                                    </button> */}
                                 </div>
                             </div>
                         )}

@@ -35,6 +35,7 @@ import { Button } from "../ui/button"
 import { ChevronLeft, ChevronRight, Clipboard, Edit, LoaderCircle, Plus, Trash2 } from "lucide-react"
 
 import { useRouter } from "next/navigation";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip"
 
 interface DataTableProps<T> {
     columns: ColumnDef<T>[];
@@ -51,11 +52,9 @@ interface DataTableProps<T> {
 // }
 
 export function DataTable<T>({ columns, data, link, contentLink, entityBasePath, onDelete }: DataTableProps<T>) {
-    const [sorting] = React.useState<SortingState>([])
-
-    const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-        []
-    )
+    const [sorting] = React.useState<SortingState>([]);
+    const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+    const [loadingId, setLoadingId] = React.useState<{ id: number; action: string } | null>(null);
 
     const router = useRouter();
 
@@ -71,123 +70,153 @@ export function DataTable<T>({ columns, data, link, contentLink, entityBasePath,
             columnFilters
         },
         globalFilterFn: (row, columnId, filterValue) => {
-            return String(row.getValue(columnId))
-                .toLowerCase()
-                .includes(filterValue.toLowerCase());
+            return String(row.getValue(columnId)).toLowerCase().includes(filterValue.toLowerCase());
         }
-    })
-
+    });
 
     function getIdFromRow(row: any): number | null {
         const possibleKeys = ['id', 'idContrato', 'idContratante'];
-
         for (const key of possibleKeys) {
             if (row[key]) {
                 return row[key];
             }
         }
-
         return null;
     }
 
     return (
-        <div className="flex flex-col w-full h-[90vh] bg-gray-50  justify-between p-4 gap-2 rounded-tl-xl">
-            <div className="h-full ">
-
+        <div className="flex flex-col w-full h-[90vh] bg-gray-50 justify-between p-4 gap-2 rounded-tl-xl">
+            <div className="h-full">
                 <div className="flex justify-between items-center py-2">
-                    <Link href={link} className="flex items-center justify-center gap-2 w-fit px-4 py-1 rounded-md text-[#4ccec1] text-sm">
+                    <Link href={link} className="flex items-center justify-center gap-2 w-fit px-4 py-2 rounded-md bg-[#4ccec1] hover:bg-[#4bc0b5] text-sm">
                         <Plus className="size-4" /> {contentLink}
                     </Link>
                     <div className="flex flex-row items-center justify-center w-fit h-fit gap-2">
-
                         <p>Filtros: </p>
                         <Input
                             placeholder="Filtre por algo específico"
                             value={table.getState().globalFilter ?? ""}
-                            onChange={(event) => table.setGlobalFilter(event.target.value)
-                            }
-                            className="w-[20vw] border-gray-500 bg-white "
+                            onChange={(event) => table.setGlobalFilter(event.target.value)}
+                            className="w-[20vw] border-gray-500 bg-white"
                         />
                     </div>
                 </div>
-                <Table className="w-full  ">
-                    <TableHeader >
+
+                <Table className="w-full">
+                    <TableHeader>
                         {table.getHeaderGroups().map((headerGroup: HeaderGroup<T>) => (
-                            <TableRow key={headerGroup.id} className="w-full" >
-                                {headerGroup.headers.map((header) => {
-                                    return (
-                                        <TableHead key={header.id} className="text-center" >
-                                            {header.isPlaceholder
-                                                ? null
-                                                : flexRender(
-                                                    header.column.columnDef.header,
-                                                    header.getContext()
-                                                )}
-                                        </TableHead>
-                                    )
-                                })}
-                                <p className="mt-5 text-foreground h-10 px-2 text-left align-middle font-medium whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">Ações</p>
+                            <TableRow key={headerGroup.id} className="w-full">
+                                {headerGroup.headers.map((header) => (
+                                    <TableHead key={header.id} className="text-center">
+                                        {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                                    </TableHead>
+                                ))}
+                                <p className="flex  text-foreground h-10 px-2 text-center items-center  justify-center font-medium whitespace-nowrap">Ações</p>
                             </TableRow>
                         ))}
                     </TableHeader>
+
                     <TableBody>
                         {table.getRowModel().rows?.length ? (
-                            table.getRowModel().rows.map((row: Row<T>) => (
-                                <TableRow
-                                    className="w-full hover:bg-[#72F2E5] active:bg-[#76FFF1] justify-between items-center"
-                                    key={row.id}
-                                    data-state={row.getIsSelected() && "selected"}
-                                >
-                                    {row.getVisibleCells().map((cell: Cell<T, unknown>) => (
-                                        <TableCell key={cell.id} className="  justify-between items-center text-center  ">
-                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                        </TableCell>
+                            table.getRowModel().rows.map((row: Row<T>) => {
+                                const rowData = row.original;
+                                const id = getIdFromRow(rowData);
 
-                                    ))}
-                                    {/* <RowActions /> */}
-                                    <Button 
-                                    onClick={() => {
-                                        const rowData = row.original;
-                                        const id = getIdFromRow(rowData);
+                                return (
+                                    <TableRow key={row.id} className="w-full hover:bg-[#72F2E5] active:bg-[#76FFF1]">
+                                        {row.getVisibleCells().map((cell: Cell<T, unknown>) => (
+                                            <TableCell key={cell.id} className="text-center">
+                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                            </TableCell>
+                                        ))}
+                                        <div className="flex items-center justify-center">
 
-                                        if (entityBasePath && id) {
-                                            router.push(`${entityBasePath}/update/${id}`);
-                                        }
-                                    }}
-                                    className="bg-transparent text-[black] hover:bg-[#5fb0a8]">
-                                        <Edit />
-                                    </Button>
+                                            {/* Edit Button */}
+                                            <Tooltip>
+                                                <TooltipTrigger>
+                                                    <Button
+                                                        onClick={async () => {
+                                                            if (id) {
+                                                                setLoadingId({ id, action: "edit" });
+                                                                router.push(`${entityBasePath}/update/${id}`);
+                                                            }
+                                                        }}
+                                                        className="bg-transparent text-[black] hover:bg-[#5fb0a8]"
+                                                        disabled={loadingId?.id === id}
+                                                    >
+                                                        {loadingId?.id === id && loadingId?.action === "edit" ? (
+                                                            <LoaderCircle className="animate-spin" />
+                                                        ) : (
+                                                            <Edit />
+                                                        )}
+                                                    </Button>
+                                                </TooltipTrigger>
+                                                <TooltipContent>
+                                                    <p>Editar</p>
+                                                </TooltipContent>
+                                            </Tooltip>
 
-                                    <Button
-                                        onClick={() => {
-                                            const rowData = row.original;
-                                            const id = getIdFromRow(rowData);
+                                            <Tooltip>
+                                                <TooltipTrigger>
 
-                                            if (entityBasePath && id) {
-                                                router.push(`${entityBasePath}/view/${id}`);
-                                            }
-                                        }}
-                                        className="bg-transparent text-[black] hover:bg-[#5fb0a8]"
-                                    >
-                                        <Clipboard />
-                                    </Button>
-                                    
-                                    <Button className="bg-transparent text-[black] hover:bg-[#5fb0a8]" onClick={() => {
-                                        const rowData = row.original;
-                                        const id = getIdFromRow(rowData);
+                                                    {/* View Button */}
+                                                    <Button
+                                                        onClick={async () => {
+                                                            if (id) {
+                                                                setLoadingId({ id, action: "view" });
+                                                                router.push(`${entityBasePath}/view/${id}`);
+                                                            }
+                                                        }}
+                                                        className="bg-transparent text-[black] hover:bg-[#5fb0a8]"
+                                                        disabled={loadingId?.id === id}
+                                                    >
+                                                        {loadingId?.id === id && loadingId?.action === "view" ? (
+                                                            <LoaderCircle className="animate-spin" />
+                                                        ) : (
+                                                            <Clipboard />
+                                                        )}
+                                                    </Button>
+                                                </TooltipTrigger>
+                                                <TooltipContent>
+                                                    <p>Visualizar</p>
+                                                </TooltipContent>
+                                            </Tooltip>
 
-                                        if (id && onDelete) {
-                                            if (confirm("Tem certeza que deseja excluir?")) {
-                                                onDelete(id);
-                                            }
-                                        }
-                                    }}
-                                    >
-                                        <Trash2 />
-                                    </Button>
-                                    {/* className="flex flex-row w-fit p-2 hover:bg-white rounded-md mt-1" */}
-                                </TableRow>
-                            ))
+                                            {/* Delete Button */}
+
+                                            <Tooltip>
+                                                <TooltipTrigger>
+
+
+                                                    <Button
+                                                        onClick={async () => {
+                                                            if (id && onDelete) {
+                                                                const confirmDelete = confirm("Tem certeza que deseja excluir?");
+                                                                if (confirmDelete) {
+                                                                    setLoadingId({ id, action: "delete" });
+                                                                    await onDelete(id);
+                                                                }
+                                                                setLoadingId(null);
+                                                            }
+                                                        }}
+                                                        className="bg-transparent text-[black] hover:bg-[#5fb0a8]"
+                                                        disabled={loadingId?.id === id}
+                                                    >
+                                                        {loadingId?.id === id && loadingId?.action === "delete" ? (
+                                                            <LoaderCircle className="animate-spin" />
+                                                        ) : (
+                                                            <Trash2 />
+                                                        )}
+                                                    </Button>
+                                                </TooltipTrigger>
+                                                <TooltipContent>
+                                                    <p>Arquivar</p>
+                                                </TooltipContent>
+                                            </Tooltip>
+                                        </div>
+                                    </TableRow>
+                                );
+                            })
                         ) : (
                             <TableRow>
                                 <TableCell colSpan={columns.length} className="h-24 text-center">
@@ -198,10 +227,10 @@ export function DataTable<T>({ columns, data, link, contentLink, entityBasePath,
                     </TableBody>
                 </Table>
             </div>
-            <div className="flex flex-row w-full items-center justify-between ">
 
+            <div className="flex flex-row w-full items-center justify-between">
                 <div>
-                    <p>{data.length + 1} items</p>
+                    <p>{data.length} items</p>
                 </div>
                 <div className="flex items-center justify-center space-x-2 py-4.2">
                     <Button
@@ -226,5 +255,5 @@ export function DataTable<T>({ columns, data, link, contentLink, entityBasePath,
                 </div>
             </div>
         </div>
-    )
+    );
 }

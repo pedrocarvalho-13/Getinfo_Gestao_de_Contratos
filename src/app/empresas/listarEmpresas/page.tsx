@@ -57,6 +57,14 @@ export default function ListarEmpresas() {
             header: "CNPJ",
             accessorKey: "cnpj",
         },
+        {
+            header: "Telefone Legal",
+            accessorKey: "responsavelLegalTelefone",
+        },
+        {
+            header: "Responsável Legal",
+            accessorKey: "responsavelLegalNome",
+        },
         // {
         //     header: "Contratos ativos",
         //     accessorKey: "contratos_ativos",
@@ -69,7 +77,7 @@ export default function ListarEmpresas() {
             <TitleSection title={"Gestão de Empresas"} />
             <section className="flex flex-col item-center justify-center m-auto w-full">
                 {/* <h1 className="text-6xl font-bold">Listar Contrato</h1> */}
-                <DataTable columns={ColunaCompanies} data={companies} onDelete={handleDelete} link={"cadastrarEmpresa"} contentLink={"Cadastrar Empresas"} entityBasePath="/empresas"></DataTable>
+                <DataTable columns={ColunaCompanies} data={companies} onDelete={handleDelete} link={"cadastrarEmpresa"} contentLink={"Nova Empresa"} entityBasePath="/empresas"></DataTable>
             </section>
         </section>
     )

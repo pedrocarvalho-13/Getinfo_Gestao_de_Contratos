@@ -91,7 +91,7 @@ export default function ColaboradoresContractStep({ control }: ColaboradoresCont
             onClick={() => append({id: colaborators[0]?.id ?? 0, funcaoContrato: "" })}
             className="mt-4 px-4 py-2 bg-[#5fe0d5] text-black rounded hover:bg-[#68c0ba] focus:bg-[#5fe0d5] transition"
         >
-            Adicionar Agregado
+            Adicionar Novo Agregado
         </button>
         </div>
     );

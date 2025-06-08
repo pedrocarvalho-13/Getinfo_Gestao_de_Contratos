@@ -18,6 +18,8 @@ export default function ContactCompanyStep({ control }: ContactCompanyStepProps)
                     name={"telefone"}
                     placeholder={"(99) 99999-9999"}
                     control={control}
+                    maxLength={11}
+                    mask="(__) _____-____"
                 />
 
                 {/* Telefone Fixo */}
@@ -27,6 +29,8 @@ export default function ContactCompanyStep({ control }: ContactCompanyStepProps)
                     name={"telefoneFixo"}
                     placeholder={"(99) 99999-9999"}
                     control={control}
+                    maxLength={11}
+                    mask="(__) _____-____"
                 />
                 
                 {/* Email Corporativo */}

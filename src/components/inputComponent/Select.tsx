@@ -18,7 +18,8 @@ type SelectProps<T extends FieldValues> = {
     control?: Control<T>;
     value?: string; // Novo
     onChange?: (value: string) => void; // Novo
-    options: { label: string; value: number }[];
+    options: { label: string; value: number | string }[];
+    // optionsS?: { label: string; value: string }[];
 };
 
 export function SelectInput<T extends FieldValues>({

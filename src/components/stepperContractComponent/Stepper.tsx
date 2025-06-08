@@ -1,6 +1,6 @@
 "use client"
 
-import { BookUp, Building2, CheckIcon, ClipboardMinus, FileStack, Users } from "lucide-react"
+import { BookUp, Building2, CheckIcon, ClipboardMinus, Files, FileStack, LayoutListIcon, User, Users } from "lucide-react"
 import { useForm, SubmitHandler } from "react-hook-form"
 import Link from "next/link"
 import ColaboradoresContractStep from "./formColaboradoresContract/ColaboradoresContractStep"
@@ -268,7 +268,7 @@ export default function ContractRegistrationForm() {
 function Stepper({ currentStep }: StepperProps) {
     return (
         <ol className="flex items-center justify-between w-full">
-            {[ClipboardMinus, Users, BookUp, FileStack].map((Icon, index) => {
+            {[ClipboardMinus, User, LayoutListIcon, Files].map((Icon, index) => {
                 const step = index + 1;
                 const active = currentStep >= step;
                 const done = currentStep > step;

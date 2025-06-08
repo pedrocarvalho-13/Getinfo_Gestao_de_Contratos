@@ -1,6 +1,6 @@
 'use client'
 
-import { DataTable } from "@/components/dataTable"// import { Payment, columns } from "@/components/payments/columns"
+import { DataTable } from "@/components/dataTable/DataTable"// import { Payment, columns } from "@/components/payments/columns"
 import TitleSection from "@/components/TitleSection/TitleSection"
 // import { contractList } from "@/data/contracts"
 import { contract } from "@/types/contractType"

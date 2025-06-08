@@ -16,13 +16,13 @@ export default function DataViewCompanyStep({ control }: DataCompanyStepProps) {
     useEffect(() => {
         console.log(control._defaultValues.tipoEmpresa)
         if (control._defaultValues.tipoEmpresa === 0) {
-                setDisplayedTipoContrato("Público");
-            } else if (control._defaultValues.tipoEmpresa === 1) {
-                setDisplayedTipoContrato("Privado");
-            } else {
-                setDisplayedTipoContrato(""); 
-            }
-        
+            setDisplayedTipoContrato("Público");
+        } else if (control._defaultValues.tipoEmpresa === 1) {
+            setDisplayedTipoContrato("Privado");
+        } else {
+            setDisplayedTipoContrato("");
+        }
+
         console.log(displayedTipoContrato)
     }, [displayedTipoContrato]);
 
@@ -38,6 +38,7 @@ export default function DataViewCompanyStep({ control }: DataCompanyStepProps) {
                         name={"cnpj"}
                         placeholder={"00.000.000/0000-00"}
                         control={control}
+                        mask="__.___.___/____-__"
                         readOnly={true}
                     />
 

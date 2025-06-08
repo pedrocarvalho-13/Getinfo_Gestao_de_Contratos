@@ -1,6 +1,6 @@
 "use client"
 
-import { CheckIcon, ClipboardMinus, LoaderCircle, MapPin, Phone, Scale } from "lucide-react"
+import { CheckIcon, ClipboardMinus, Files, LayoutListIcon, LoaderCircle, MapPin, Phone, Scale, User } from "lucide-react"
 import { useForm } from "react-hook-form"
 
 // import { EmpresaFormData } from "@/types/EmpresaFormData"
@@ -211,7 +211,7 @@ export default function EmpresasViewForm({ params }: { params: { idContrato: str
 function Stepper({ currentStep }: StepperProps) {
     return (
         <ol className="flex items-center justify-between w-full">
-            {[ClipboardMinus, MapPin, Phone, Scale].map((Icon, index) => {
+            {[ClipboardMinus, User, LayoutListIcon, Files].map((Icon, index) => {
                 const step = index + 1;
                 const active = currentStep >= step;
                 const done = currentStep > step;

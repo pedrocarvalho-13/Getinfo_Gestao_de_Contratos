@@ -20,6 +20,8 @@ export default function AddressCompanyStep({ control }: AdressCompanyStepProps) 
                     name={"cep"}
                     placeholder={"49000-00"}
                     control={control}
+                    maxLength={7}
+                    mask="_____-__"
                 />
 
 
@@ -67,6 +69,7 @@ export default function AddressCompanyStep({ control }: AdressCompanyStepProps) 
                     name={"estado"}
                     placeholder={"Sergipe"}
                     control={control}
+                    maxLength={2}
                 />
             </div>
         </div>

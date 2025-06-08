@@ -1,9 +1,9 @@
 import { Control, Controller } from "react-hook-form";
-import { ContractFormData } from "@/types/contractFormData";
+import { ContractFormDataUpdate } from "@/types/contractFormDataUpdate";
 import Style from "@/Styles/style.module.css";
 
 interface AnexoDocsStepProps {
-  control: Control<ContractFormData>;
+  control: Control<ContractFormDataUpdate>;
 }
 
 export default function AnexoDocsStep({ control }: AnexoDocsStepProps) {

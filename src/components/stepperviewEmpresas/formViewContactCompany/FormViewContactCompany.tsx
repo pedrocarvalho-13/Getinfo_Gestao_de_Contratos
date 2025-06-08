@@ -18,6 +18,7 @@ export default function ContactViewCompanyStep({ control }: ContactCompanyStepPr
                     name={"telefone"}
                     placeholder={"(99) 99999-9999"}
                     control={control}
+                    mask="(__) _____-____"
                     readOnly={true}
                     />
 
@@ -28,6 +29,7 @@ export default function ContactViewCompanyStep({ control }: ContactCompanyStepPr
                     name={"telefoneFixo"}
                     placeholder={"(99) 99999-9999"}
                     control={control}
+                    mask="+ __ (__) _____-____"
                     readOnly={true}
                     />
 

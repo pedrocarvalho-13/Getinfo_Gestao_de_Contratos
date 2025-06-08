@@ -1,6 +1,6 @@
 'use client'
 
-import { DataTable } from "@/components/dataTable"
+import { DataTable } from "@/components/dataTable/DataTable"
 import TitleSection from "@/components/TitleSection/TitleSection"
 // import { companyList } from "@/data/companie"
 import { company } from "@/types/companyType"

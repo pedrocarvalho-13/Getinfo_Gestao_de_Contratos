@@ -111,7 +111,9 @@ export function DataTable<T>({ columns, data, link, contentLink, entityBasePath,
                                         {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                                     </TableHead>
                                 ))}
-                                <p className="flex  text-foreground h-10 px-2 text-center items-center  justify-center font-medium whitespace-nowrap">Ações</p>
+                                <TableHead className="flex  text-foreground h-10 px-2 text-center items-center  justify-center font-medium whitespace-nowrap">
+                                    Ações
+                                </TableHead>
                             </TableRow>
                         ))}
                     </TableHeader>

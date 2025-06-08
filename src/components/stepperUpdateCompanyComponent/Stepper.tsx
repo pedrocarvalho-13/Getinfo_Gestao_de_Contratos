@@ -1,6 +1,6 @@
 "use client"
 
-import { CheckIcon, ClipboardMinus, LoaderCircle, MapPin, Phone, Scale } from "lucide-react"
+import { CheckIcon, ClipboardMinus, Files, LayoutListIcon, LoaderCircle, MapPin, Phone, Scale, User } from "lucide-react"
 import { useForm, SubmitHandler } from "react-hook-form"
 
 import { EmpresaFormData } from "@/types/EmpresaFormData"
@@ -88,12 +88,12 @@ export default function EmpresaUpdateForm({ params }: { params: { idContratante:
             const response = await axios.put(`https://gestaocontratual.onrender.com/contratantes/${params.idContratante}`, data);
             console.log("Empresa atualizada com sucesso:", response.data);
             setModalMessage("Empresa atualizada com sucesso!");
-            setModalHref("listarEmpresas");
+            setModalHref("../listarEmpresas");
             setShowModal(true);
         } catch (error) {
             console.error("Erro ao atualizar empresa:", error);
             setModalMessage("Erro ao atualizar empresa!");
-            setModalHref("listarEmpresas");
+            setModalHref("../listarEmpresas");
             setShowModal(true);
         } finally {
             setIsSubmitting(false)
@@ -240,7 +240,7 @@ export default function EmpresaUpdateForm({ params }: { params: { idContratante:
 function Stepper({ currentStep }: StepperProps) {
     return (
         <ol className="flex items-center justify-between w-full">
-            {[ClipboardMinus, MapPin, Phone, Scale].map((Icon, index) => {
+            {[ClipboardMinus, User, LayoutListIcon, Files].map((Icon, index) => {
                 const step = index + 1;
                 const active = currentStep >= step;
                 const done = currentStep > step;

@@ -1,6 +1,6 @@
 "use client"
 
-import { CheckIcon, ClipboardMinus, LoaderCircle, MapPin, Phone, Scale } from "lucide-react"
+import { CheckIcon, ClipboardMinus, Files, LayoutListIcon, LoaderCircle, MapPin, Phone, Scale, User } from "lucide-react"
 import { useForm } from "react-hook-form"
 
 // import { EmpresaFormData } from "@/types/EmpresaFormData"
@@ -19,6 +19,7 @@ import DataViewContractStep from "./formViewDataCompany/DataViewCompanyStep";
 import ColaboradoresViewContractStep from "./formViewColaboradoresContract/ColaboradoresViewContractStep";
 import ContractViewEntregaveisStep from "./formViewEntregaveisContract/ContactViewEntregaveisStep";
 import AnexoViewDocsStep from "./formViewAnexoDocsContract/AnexoViewDocsStep";
+import Link from "next/link";
 
 interface StepperProps {
     currentStep: number;
@@ -110,15 +111,14 @@ export default function EmpresasViewForm({ params }: { params: { idContrato: str
                         {currentStep === 1 && (
                             <div>
 
-                                <DataViewContractStep  control={control}/>
+                                <DataViewContractStep control={control} />
                                 <div className="my-8 flex items-center justify-between">
-                                    <button
-                                        type="button"
-                                        className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
-                                        onClick={() => router.push(`/contratos/listarContratos`)}
+                                    <Link
+                                        href={"../listarContratos"}
+                                        className="px-4 py-2 bg-[#5fe0d5] text-gray-800 rounded-md hover:bg-[#4bc0b5]"
                                     >
-                                        Voltar
-                                    </button>
+                                        Sair
+                                    </Link>
                                     <button
                                         type="button"
                                         className="px-4 py-2 bg-[#5fe0d5] text-black rounded-md hover:bg-[#4bc0b5]"
@@ -133,13 +133,21 @@ export default function EmpresasViewForm({ params }: { params: { idContrato: str
                             <div>
                                 <ColaboradoresViewContractStep control={control} idContrato={params.idContrato} />
                                 <div className="my-8 flex items-center justify-between">
-                                    <button
-                                        type="button"
-                                        className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
-                                        onClick={prevStep}
-                                    >
-                                        Anterior
-                                    </button>
+                                    <div className="flex w-fit gap-2">
+                                        <button
+                                            type="button"
+                                            className="px-4 py-2 bg-[#5fe0d5] text-gray-800 rounded-md hover:bg-[#4bc0b5]"
+                                            onClick={prevStep}
+                                        >
+                                            Anterior
+                                        </button>
+                                        <Link
+                                            href={"../listarContratos"}
+                                            className="px-4 py-2 bg-[#5fe0d5] text-gray-800 rounded-md hover:bg-[#4bc0b5]"
+                                        >
+                                            Sair
+                                        </Link>
+                                    </div>
                                     <button
                                         type="button"
                                         className="px-4 py-2 bg-[#5fe0d5] text-black rounded-md hover:bg-[#4bc0b5]"
@@ -154,13 +162,21 @@ export default function EmpresasViewForm({ params }: { params: { idContrato: str
                             <div >
                                 <ContractViewEntregaveisStep control={control} idContrato={params.idContrato} />
                                 <div className="my-8 flex items-center justify-between">
-                                    <button
-                                        type="button"
-                                        className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
-                                        onClick={prevStep}
-                                    >
-                                        Anterior
-                                    </button>
+                                    <div className="flex w-fit gap-2">
+                                        <button
+                                            type="button"
+                                            className="px-4 py-2 bg-[#5fe0d5] text-gray-800 rounded-md hover:bg-[#4bc0b5]"
+                                            onClick={prevStep}
+                                        >
+                                            Anterior
+                                        </button>
+                                        <Link
+                                            href={"../listarContratos"}
+                                            className="px-4 py-2 bg-[#5fe0d5] text-gray-800 rounded-md hover:bg-[#4bc0b5]"
+                                        >
+                                            Sair
+                                        </Link>
+                                    </div>
                                     <button
                                         type="button"
                                         className="px-4 py-2 bg-[#5fe0d5] text-black rounded-md hover:bg-[#4bc0b5]"
@@ -195,7 +211,7 @@ export default function EmpresasViewForm({ params }: { params: { idContrato: str
 function Stepper({ currentStep }: StepperProps) {
     return (
         <ol className="flex items-center justify-between w-full">
-            {[ClipboardMinus, MapPin, Phone, Scale].map((Icon, index) => {
+            {[ClipboardMinus, User, LayoutListIcon, Files].map((Icon, index) => {
                 const step = index + 1;
                 const active = currentStep >= step;
                 const done = currentStep > step;

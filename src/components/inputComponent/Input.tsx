@@ -1,12 +1,14 @@
 import { Popover, PopoverTrigger, PopoverContent } from "@radix-ui/react-popover";
 import { CommandInput, CommandList, CommandEmpty, CommandItem } from "cmdk";
-import { ChevronDown, Command } from "lucide-react";
-import { useState } from "react";
+import { ChevronDown } from "lucide-react";
+import { ChangeEvent, useState } from "react";
 import { FieldValues, Path, Control, Controller } from "react-hook-form";
 import { Label } from "@/components/ui/label";
 import { InputType } from "@/types/inputTypes";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
+import { InputMask, format, unformat } from '@react-input/mask';
+import { Command } from "../ui/command";
 
 type SelectOption = {
     label: string;
@@ -18,13 +20,14 @@ type InputProps<T extends FieldValues> = {
     type?: InputType;
     name?: Path<T>;
     placeholder?: string;
-    control?: Control<T>; // agora opcional
+    control?: Control<T>;
     select?: boolean;
     options?: SelectOption[];
-    value?: string; // Novo
-    onChange?: (value: string) => void; // Novo
-    readOnly?: boolean
-    maxLength?: number
+    value?: string;
+    onChange?: (value: string) => void;
+    readOnly?: boolean;
+    maxLength?: number;
+    mask?: string; // ← AQUI: máscara opcional
 };
 
 export const InputComponent = <T extends FieldValues>({
@@ -38,52 +41,73 @@ export const InputComponent = <T extends FieldValues>({
     value,
     onChange,
     readOnly,
-    maxLength
+    maxLength,
+    mask,
 }: InputProps<T>) => {
     const [open, setOpen] = useState(false);
 
     const renderInput = (val?: string, onChangeFunc?: (value: string) => void) => {
-        return select ? (
-            <Popover open={open} onOpenChange={setOpen}>
-                <PopoverTrigger asChild>
-                    <Button variant="outline" className="flex items-end w-full justify-between">
-                        {options.find(opt => opt.value === val)?.label || placeholder}
-                        <ChevronDown className="ml-2 h-4  opacity-50" />
-                    </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-full p-0">
-                    <Command>
-                        <CommandInput placeholder={placeholder} />
-                        <CommandList>
-                            <CommandEmpty>Nenhuma opção encontrada.</CommandEmpty>
-                            {options.map((option) => (
-                                <CommandItem
-                                    key={option.value}
-                                    value={option.value}
-                                    onSelect={() => {
-                                        onChangeFunc?.(option.value)
-                                        setOpen(false);
-                                    }}
-                                >
-                                    {option.label}
-                                </CommandItem>
-                            ))}
-                        </CommandList>
-                    </Command>
-                </PopoverContent>
-            </Popover>
-        ) : (
-            <Input
-                id={name}
-                value={val}
-                onChange={(e) => onChangeFunc?.(e.target.value)}
-                placeholder={placeholder}
-                type={type}
-                readOnly={readOnly}
-                maxLength={maxLength}
-                className="w-full"
-            />
-        );
+        if (select) {
+            return (
+                <Popover open={open} onOpenChange={setOpen}>
+                    <PopoverTrigger asChild>
+                        <Button variant="outline" className="flex items-end w-full justify-between">
+                            {options.find(opt => opt.value === val)?.label || placeholder}
+                            <ChevronDown className="ml-2 h-4 opacity-50" />
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-full p-0">
+                        <Command>
+                            <CommandInput placeholder={placeholder} />
+                            <CommandList>
+                                <CommandEmpty>Nenhuma opção encontrada.</CommandEmpty>
+                                {options.map((option) => (
+                                    <CommandItem
+                                        key={option.value}
+                                        value={option.value}
+                                        onSelect={() => {
+                                            onChangeFunc?.(option.value);
+                                            setOpen(false);
+                                        }}
+                                    >
+                                        {option.label}
+                                    </CommandItem>
+                                ))}
+                            </CommandList>
+                        </Command>
+                    </PopoverContent>
+                </Popover>
+            );
+        } else if (mask) {
+            const formattedValue = format(val || '', { mask, replacement: { _: /\d/ } }); return (
+                <InputMask
+                    mask={mask}
+                    replacement={{ _: /\d/ }}
+                    value={formattedValue}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                        const maskedValue = e.target.value;
+                        const unmaskedValue = unformat(maskedValue, { mask, replacement: { _: /\d/ } });
+                        onChangeFunc?.(unmaskedValue); // armazena no form sem máscara
+                    }}
+                    placeholder={placeholder}
+                    readOnly={readOnly}
+                    className="w-full border px-3 py-2 rounded-md"
+                />
+            );
+        } else {
+            return (
+                <Input
+                    id={name}
+                    value={val}
+                    onChange={(e) => onChangeFunc?.(e.target.value)}
+                    placeholder={placeholder}
+                    type={type}
+                    readOnly={readOnly}
+                    maxLength={maxLength}
+                    className="w-full"
+                />
+            );
+        }
     };
 
     return (
@@ -101,6 +125,113 @@ export const InputComponent = <T extends FieldValues>({
         </div>
     );
 };
+
+
+
+
+// import { Popover, PopoverTrigger, PopoverContent } from "@radix-ui/react-popover";
+// import { CommandInput, CommandList, CommandEmpty, CommandItem } from "cmdk";
+// import { ChevronDown, Command } from "lucide-react";
+// import { useState } from "react";
+// import { FieldValues, Path, Control, Controller } from "react-hook-form";
+// import { Label } from "@/components/ui/label";
+// import { InputType } from "@/types/inputTypes";
+// import { Button } from "../ui/button";
+// import { Input } from "../ui/input";
+
+// type SelectOption = {
+//     label: string;
+//     value: string;
+// };
+
+// type InputProps<T extends FieldValues> = {
+//     label?: string;
+//     type?: InputType;
+//     name?: Path<T>;
+//     placeholder?: string;
+//     control?: Control<T>; // agora opcional
+//     select?: boolean;
+//     options?: SelectOption[];
+//     value?: string; // Novo
+//     onChange?: (value: string) => void; // Novo
+//     readOnly?: boolean
+//     maxLength?: number
+// };
+
+// export const InputComponent = <T extends FieldValues>({
+//     name,
+//     label,
+//     placeholder,
+//     control,
+//     type = "text",
+//     select,
+//     options = [],
+//     value,
+//     onChange,
+//     readOnly,
+//     maxLength
+// }: InputProps<T>) => {
+//     const [open, setOpen] = useState(false);
+
+//     const renderInput = (val?: string, onChangeFunc?: (value: string) => void) => {
+//         return select ? (
+//             <Popover open={open} onOpenChange={setOpen}>
+//                 <PopoverTrigger asChild>
+//                     <Button variant="outline" className="flex items-end w-full justify-between">
+//                         {options.find(opt => opt.value === val)?.label || placeholder}
+//                         <ChevronDown className="ml-2 h-4  opacity-50" />
+//                     </Button>
+//                 </PopoverTrigger>
+//                 <PopoverContent className="w-full p-0">
+//                     <Command>
+//                         <CommandInput placeholder={placeholder} />
+//                         <CommandList>
+//                             <CommandEmpty>Nenhuma opção encontrada.</CommandEmpty>
+//                             {options.map((option) => (
+//                                 <CommandItem
+//                                     key={option.value}
+//                                     value={option.value}
+//                                     onSelect={() => {
+//                                         onChangeFunc?.(option.value)
+//                                         setOpen(false);
+//                                     }}
+//                                 >
+//                                     {option.label}
+//                                 </CommandItem>
+//                             ))}
+//                         </CommandList>
+//                     </Command>
+//                 </PopoverContent>
+//             </Popover>
+//         ) : (
+//             <Input
+//                 id={name}
+//                 value={val}
+//                 onChange={(e) => onChangeFunc?.(e.target.value)}
+//                 placeholder={placeholder}
+//                 type={type}
+//                 readOnly={readOnly}
+//                 maxLength={maxLength}
+//                 className="w-full"
+//             />
+//         );
+//     };
+
+//     return (
+//         <div className="grid w-full items-center gap-1.5">
+//             {label && <Label htmlFor={name}>{label}</Label>}
+//             {control && name
+//                 ? (
+//                     <Controller
+//                         name={name}
+//                         control={control}
+//                         render={({ field }) => renderInput(field.value, field.onChange)}
+//                     />
+//                 )
+//                 : renderInput(value, onChange)}
+//         </div>
+//     );
+// };
 
 
 

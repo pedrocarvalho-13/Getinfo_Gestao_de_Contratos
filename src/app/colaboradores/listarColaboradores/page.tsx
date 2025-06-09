@@ -1,6 +1,6 @@
 'use client'
 
-import { DataTable } from "@/components/dataTable"// import { Payment, columns } from "@/components/payments/columns"
+import { DataTable } from "@/components/dataTable/DataTable"// import { Payment, columns } from "@/components/payments/columns"
 import TitleSection from "@/components/TitleSection/TitleSection"
 
 import { ColumnDef } from "@tanstack/react-table"
@@ -71,7 +71,7 @@ export default function ListarContratos() {
             <section className="flex flex-col  item-center justify-center m-auto w-full">
                 <Suspense fallback={<LoaderCircle className="text-[#72F2E5] m-auto animate-spin size-15" />}>
 
-                    <DataTable columns={ColunaColaboradores} data={colaboradores} onDelete={handleDelete} link={"cadastrarColaboradores"} contentLink={"Cadastrar Colaboradores"} entityBasePath="/colaboradores"></DataTable>
+                    <DataTable columns={ColunaColaboradores} data={colaboradores} onDelete={handleDelete} link={"cadastrarColaboradores"} contentLink={"Novo Colaborador"} entityBasePath="/colaboradores"></DataTable>
                 </Suspense>
             </section>
         </section>

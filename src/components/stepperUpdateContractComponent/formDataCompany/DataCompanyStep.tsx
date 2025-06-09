@@ -2,7 +2,7 @@
 
 import { InputComponent } from "@/components/inputComponent/Input";
 import { SelectInput } from "@/components/inputComponent/Select";
-import { ContractFormData } from "@/types/contractFormData";
+import { ContractFormDataUpdate } from "@/types/contractFormDataUpdate";
 import { Control } from "react-hook-form";
 
 import axios from "axios";
@@ -12,7 +12,7 @@ import { SelectInputS } from "@/components/inputComponent/SelectString";
 // import { formDataProps } from "@/types/formPropsType";
 
 interface DataContractStepProps {
-    control: Control<ContractFormData>;
+    control: Control<ContractFormDataUpdate>;
 }
 
 interface Contratante {
@@ -103,12 +103,19 @@ export default function DataContractStep({ control }: DataContractStepProps) {
                     />
 
                     <SelectInputS
-                        name={"responsavel"}
+                        name={"id"}
                         label="Responsável pelo Contrato"
                         placeholder={"Nome Completo"}
                         control={control}
                         options={colaborators.map(c => ({ label: c.nome, value: c.id.toString(), key: c.id }))}
                     />
+                    {/* <InputComponent
+                        name={"responsavel"}
+                        label="Responsável pelo Contrato"
+                        placeholder={"Nome Completo"}
+                        control={control}
+                        // options={colaborators.map(c => ({ label: c.nome, value: c.id.toString(), key: c.id }))}
+                    /> */}
 
                     {/* Inscrição Estadual */}
                     <InputComponent
@@ -135,6 +142,15 @@ export default function DataContractStep({ control }: DataContractStepProps) {
                         placeholder={"Desenvolvimento de Software"}
                         control={control}
                     />
+                    <SelectInput
+                        label="Status"
+                        name={"status"}
+                        placeholder={"Desenvolvimento de Software"}
+                        control={control}
+                        options={[
+                            { label: "Ativo", value: "Ativo" },
+                            { label: "Arquivado", value: "Arquivado"}
+                        ]} />
 
                     {/* <SelectInput
                         name={"idStatus"}

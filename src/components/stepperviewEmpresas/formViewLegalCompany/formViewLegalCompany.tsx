@@ -19,6 +19,7 @@ export default function LegalViewCompanyStep({ control }: LegalCompanyStepProps)
                     name={"responsavelLegalCpf"}
                     placeholder={"000.000.000-00"}
                     control={control}
+                    mask="___.___.___-__"
                     readOnly={true}
                     />
 
@@ -39,6 +40,7 @@ export default function LegalViewCompanyStep({ control }: LegalCompanyStepProps)
                     name={"telefoneLegal"}
                     placeholder={"(99) 99999-9999"}
                     control={control}
+                    mask="(__) _____-____"
                     readOnly={true}
                     />
 

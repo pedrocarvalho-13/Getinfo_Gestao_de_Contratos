@@ -20,7 +20,7 @@ interface ColaboradorStepProps {
 }
 
 export function CheckInputComponent({ label, name, type, placeholder, control, readOnly }: ColaboradorStepProps) {
-      const [isChecked, setIsChecked] = useState(true);  // marcado por padrão
+    //   const [isChecked, setIsChecked] = useState(true);  // marcado por padrão
 
     
     return (
@@ -31,7 +31,7 @@ export function CheckInputComponent({ label, name, type, placeholder, control, r
                 <Controller
                     name="situacao"
                     control={control}
-                    // defaultValue={false} // isso é importante!
+                    defaultValue={true} // isso é importante!
                     render={({ field: { onChange, onBlur, name, ref, value } }) => (
                         <div className="flex items-center gap-2 ml-2">
                             <input
@@ -43,9 +43,9 @@ export function CheckInputComponent({ label, name, type, placeholder, control, r
                                 ref={ref}
                                 onBlur={onBlur}
                                 readOnly={readOnly}
-                                checked={isChecked}
+                                checked={value}
                             />
-                            <label htmlFor="situacao">Marque se o colaborador está ativo</label>
+                        <label htmlFor="situacao">{value ? "Ativo" : "Inativo"}</label>
                         </div>
                     )}
                 />

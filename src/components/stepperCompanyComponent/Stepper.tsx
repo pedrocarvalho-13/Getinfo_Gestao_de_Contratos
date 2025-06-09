@@ -15,6 +15,7 @@ import Link from "next/link"
 import axios from "axios";
 import { useState } from "react";
 import router from "next/router"
+import ModalForm from "../modalForm/ModalForm"
 
 interface StepperProps {
     currentStep: number;
@@ -23,6 +24,12 @@ interface StepperProps {
 
 export default function ContractRegistrationForm() {
     const [currentStep, setCurrentStep] = useState<number>(1);
+
+    const [showModal, setShowModal] = useState(false);
+    const [modalMessage, setModalMessage] = useState("");
+    const [modalHref, setModalHref] = useState("");
+
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const { control, handleSubmit, trigger } = useForm<EmpresaFormData>({
         defaultValues: {
@@ -62,13 +69,23 @@ export default function ContractRegistrationForm() {
     };
 
     const onSubmit: SubmitHandler<EmpresaFormData> = async (data) => {
+        setIsSubmitting(true);
+
         try {
             const response = await axios.post("https://gestaocontratual.onrender.com/contratantes", data);
             console.log("Empresa cadastrada com sucesso:", response.data);
-            alert("Empresa cadastrada com sucesso!");
+            // alert("Empresa cadastrada com sucesso!");
+            setModalMessage("Empresa cadastrada com sucesso!");
+            setModalHref("listarEmpresas");
+            setShowModal(true);
         } catch (error) {
             console.error("Erro ao cadastrar empresa:", error);
-            alert("Erro ao cadastrar empresa.");
+            // alert("Erro ao cadastrar empresa.");
+            setModalMessage("Erro ao cadastrar empresa");
+            setModalHref("listarEmpresas");
+            setShowModal(true);
+        } finally {
+            setIsSubmitting(false)
         }
     };
 
@@ -79,6 +96,17 @@ export default function ContractRegistrationForm() {
             <div className="max-w-5xl mx-auto bg-white rounded-lg shadow-md">
                 <div className="p-6">
                     <Stepper currentStep={currentStep} />
+                    {/* ✅ ModalForm sendo renderizado condicionalmente */}
+                    {showModal && (
+                        <div className="fixed inset-0 flex items-center justify-center  z-50">
+
+                            <ModalForm
+                                menssagem={modalMessage}
+                                href={modalHref}
+                                onClose={() => setShowModal(false)}
+                            />
+                        </div>
+                    )}
 
                     <form onSubmit={handleSubmit(onSubmit)} className="mt-8">
                         {currentStep === 1 && (
@@ -87,13 +115,12 @@ export default function ContractRegistrationForm() {
                                 <DataCompanyStep control={control} />
                                 <div className="my-8 flex items-center justify-between">
 
-                                    <button
-                                        type="button"
-                                        className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
-                                        onClick={() => router.push(`/empresas/listarEmpresas`)}
+                                    <Link
+                                        href={"listarEmpresas"}
+                                        className="px-4 py-2 bg-[#5fe0d5] text-gray-800 rounded-md hover:bg-[#4bc0b5]"
                                     >
-                                        Voltar
-                                    </button>
+                                        Sair
+                                    </Link>
                                     <button
                                         type="button"
                                         className="px-4 py-2 bg-[#5fe0d5] text-black rounded-md hover:bg-[#4bc0b5]"
@@ -109,13 +136,21 @@ export default function ContractRegistrationForm() {
                                 <AdressCompanyStep control={control} />
                                 <div className="my-8 flex items-center justify-between" >
 
-                                    <button
-                                        type="button"
-                                        className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
-                                        onClick={prevStep}
-                                    >
-                                        Anterior
-                                    </button>
+                                    <div className="flex w-fit gap-2">
+                                        <button
+                                            type="button"
+                                            className="px-4 py-2 bg-[#5fe0d5] text-gray-800 rounded-md hover:bg-[#4bc0b5]"
+                                            onClick={prevStep}
+                                        >
+                                            Anterior
+                                        </button>
+                                        <Link
+                                            href={"listarEmpresas"}
+                                            className="px-4 py-2 bg-[#5fe0d5] text-gray-800 rounded-md hover:bg-[#4bc0b5]"
+                                        >
+                                            Sair
+                                        </Link>
+                                    </div>
                                     <button
                                         type="button"
                                         className="px-4 py-2 bg-[#5fe0d5] text-black rounded-md hover:bg-[#4bc0b5]"
@@ -130,13 +165,21 @@ export default function ContractRegistrationForm() {
                             <div>
                                 <ContactCompanyStep control={control} />
                                 <div className="my-8 flex items-center justify-between">
-                                    <button
-                                        type="button"
-                                        className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
-                                        onClick={prevStep}
-                                    >
-                                        Anterior
-                                    </button>
+                                    <div className="flex w-fit gap-2">
+                                        <button
+                                            type="button"
+                                            className="px-4 py-2 bg-[#5fe0d5] text-gray-800 rounded-md hover:bg-[#4bc0b5]"
+                                            onClick={prevStep}
+                                        >
+                                            Anterior
+                                        </button>
+                                        <Link
+                                            href={"listarEmpresas"}
+                                            className="px-4 py-2 bg-[#5fe0d5] text-gray-800 rounded-md hover:bg-[#4bc0b5]"
+                                        >
+                                            Sair
+                                        </Link>
+                                    </div>
                                     <button
                                         type="button"
                                         className="px-4 py-2 bg-[#5fe0d5] text-black rounded-md hover:bg-[#4bc0b5]"
@@ -152,16 +195,25 @@ export default function ContractRegistrationForm() {
                                 <LegalCompanyStep control={control} />
                                 <div className="my-8 flex items-center justify-between">
 
-                                    <button
-                                        type="button"
-                                        className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
-                                        onClick={prevStep}
-                                    >
-                                        Anterior
-                                    </button>
+                                    <div className="flex w-fit gap-2">
+                                        <button
+                                            type="button"
+                                            className="px-4 py-2 bg-[#5fe0d5] text-gray-800 rounded-md hover:bg-[#4bc0b5]"
+                                            onClick={prevStep}
+                                        >
+                                            Anterior
+                                        </button>
+                                        <Link
+                                            href={"listarEmpresas"}
+                                            className="px-4 py-2 bg-[#5fe0d5] text-gray-800 rounded-md hover:bg-[#4bc0b5]"
+                                        >
+                                            Sair
+                                        </Link>
+                                    </div>
                                     <button
                                         type="submit"
-                                        className="px-4 py-2 bg-[#5fe0d5] text-black rounded-md hover:bg-[#4bc0b5]"
+                                        disabled={isSubmitting}
+                                        className={`px-4 py-2 rounded-md ${isSubmitting ? "bg-gray-400 cursor-not-allowed" : "bg-[#5fe0d5] hover:bg-[#4bc0b5]"} text-black`}
                                     >
                                         Salvar
                                     </button>

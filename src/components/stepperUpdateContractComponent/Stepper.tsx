@@ -1,18 +1,21 @@
 "use client"
 
-import { BookUp, Building2, CheckIcon, ClipboardMinus, FileStack, LoaderCircle, Users } from "lucide-react"
-import { useForm, SubmitHandler } from "react-hook-form"
+import { BookUp, CheckIcon, ClipboardMinus, FileStack, LoaderCircle, Users } from "lucide-react"
+import { useForm } from "react-hook-form"
 import Link from "next/link"
 import ColaboradoresContractStep from "./formColaboradoresContract/ColaboradoresContractStep"
 import AnexoDocsStep from "./formAnexoDocsContract/AnexoDocsStep"
 import DataContractStep from "./formDataCompany/DataCompanyStep"
 import ContractEntregaveisStep from "./formEntregaveisContract/ContactEntregaveisStep"
-import { ContractFormData } from "@/types/contractFormData"
+import { ContractFormDataUpdate } from "@/types/contractFormDataUpdate"
 
 import axios from "axios";
 import { useEffect, useState } from "react";
-import PostosContractStep from "./formPostosContract/PostosContract"
-import router, { useRouter } from "next/router"
+// import PostosContractStep from "./formPostosContract/PostosContract"
+// import router, { useRouter } from "next/router"
+import { useRouter } from "next/navigation";
+
+import ModalForm from "../modalForm/ModalForm"
 
 
 interface StepperProps {
@@ -22,13 +25,20 @@ interface StepperProps {
 
 export default function ContractUpdateForm({ params }: { params: { idContrato: string } }) {
     const [currentStep, setCurrentStep] = useState<number>(1);
-    const [contrato, setContrato] = useState<ContractFormData | null>(null);
+    const [contrato, setContrato] = useState<ContractFormDataUpdate | null>(null);
 
-    const { control, reset, handleSubmit, trigger } = useForm<ContractFormData>({
+    const [showModal, setShowModal] = useState(false);
+    const [modalMessage, setModalMessage] = useState("");
+    const [modalHref, setModalHref] = useState("");
+
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const { control, reset, handleSubmit, trigger } = useForm<ContractFormDataUpdate>({
+        shouldUnregister: false,
         defaultValues: {
             responsavel: "",
             numContrato: 0,
-            idStatus: 0,
+            status: "",
             tipoServico: "",
             entregaveis: [
                 {
@@ -81,10 +91,12 @@ export default function ContractUpdateForm({ params }: { params: { idContrato: s
     if (!contrato) return <LoaderCircle className="text-[#03a796] m-auto animate-spin size-15" />;
 
 
-    const router = useRouter();
+    // const router = useRouter();
 
 
-    const onSubmit = async (data: ContractFormData) => {
+    const onSubmit = async (data: ContractFormDataUpdate) => {
+        setIsSubmitting(true);
+
         try {
 
             const formData = new FormData();
@@ -112,11 +124,17 @@ export default function ContractUpdateForm({ params }: { params: { idContrato: s
 
             const responseText = await response.text();
             console.log("Contrato atualizado com sucesso:", responseText);
-            alert("Contrato atualizado com sucesso!");
+            setModalMessage("Contrato atualizado com sucesso!");
+            setModalHref("../listarContratos");
+            setShowModal(true);
 
         } catch (error: any) {
             console.error("Erro ao atualizar contrato:", error);
-            alert(`Erro: ${error.message}`);
+            setModalMessage("Erro ao atualizar contrato");
+            setModalHref("../listarContratos");
+            setShowModal(true);
+        } finally {
+            setIsSubmitting(false)
         }
     };
 
@@ -128,6 +146,17 @@ export default function ContractUpdateForm({ params }: { params: { idContrato: s
             <div className="max-w-5xl mx-auto bg-white rounded-lg shadow-md">
                 <div className="p-6">
                     <Stepper currentStep={currentStep} />
+                    {/* ✅ ModalForm sendo renderizado condicionalmente */}
+                    {showModal && (
+                        <div className="fixed inset-0 flex items-center justify-center  z-50">
+
+                            <ModalForm
+                                menssagem={modalMessage}
+                                href={modalHref}
+                                onClose={() => setShowModal(false)}
+                            />
+                        </div>
+                    )}
 
                     <form onSubmit={handleSubmit(onSubmit)} className="mt-8">
                         {currentStep === 1 && (
@@ -135,13 +164,12 @@ export default function ContractUpdateForm({ params }: { params: { idContrato: s
                                 <DataContractStep control={control} />
                                 <div className="my-8 flex items-center justify-between">
 
-                                    <button
-                                        type="button"
-                                        className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
-                                        onClick={() => router.push(`/contratos/listarContratos`)}
+                                    <Link
+                                        href={"../listarContratos"}
+                                        className="px-4 py-2 bg-[#5fe0d5] text-gray-800 rounded-md hover:bg-[#4bc0b5]"
                                     >
-                                        Voltar
-                                    </button>
+                                        Sair
+                                    </Link>
                                     <button
                                         type="button"
                                         className="px-4 py-2 bg-[#5fe0d5] text-black rounded-md hover:bg-[#4bc0b5]"
@@ -156,16 +184,24 @@ export default function ContractUpdateForm({ params }: { params: { idContrato: s
                         {currentStep === 2 && (
                             <div>
 
-                                <ColaboradoresContractStep control={control} />
+                                <ColaboradoresContractStep control={control} idContrato={params.idContrato} />
                                 <div className="my-8 flex items-center justify-between">
 
-                                    <button
-                                        type="button"
-                                        className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
-                                        onClick={prevStep}
-                                    >
-                                        Anterior
-                                    </button>
+                                    <div className="flex w-fit gap-2">
+                                        <button
+                                            type="button"
+                                            className="px-4 py-2 bg-[#5fe0d5] text-gray-800 rounded-md hover:bg-[#4bc0b5]"
+                                            onClick={prevStep}
+                                        >
+                                            Anterior
+                                        </button>
+                                        <Link
+                                            href={"../listarContratos"}
+                                            className="px-4 py-2 bg-[#5fe0d5] text-gray-800 rounded-md hover:bg-[#4bc0b5]"
+                                        >
+                                            Sair
+                                        </Link>
+                                    </div>
                                     <button
                                         type="button"
                                         className="px-4 py-2 bg-[#5fe0d5] text-black rounded-md hover:bg-[#4bc0b5]"
@@ -181,13 +217,21 @@ export default function ContractUpdateForm({ params }: { params: { idContrato: s
                                 <ContractEntregaveisStep control={control} />
                                 <div className="my-8 flex items-center justify-between">
 
-                                    <button
-                                        type="button"
-                                        className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
-                                        onClick={prevStep}
-                                    >
-                                        Anterior
-                                    </button>
+                                    <div className="flex w-fit gap-2">
+                                        <button
+                                            type="button"
+                                            className="px-4 py-2 bg-[#5fe0d5] text-gray-800 rounded-md hover:bg-[#4bc0b5]"
+                                            onClick={prevStep}
+                                        >
+                                            Anterior
+                                        </button>
+                                        <Link
+                                            href={"../listarContratos"}
+                                            className="px-4 py-2 bg-[#5fe0d5] text-gray-800 rounded-md hover:bg-[#4bc0b5]"
+                                        >
+                                            Sair
+                                        </Link>
+                                    </div>
                                     <button
                                         type="button"
                                         className="px-4 py-2 bg-[#5fe0d5] text-black rounded-md hover:bg-[#4bc0b5]"
@@ -204,25 +248,34 @@ export default function ContractUpdateForm({ params }: { params: { idContrato: s
                                 <AnexoDocsStep control={control} />
                                 <div className="my-8 flex items-center justify-between">
 
-                                    <button
-                                        type="button"
-                                        className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
-                                        onClick={prevStep}
-                                    >
-                                        Anterior
-                                    </button>
+                                    <div className="flex w-fit gap-2">
+                                        <button
+                                            type="button"
+                                            className="px-4 py-2 bg-[#5fe0d5] text-gray-800 rounded-md hover:bg-[#4bc0b5]"
+                                            onClick={prevStep}
+                                        >
+                                            Anterior
+                                        </button>
+                                        <Link
+                                            href={"../listarContratos"}
+                                            className="px-4 py-2 bg-[#5fe0d5] text-gray-800 rounded-md hover:bg-[#4bc0b5]"
+                                        >
+                                            Sair
+                                        </Link>
+                                    </div>
                                     <button
                                         type="submit"
-                                        className="px-4 py-2 bg-[#5fe0d5] text-black rounded-md hover:bg-[#4bc0b5]"
+                                        disabled={isSubmitting}
+                                        className={`px-4 py-2 rounded-md ${isSubmitting ? "bg-gray-400 cursor-not-allowed" : "bg-[#5fe0d5] hover:bg-[#4bc0b5]"} text-black`}
                                     >
                                         Salvar
                                     </button>
-                                    <button
+                                    {/* <button
                                         type="button"
                                         onClick={handleSubmit((data) => console.log("Dados:", data))}
                                     >
                                         Ver dados
-                                    </button>
+                                    </button> */}
                                 </div>
                             </div>
                         )}

@@ -22,6 +22,7 @@ export default function DataCompanyStep({ control }: DataCompanyStepProps) {
                         placeholder={"00.000.000/0000-00"}
                         control={control}
                         maxLength={14}
+                        mask="__.___.___/____-__"
                     />
 
                     {/* Razão Social */}

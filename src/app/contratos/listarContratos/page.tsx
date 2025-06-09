@@ -1,6 +1,6 @@
 'use client'
 
-import { DataTable } from "@/components/dataTable"// import { Payment, columns } from "@/components/payments/columns"
+import { DataTable } from "@/components/dataTable/DataTable"// import { Payment, columns } from "@/components/payments/columns"
 import TitleSection from "@/components/TitleSection/TitleSection"
 // import { contractList } from "@/data/contracts"
 import { contract } from "@/types/contractType"
@@ -66,10 +66,18 @@ export default function ListarContratos() {
         {
             header: "Início do Contrato",
             accessorKey: "dtInicio",
+            cell: ({ row }) => {
+                const data = row.original.dtInicio;
+                return new Date(data).toLocaleDateString('pt-BR');
+            }
         },
         {
             header: "Fim do Contrato",
             accessorKey: "dtFim",
+            cell: ({ row }) => {
+                const data = row.original.dtInicio;
+                return new Date(data).toLocaleDateString('pt-BR');
+            }
         },
         {
             header: "Status",
@@ -85,7 +93,7 @@ export default function ListarContratos() {
         <section>
             <TitleSection title={""} />
             <section className="flex flex-col  item-center justify-center m-auto w-full">
-                <DataTable columns={ColunaContratos} data={contracts} link={"cadastrarContratos"} onDelete={handleDelete} contentLink={"Cadastrar Contratos"} entityBasePath="/contratos"></DataTable>
+                <DataTable columns={ColunaContratos} data={contracts} link={"cadastrarContratos"} onDelete={handleDelete} contentLink={"Novo Contrato"} entityBasePath="/contratos"></DataTable>
             </section>
         </section>
     )

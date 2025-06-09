@@ -27,6 +27,7 @@ export default function DataUpdateAgregadoStep({ control }: DataAgregadoStepProp
                                 placeholder={"000.000.0000-00"}
                                 control={control}
                                 maxLength={11}
+                                mask="___.___.___-__"
                             />
                         </div>
 

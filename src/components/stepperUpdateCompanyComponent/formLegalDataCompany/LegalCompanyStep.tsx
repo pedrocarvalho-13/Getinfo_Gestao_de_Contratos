@@ -19,6 +19,8 @@ export default function LegalCompanyStep({ control }: LegalCompanyStepProps) {
                     name={"responsavelLegalCpf"}
                     placeholder={"000.000.000-00"}
                     control={control}
+                    maxLength={11}
+                    mask="___.___.___-__"
                 />
 
                 {/* Nome Completo */}
@@ -37,6 +39,8 @@ export default function LegalCompanyStep({ control }: LegalCompanyStepProps) {
                     name={"telefoneLegal"}
                     placeholder={"(99) 99999-9999"}
                     control={control}
+                    maxLength={11}
+                    mask="(__) _____-____"
                 />
 
                 {/* Email Legal */}

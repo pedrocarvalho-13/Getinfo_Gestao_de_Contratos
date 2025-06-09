@@ -26,7 +26,8 @@ export default function DataAgregadoStep({ control }: DataAgregadoStepProps) {
                                 name={"cpf"}
                                 placeholder={"000.000.0000-00"}
                                 control={control}
-                                maxLength={11}
+                                // maxLength={11}
+                                mask="___.___.___-__"
                             />
                         </div>
 

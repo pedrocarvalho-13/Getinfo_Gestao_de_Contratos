@@ -3,14 +3,14 @@ import { InputAddComponent } from "@/components/inputComponent/InputAdd";
 import { SelectInput } from "@/components/inputComponent/Select";
 import { SelectInputS } from "@/components/inputComponent/SelectString";
 import { Textarea } from "@/components/ui/textarea";
-import { ContractFormData } from "@/types/contractFormData";
+import { ContractFormDataUpdate } from "@/types/contractFormDataUpdate";
 import axios from "axios";
 import { Plus, Trash } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Control, Controller, useFieldArray } from "react-hook-form";
 
 interface ContactCompanyStepProps {
-    control: Control<ContractFormData>;
+    control: Control<ContractFormDataUpdate>;
 }
 
 interface Colaborator {

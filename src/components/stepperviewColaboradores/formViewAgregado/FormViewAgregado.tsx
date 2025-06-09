@@ -26,6 +26,7 @@ export default function DataAgregadoViewStep({ control }: DataAgregadoStepProps)
                                 name={"cpf"}
                                 placeholder={"00.000.000/0000-00"}
                                 control={control}
+                                mask="___.___.___-__"
                                 readOnly={true}
                                 />
                         </div>

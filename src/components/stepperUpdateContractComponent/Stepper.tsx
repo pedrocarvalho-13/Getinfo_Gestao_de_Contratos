@@ -11,9 +11,6 @@ import { ContractFormDataUpdate } from "@/types/contractFormDataUpdate"
 
 import axios from "axios";
 import { useEffect, useState } from "react";
-// import PostosContractStep from "./formPostosContract/PostosContract"
-// import router, { useRouter } from "next/router"
-import { useRouter } from "next/navigation";
 
 import ModalForm from "../modalForm/ModalForm"
 
@@ -33,75 +30,85 @@ export default function ContractUpdateForm({ params }: { params: { idContrato: s
 
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const { control, reset, handleSubmit, trigger } = useForm<ContractFormDataUpdate>({
+    const { control, reset, handleSubmit, trigger, watch } = useForm<ContractFormDataUpdate>({
         shouldUnregister: false,
         defaultValues: {
             responsavel: "",
             numContrato: 0,
             status: "",
             tipoServico: "",
-            entregaveis: [
-                {
-                    nome: "",
-                    dtInicio: "",
-                    dtFim: "",
-                    Status: "",
-                    descricao: "",
-                    colaboradores: [
-                        {
-                            id: 0,
-                            funcaoEntregavel: ""
-                        }
-                    ]
-                }
-            ],
+            entregaveis: [], 
             dtInicio: "",
             idContratante: 0,
-            colaboradores: [
-                {
-                    id: 0,
-                    funcaoContrato: ""
-                }
-            ],
+            colaboradores: [],
             dtFim: ""
         }
     });
 
     const nextStep = async () => {
         const isValid = await trigger();
-        if (!isValid) return;
-
-        setCurrentStep((prev) => Math.min(prev + 1, 5));
+        if (isValid && currentStep < 4) {
+            setCurrentStep(currentStep + 1);
+        }
     };
 
     const prevStep = () => {
-        setCurrentStep((prev) => Math.max(prev - 1, 1));
+        if (currentStep > 1) {
+            setCurrentStep(currentStep - 1);
+        }
     };
 
     useEffect(() => {
         const fetchEmpresa = async () => {
             const res = await axios.get(`https://gestaocontratual.onrender.com/contratos/${params.idContrato}`);
             setContrato(res.data);
-            reset(res.data); // ← Aqui você injeta os valores nos inputs via react-hook-form
+            
+            const dataToReset = {
+                ...res.data,
+                status: String(res.data.status || "Ativo"),
+                entregaveis: res.data.entregaveis && res.data.entregaveis.length > 0 
+                    ? res.data.entregaveis 
+                    : [{ 
+                        nome: "", 
+                        dtInicio: "", 
+                        dtFim: "", 
+                        Status: "", 
+                        descricao: "", 
+                        colaboradores: [{ id: 0, funcaoEntregavel: "" }] 
+                    }],
+                colaboradores: res.data.colaboradores && res.data.colaboradores.length > 0
+                    ? res.data.colaboradores
+                    : [{ id: 0, funcaoContrato: "" }]
+            };
+            
+            reset(dataToReset);
         };
 
         fetchEmpresa();
     }, [params.idContrato, reset]);
 
-    if (!contrato) return <LoaderCircle className="text-[#03a796] m-auto animate-spin size-15" />;
-
-
-    // const router = useRouter();
+    if (!contrato) return <LoaderCircle className="text-[#03a796] m-auto animate-spin size-15" />;  
 
 
     const onSubmit = async (data: ContractFormDataUpdate) => {
+        if (!data.status || data.status.trim() === "") {
+            alert("Por favor, selecione um status para o contrato.");
+            setIsSubmitting(false);
+            return;
+        }
+        
+        const cleanedData = {
+            ...data,
+            status: String(data.status).trim()
+        };
+        
         setIsSubmitting(true);
 
         try {
 
             const formData = new FormData();
 
-            const contratoBlob = new Blob([JSON.stringify(data)], {
+            const contratoBlob = new Blob([JSON.stringify(cleanedData)], {
                 type: "application/json",
             });
             formData.append("contrato", contratoBlob);

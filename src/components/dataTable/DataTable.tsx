@@ -32,7 +32,7 @@ import React from "react"
 // import RowActions from "../testePopup"
 import Link from "next/link"
 import { Button } from "../ui/button"
-import { ChevronLeft, ChevronRight, Clipboard, Edit, LoaderCircle, Plus, Trash2 } from "lucide-react"
+import { ChevronLeft, ChevronRight, Clipboard, Edit, LoaderCircle, Plus, Trash2, FileText, Calculator } from "lucide-react"
 
 import { useRouter } from "next/navigation";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip"
@@ -133,7 +133,6 @@ export function DataTable<T>({ columns, data, link, contentLink, entityBasePath,
                                         ))}
                                         <div className="flex items-center justify-center">
 
-                                            {/* Edit Button */}
                                             <Tooltip>
                                                 <TooltipTrigger>
                                                     <Button
@@ -160,8 +159,6 @@ export function DataTable<T>({ columns, data, link, contentLink, entityBasePath,
 
                                             <Tooltip>
                                                 <TooltipTrigger>
-
-                                                    {/* View Button */}
                                                     <Button
                                                         onClick={async () => {
                                                             if (id) {
@@ -184,12 +181,60 @@ export function DataTable<T>({ columns, data, link, contentLink, entityBasePath,
                                                 </TooltipContent>
                                             </Tooltip>
 
-                                            {/* Delete Button */}
+                                            {entityBasePath === "/contratos" && (
+                                                <>
+                                                    <Tooltip>
+                                                        <TooltipTrigger>
+                                                            <Button
+                                                                onClick={async () => {
+                                                                    if (id) {
+                                                                        setLoadingId({ id, action: "aditivo" });
+                                                                        router.push(`${entityBasePath}/aditivo/${id}`);
+                                                                    }
+                                                                }}
+                                                                className="bg-transparent text-[black] hover:bg-[#5fb0a8]"
+                                                                disabled={loadingId?.id === id}
+                                                            >
+                                                                {loadingId?.id === id && loadingId?.action === "aditivo" ? (
+                                                                    <LoaderCircle className="animate-spin" />
+                                                                ) : (
+                                                                    <FileText />
+                                                                )}
+                                                            </Button>
+                                                        </TooltipTrigger>
+                                                        <TooltipContent>
+                                                            <p>Aditivos</p>
+                                                        </TooltipContent>
+                                                    </Tooltip>
+
+                                                    <Tooltip>
+                                                        <TooltipTrigger>
+                                                            <Button
+                                                                onClick={async () => {
+                                                                    if (id) {
+                                                                        setLoadingId({ id, action: "repactuacao" });
+                                                                        router.push(`${entityBasePath}/repactuacao/${id}`);
+                                                                    }
+                                                                }}
+                                                                className="bg-transparent text-[black] hover:bg-[#5fb0a8]"
+                                                                disabled={loadingId?.id === id}
+                                                            >
+                                                                {loadingId?.id === id && loadingId?.action === "repactuacao" ? (
+                                                                    <LoaderCircle className="animate-spin" />
+                                                                ) : (
+                                                                    <Calculator />
+                                                                )}
+                                                            </Button>
+                                                        </TooltipTrigger>
+                                                        <TooltipContent>
+                                                            <p>Repactuação</p>
+                                                        </TooltipContent>
+                                                    </Tooltip>
+                                                </>
+                                            )}
 
                                             <Tooltip>
                                                 <TooltipTrigger>
-
-
                                                     <Button
                                                         onClick={async () => {
                                                             if (id && onDelete) {

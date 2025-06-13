@@ -1,12 +1,10 @@
 "use client";
 
-import { InputComponent } from "@/components/inputComponent/Input";
-import { SelectInput } from "@/components/inputComponent/Select";
 import { ContractFormData } from "@/types/contractFormData";
 import axios from "axios";
-import { LoaderCircle, Trash } from "lucide-react";
+import { LoaderCircle } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Control, useFieldArray } from "react-hook-form";
+import { Control } from "react-hook-form";
 
 interface ColaboradoresContractProps {
     control: Control<ContractFormData>;
@@ -20,14 +18,14 @@ interface Colaborator {
     cargo: string;
 }
 
-export default function ColaboradoresContractStep({ control, idContrato }: ColaboradoresContractProps) {
+export default function ColaboradoresContractStep({ idContrato }: ColaboradoresContractProps) {
     const [colaborators, setColaborators] = useState<Colaborator[]>([]);
 
     // Hook para array de campos
-    const { fields, append, remove } = useFieldArray({
-        control,
-        name: "colaboradores",
-    });
+    // const { fields, append, remove } = useFieldArray({
+    //     control,
+    //     name: "colaboradores",
+    // });
 
     // Busca os colaboradores
     useEffect(() => {
@@ -55,8 +53,10 @@ export default function ColaboradoresContractStep({ control, idContrato }: Colab
             <h1 className="py-6 text-xl font-bold">Agregados</h1>
             <div className="grid grid-cols-2 w-full ml-4 ">
                 {colaborators.map((col) => (
-                    <div className="flex gap-4 w-[34vw] mb-4 h-fit border items-center  rounded-lg p-4 shadow hover:shadow-lg cursor-pointer">
-
+                    <div
+                        key={col.id} // <-- Linha 56 original, agora com a `key`
+                        className="flex gap-4 w-[34vw] mb-4 h-fit border items-center rounded-lg p-4 shadow hover:shadow-lg cursor-pointer"
+                    >
                         <div className="flex flex-col">
                             <p className="font-bold">Nome</p>
                             <p>{col.nome}</p>

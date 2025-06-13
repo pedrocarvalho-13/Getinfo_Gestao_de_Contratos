@@ -1,12 +1,20 @@
-import { FieldValues } from "react-hook-form";
+export type TipoAditivo = 1 | 2 | 3 | 4;
 
-export type AditivoFormData = FieldValues & {
-    id?: number;
+export interface AditivoFormData {
     idContrato: number;
-    documentoBase64?: string;
+    tipoAditivo: TipoAditivo;
     descricao: string;
-    dataVigencia: string; 
     justificativa: string;
-    tipoAditivo: string;
-
+    dataVigencia: string;
+    documentoBase64: string;
 }
+// export interface AditivoFormData {
+//     id?: number;
+//     idContrato: number;
+//     documentoBase64?: string;
+//     descricao: string;
+//     dataVigencia: string;
+//     justificativa: string;
+//     tipoAditivo: string;
+
+// }

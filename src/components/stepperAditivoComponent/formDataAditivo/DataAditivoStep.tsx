@@ -9,10 +9,10 @@ interface DataAditivoStepProps {
 
 export default function DataAditivoStep({ control }: DataAditivoStepProps) {
     const tiposAditivo = [
-        { nome: "Prazo", idTipo: "Prazo" },
-        { nome: "Valor", idTipo: "Valor" },
-        { nome: "Escopo", idTipo: "Escopo" },
-        { nome: "Outros", idTipo: "Outros" },
+        { id: 1, nome: "Prazo" },
+        { id: 2, nome: "Valor" },
+        { id: 3, nome: "Escopo" },
+        { id: 4, nome: "Outros" },
     ];
 
     return (
@@ -27,11 +27,11 @@ export default function DataAditivoStep({ control }: DataAditivoStepProps) {
                             placeholder="Selecione o tipo"
                             options={tiposAditivo.map((tipo) => ({
                                 label: tipo.nome,
-                                value: tipo.idTipo
+                                value: tipo.id
                             }))}
                             control={control}
                         />
-                        
+
                         <InputComponent
                             label="Data de Vigência"
                             type="date"

@@ -4,11 +4,37 @@ import { InputComponent } from "@/components/inputComponent/Input";
 import { SelectInput } from "@/components/inputComponent/Select";
 import { Trash, Plus } from "lucide-react";
 
+// --- START: New Type Definitions ---
+// Define the shape of a single responsible person within an entregavel
+type Responsavel = {
+    id: number | string; // Changed to number | string to handle initial empty string for new append
+    funcaoContrato: string;
+};
+
+// Define the shape of an entregavel, including its responsaveis array
+type Entregavel = {
+    // Assuming there are other properties for an 'entregavel' here, e.g.:
+    // nomeEntregavel: string;
+    // prazo: string;
+    responsaveis: Responsavel[];
+};
+
+// Define the overall shape of your form data
+export type FormData = {
+    entregaveis: Entregavel[];
+    // Add other top-level fields of your form here if they exist, e.g.:
+    // projectName: string;
+    // contractNumber: string;
+};
+// --- END: New Type Definitions ---
+
 interface Props {
-    control: Control<any>;
+    // Use the defined FormData type for the control
+    control: Control<FormData>;
     index: number;
     colaborators: { id: number; nome: string; cargo: string }[];
 }
+
 
 export function ResponsaveisFieldArray({ control, index, colaborators }: Props) {
     const {

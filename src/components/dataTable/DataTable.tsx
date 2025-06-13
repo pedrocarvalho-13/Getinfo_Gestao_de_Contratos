@@ -1,8 +1,5 @@
 "use client"
 
-// import { HeaderGroup, Row, Cell } from '@tanstack/react-table'
-
-
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -29,13 +26,24 @@ import {
 import { Input } from "@/components/ui/input"
 
 import React from "react"
-// import RowActions from "../testePopup"
 import Link from "next/link"
 import { Button } from "../ui/button"
 import { ChevronLeft, ChevronRight, Clipboard, Edit, LoaderCircle, Plus, Trash2, FileText, Calculator } from "lucide-react"
 
 import { useRouter } from "next/navigation";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip"
+
+// Define um tipo genérico para as chaves de ID que você espera.
+// Isso torna o IdentifiableRow mais flexível e tipado.
+type IdKeys = 'id' | 'idContrato' | 'idContratante';
+
+// Define a IdentifiableRow para ser mais precisa.
+// Ela agora garante que um dos campos de ID esteja presente como number,
+// e que as outras propriedades sejam do tipo K, que é o tipo genérico
+// passado para a DataTable. Isso elimina o uso de 'any'.
+// type IdentifiableRow<K extends object = {}> = K & {
+//     [P in IdKeys]?: number; // Permite que as chaves de ID sejam opcionais e do tipo number
+// };
 
 interface DataTableProps<T> {
     columns: ColumnDef<T>[];
@@ -46,12 +54,7 @@ interface DataTableProps<T> {
     onDelete?: (id: number) => void;
 }
 
-// type TableData =  {
-//     id: number;
-
-// }
-
-export function DataTable<T>({ columns, data, link, contentLink, entityBasePath, onDelete }: DataTableProps<T>) {
+export function DataTable<T extends Record<string, any>>({ columns, data, link, contentLink, entityBasePath, onDelete }: DataTableProps<T>) {
     const [sorting] = React.useState<SortingState>([]);
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
     const [loadingId, setLoadingId] = React.useState<{ id: number; action: string } | null>(null);
@@ -74,11 +77,15 @@ export function DataTable<T>({ columns, data, link, contentLink, entityBasePath,
         }
     });
 
-    function getIdFromRow(row: any): number | null {
-        const possibleKeys = ['id', 'idContrato', 'idContratante'];
+    // Agora, `row` é tipado como `T`, que é estendido de `Record<string, any>`,
+    // mas a lógica interna garante a busca por um ID numérico.
+    function getIdFromRow(row: T): number | null {
+        const possibleKeys: IdKeys[] = ['id', 'idContrato', 'idContratante'];
         for (const key of possibleKeys) {
-            if (row[key]) {
-                return row[key];
+            // TypeScript agora sabe que row[key] pode ser um number ou undefined.
+            // O typeof row[key] === 'number' é uma verificação de runtime.
+            if (typeof row[key] === 'number') {
+                return row[key] as number; // Casting seguro após a verificação de tipo
             }
         }
         return null;
@@ -137,7 +144,7 @@ export function DataTable<T>({ columns, data, link, contentLink, entityBasePath,
                                                 <TooltipTrigger>
                                                     <Button
                                                         onClick={async () => {
-                                                            if (id) {
+                                                            if (id && entityBasePath) {
                                                                 setLoadingId({ id, action: "edit" });
                                                                 router.push(`${entityBasePath}/update/${id}`);
                                                             }
@@ -161,7 +168,7 @@ export function DataTable<T>({ columns, data, link, contentLink, entityBasePath,
                                                 <TooltipTrigger>
                                                     <Button
                                                         onClick={async () => {
-                                                            if (id) {
+                                                            if (id && entityBasePath) {
                                                                 setLoadingId({ id, action: "view" });
                                                                 router.push(`${entityBasePath}/view/${id}`);
                                                             }
@@ -187,7 +194,7 @@ export function DataTable<T>({ columns, data, link, contentLink, entityBasePath,
                                                         <TooltipTrigger>
                                                             <Button
                                                                 onClick={async () => {
-                                                                    if (id) {
+                                                                    if (id && entityBasePath) {
                                                                         setLoadingId({ id, action: "aditivo" });
                                                                         router.push(`${entityBasePath}/aditivo/${id}`);
                                                                     }
@@ -211,7 +218,7 @@ export function DataTable<T>({ columns, data, link, contentLink, entityBasePath,
                                                         <TooltipTrigger>
                                                             <Button
                                                                 onClick={async () => {
-                                                                    if (id) {
+                                                                    if (id && entityBasePath) {
                                                                         setLoadingId({ id, action: "repactuacao" });
                                                                         router.push(`${entityBasePath}/repactuacao/${id}`);
                                                                     }

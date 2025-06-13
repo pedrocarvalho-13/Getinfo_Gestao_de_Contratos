@@ -3,9 +3,10 @@ import { Control, useFieldArray } from "react-hook-form";
 import { InputComponent } from "@/components/inputComponent/Input";
 import { SelectInput } from "@/components/inputComponent/Select";
 import { Trash, Plus } from "lucide-react";
+import { ContractFormData } from "@/types/contractFormData";
 
 interface Props {
-    control: Control<any>;
+    control: Control<ContractFormData>;
     index: number;
     colaborators: { id: number; nome: string; cargo: string }[];
 }

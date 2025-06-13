@@ -13,7 +13,7 @@ interface ColaboradoresContractProps {
 
 export default function PostosViewContractStep({ control }: ColaboradoresContractProps) {
     // Hook para array de campos
-    const { fields, append, remove } = useFieldArray({
+    const { fields, append } = useFieldArray({
         control,
         name: "postos",
     });

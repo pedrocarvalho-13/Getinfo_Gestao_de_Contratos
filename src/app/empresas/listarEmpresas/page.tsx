@@ -21,22 +21,22 @@ interface ContratantesWithId extends company {
 export default function ListarEmpresas() {
 
     const [companies, setCompanies] = useState<ContratantesWithId[]>([]);
-    const [carregando, setCarregando] = useState(true);
+    // const [carregando, setCarregando] = useState(true);
     useEffect(() => {
         axios
             .get("https://gestaocontratual.onrender.com/contratantes")
             .then((res) => {
                 setCompanies(res.data);
-                setCarregando(false);
+                // setCarregando(false);
             })
             .catch((err) => {
                 console.error("Erro ao buscar dados da API:", err);
-                setCarregando(false);
+                // setCarregando(false);
             });
     }, []);
 
     const handleDelete = async (id: number) => {
-        setCarregando(true)
+        // setCarregando(true)
         try {
             await axios.delete(`https://gestaocontratual.onrender.com/contratantes/${id}`);
             setCompanies((prev) => prev.filter((contratantes) => contratantes.idContratante !== id));
@@ -45,7 +45,7 @@ export default function ListarEmpresas() {
             alert("Erro ao deletar colaborador.");
 
         } finally {
-            setCarregando(false)
+            // setCarregando(false)
         }
     };
     const ColunaCompanies: ColumnDef<company>[] = [

@@ -1,6 +1,5 @@
-import { Control, Controller, useFieldArray } from "react-hook-form";
+import { Control } from "react-hook-form";
 import { ContractFormData } from "@/types/contractFormData";
-import Style from "@/Styles/style.module.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
@@ -16,14 +15,14 @@ interface docs {
 }
 
 
-export default function AnexoViewDocsStep({ control, idContrato }: AnexoDocsStepProps) {
+export default function AnexoViewDocsStep({ idContrato }: AnexoDocsStepProps) {
 
   const [documentos, setDocumento] = useState<docs[]>([]);
 
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: "entregaveis",
-  });
+  // const { fields, append, remove } = useFieldArray({
+  //   control,
+  //   name: "entregaveis",
+  // });
 
   useEffect(() => {
     axios.get(`https://gestaocontratual.onrender.com/documentos/${idContrato}`)

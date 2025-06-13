@@ -21,10 +21,10 @@ export default function AditivoRegistrationForm({ idContrato, isEdit = false, ad
     const [modalHref, setModalHref] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const { control, handleSubmit, trigger } = useForm<AditivoFormData>({
+    const { control, handleSubmit } = useForm<AditivoFormData>({
         defaultValues: {
             idContrato: parseInt(idContrato),
-            tipoAditivo: aditivoData?.tipoAditivo || "",
+            tipoAditivo: aditivoData?.tipoAditivo ?? undefined, 
             descricao: aditivoData?.descricao || "",
             justificativa: aditivoData?.justificativa || "",
             dataVigencia: aditivoData?.dataVigencia || "",
@@ -35,36 +35,18 @@ export default function AditivoRegistrationForm({ idContrato, isEdit = false, ad
     const onSubmit: SubmitHandler<AditivoFormData> = async (data) => {
         setIsSubmitting(true);
         try {
-            let response;
-            
-            if (isEdit && aditivoData?.id) {
-                response = await axios.put(
-                    `/aditivos/${aditivoData.id}`,
-                    {
-                        idContrato: data.idContrato,
-                        documentoBase64: data.documentoBase64,
-                        descricao: data.descricao,
-                        dataVigencia: data.dataVigencia,
-                        justificativa: data.justificativa,
-                        tipoAditivo: data.tipoAditivo
-                    }
-                );
-                setModalMessage("Aditivo atualizado com sucesso!");
-            } else {
-                response = await axios.post(
-                    `/aditivos`,
-                    {
-                        idContrato: data.idContrato,
-                        documentoBase64: data.documentoBase64,
-                        descricao: data.descricao,
-                        dataVigencia: data.dataVigencia,
-                        justificativa: data.justificativa,
-                        tipoAditivo: data.tipoAditivo
-                    }
-                );
-                setModalMessage("Aditivo cadastrado com sucesso!");
-            }
-            
+            const payload = {
+                ...data,
+                dataVigencia: new Date(data.dataVigencia).toISOString(),
+                documentoBase64: "JVBERi0xLjQKJeLjz9MKNCAwIG9iago8PAovVHlwZSAvQ2F0YWxvZwovUGFnZXMgNSAwIFIKPj4KZW5kb2JqCjUgMCBvYmoKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFsgNiAwIFIgXQovQ291bnQgMQovTWVkaWFCb3ggWzAgMCA1OTUuMjggODQxLjg5XQo+PgplbmRvYmoKNiAwIG9iago8PAovVHlwZSAvUGFnZQovUGFyZW50IDUgMCBSCi9SZXNvdXJjZXMgPDwKPj4KL01lZGlhQm94IFswIDAgNTk1LjI4IDg0MS44OV0KL0NvbnRlbnRzIDcgMCBSCj4+CmVuZG9iago3IDAgb2JqCjw8Ci9MZW5ndGggMTEzCj4+CnN0cmVhbQpCBiAwIDAgMTAwIDcwMCBUZAogL0YxIDI0IFRECiBUZXN0ZSBBZGl0aXZvClQgRVQKZW5kc3RyZWFtCmVuZG9iagoyIDAgb2JqCjw8Ci9TdWJ0eXBlIC9UeXBlMQovVHlwZSAvRm9udAovTmFtZSAvRjEKL0Jhc2VGb250IC9UaW1lcy1Sb21hbgovRW5jb2RpbmcgL1dpbkFuc2lFbmNvZGluZwovRmlyc3RDaGFyIDMyCj4+CmVuZG9iagoxIDAgb2JqCjw8Ci9UeXBlIC9Gb250RGVzY3JpcHRvcgovRm9udE5hbWUgL0YxCi9GbGFncyA0Ci9Gb250QkJveCBbLTIwMCAtMjAwIDgwMCA4MDBdCi9JdGFsaWNBbmdsZSAwCi9Bc2NlbnQgODAwCi9EZXNjZW50IC0yMDAKL0NhcEhlaWdodCA3MDAKL1N0ZW1WIDQwCj4+CmVuZG9iagp4cmVmCjAgOQowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAwMDkgMDAwMDAgbiAKMDAwMDAwMDA4OCAwMDAwMCBuIAowMDAwMDAwMTcwIDAwMDAwIG4gCjAwMDAwMDAyNTkgMDAwMDAgbiAKMDAwMDAwMDQzNiAwMDAwMCBuIAowMDAwMDAwNTcwIDAwMDAwIG4gCjAwMDAwMDA3NTYgMDAwMDAgbiAKMDAwMDAwMDk3MiAwMDAwMCBuIAp0cmFpbGVyCjw8Ci9TaXplIDkKL1Jvb3QgNCAwIFIKL0luZm8gOCAwIFIKL0lEIFs8ZTIzM2Y1ZjA5NDA2ZWE3NTQ1NzU4ZTBiNzdlZmFkYzg5Pl0KPj4Kc3RhcnR4cmVmCjExMDgKJSVFT0YK"
+            };
+
+            const response = await axios.post(
+                `https://gestaocontratual.onrender.com/aditivos`,
+                payload
+            );
+            console.log(response)
+            setModalMessage("Aditivo cadastrado com sucesso!");
             setModalHref("/contratos/listarContratos");
             setShowModal(true);
         } catch (error) {
@@ -76,6 +58,7 @@ export default function AditivoRegistrationForm({ idContrato, isEdit = false, ad
             setIsSubmitting(false);
         }
     };
+
 
     return (
         <div className="container mx-auto py-8 px-4">
@@ -100,7 +83,7 @@ export default function AditivoRegistrationForm({ idContrato, isEdit = false, ad
 
                     <form onSubmit={handleSubmit(onSubmit)} className="mt-8">
                         <DataAditivoStep control={control} />
-                        
+
                         <div className="my-8 flex items-center justify-between">
                             <Link href="/contratos/listarContratos">
                                 <button
@@ -116,6 +99,12 @@ export default function AditivoRegistrationForm({ idContrato, isEdit = false, ad
                                 className="px-4 py-2 bg-[#5fe0d5] text-gray-800 rounded-md hover:bg-[#4bc0b5] disabled:opacity-50"
                             >
                                 {isSubmitting ? "Processando..." : (isEdit ? "Atualizar" : "Cadastrar")}
+                            </button>
+                            <button
+                                type="button"
+                                onClick={handleSubmit((data) => console.log("Dados:", data))}
+                            >
+                                Ver dados
                             </button>
                         </div>
                     </form>

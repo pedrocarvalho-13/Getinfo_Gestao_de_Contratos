@@ -19,7 +19,7 @@ export default function RepactuacaoRegistrationForm({ idContrato }: RepactuacaoF
     const [modalHref, setModalHref] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const { control, handleSubmit, trigger } = useForm<RepactuacaoFormData>({
+    const { control, handleSubmit } = useForm<RepactuacaoFormData>({
         defaultValues: {
             idContrato: parseInt(idContrato),
             tipoRepactuacao: "",
@@ -37,9 +37,10 @@ export default function RepactuacaoRegistrationForm({ idContrato }: RepactuacaoF
         setIsSubmitting(true);
         try {
             const response = await axios.post(
-                `https://gestaocontratual.onrender.com/contratos/${idContrato}/repactuacoes`,
+                `https://gestaocontratual.onrender.com/repactuacoes`,
                 data
             );
+            console.log(response)
             setModalMessage("Repactuação cadastrada com sucesso!");
             setModalHref("/contratos/listarContratos");
             setShowModal(true);

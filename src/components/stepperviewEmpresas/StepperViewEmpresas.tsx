@@ -11,10 +11,6 @@ import { useForm } from "react-hook-form"
 
 import axios from "axios";
 import { useEffect, useState } from "react";
-// import { colaboratorFormData } from "@/types/colaboratorFormData"
-// import DataAgregadoStep from "../stepperAgregadoComponent/formDataCompany/DataAgregadoStep";
-import { useRouter } from "next/navigation";
-// import DataAgregadoViewStep from "./formViewAgregado/FormViewAgregado";
 import DataViewCompanyStep from "./formViewDataCompany/FormViewDataCompany";
 import AdressViewCompanyStep from "./formViewAdressCompany/FormViewAdressCompany";
 import ContactViewCompanyStep from "./formViewContactCompany/FormViewContactCompany";
@@ -85,8 +81,6 @@ export default function EmpresasViewForm({ params }: { params: { idContratante: 
 
     if (!empresa) return <LoaderCircle className="text-[#03a796] m-auto animate-spin size-15" />;
 
-
-    const router = useRouter();
 
 
     return (

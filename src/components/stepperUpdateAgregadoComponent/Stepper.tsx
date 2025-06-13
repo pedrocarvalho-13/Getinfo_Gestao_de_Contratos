@@ -12,7 +12,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { colaboratorFormData } from "@/types/colaboratorFormData"
 import DataUpdateAgregadoStep from "./formDataCompany/DataUpdateAgregadoStep";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import ModalForm from "../modalForm/ModalForm";
 
@@ -31,14 +30,14 @@ interface AgregadosUpdateFormProps {
 export default function AgregadosUpdateForm({ params }: AgregadosUpdateFormProps) {
     const [currentStep, setCurrentStep] = useState<number>(1);
     const [colaborador, setColaborador] = useState<colaboratorFormData | null>(null);
-
+    setCurrentStep(1)
     const [showModal, setShowModal] = useState(false);
     const [modalMessage, setModalMessage] = useState("");
     const [modalHref, setModalHref] = useState("");
 
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const { control, reset, handleSubmit, trigger } = useForm<colaboratorFormData>({
+    const { control, reset, handleSubmit } = useForm<colaboratorFormData>({
         defaultValues: {
             cpf: "",
             nome: "",
@@ -60,18 +59,17 @@ export default function AgregadosUpdateForm({ params }: AgregadosUpdateFormProps
     if (!colaborador) return <LoaderCircle className="text-[#03a796] m-auto animate-spin size-15" />;
 
 
-    const router = useRouter();
 
-    const nextStep = async () => {
-        const isValid = await trigger(); // Valida os campos atuais antes de avançar
-        if (!isValid) return;
+    // const nextStep = async () => {
+    //     const isValid = await trigger(); // Valida os campos atuais antes de avançar
+    //     if (!isValid) return;
 
-        setCurrentStep((prev) => Math.min(prev + 1, 5));
-    };
+    //     setCurrentStep((prev) => Math.min(prev + 1, 5));
+    // };
 
-    const prevStep = () => {
-        setCurrentStep((prev) => Math.max(prev - 1, 1));
-    };
+    // const prevStep = () => {
+    //     setCurrentStep((prev) => Math.max(prev - 1, 1));
+    // };
 
     const onSubmit: SubmitHandler<colaboratorFormData> = async (data) => {
         console.log(data)
@@ -154,7 +152,7 @@ function Stepper({ currentStep }: StepperProps) {
             {[Users].map((Icon, index) => {
                 const step = index + 1;
                 const active = currentStep >= step;
-                const done = currentStep > step;
+                // const done = currentStep > step;
 
                 return (
                     <li

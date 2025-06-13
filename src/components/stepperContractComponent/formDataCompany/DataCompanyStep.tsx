@@ -71,6 +71,7 @@ export default function DataContractStep({ control }: DataContractStepProps) {
             });
     }, []);
 
+        console.log(status)
     return (
         <div className="space-y-8">
             <div>

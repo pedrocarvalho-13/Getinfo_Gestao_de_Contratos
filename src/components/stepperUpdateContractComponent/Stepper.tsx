@@ -30,7 +30,7 @@ export default function ContractUpdateForm({ params }: { params: { idContrato: s
 
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const { control, reset, handleSubmit, trigger, watch } = useForm<ContractFormDataUpdate>({
+    const { control, reset, handleSubmit, trigger } = useForm<ContractFormDataUpdate>({
         shouldUnregister: false,
         defaultValues: {
             responsavel: "",
@@ -135,7 +135,7 @@ export default function ContractUpdateForm({ params }: { params: { idContrato: s
             setModalHref("../listarContratos");
             setShowModal(true);
 
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error("Erro ao atualizar contrato:", error);
             setModalMessage("Erro ao atualizar contrato");
             setModalHref("../listarContratos");

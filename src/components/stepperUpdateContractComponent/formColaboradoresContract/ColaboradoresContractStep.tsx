@@ -66,7 +66,7 @@ export default function ColaboradoresContractStep({ control, idContrato }: Colab
     }, []);
 
     if (isLoading) return <LoaderCircle className="text-[#03a796] m-auto animate-spin size-10" />;
-
+    console.log(colaboratorsList)
     return (
         <div className="w-full">
             <h2 className="text-2xl font-bold mb-6">Agregados</h2>

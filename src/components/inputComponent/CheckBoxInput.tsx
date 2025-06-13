@@ -1,13 +1,9 @@
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { InputComponent } from "./Input"
-import { Plus } from "lucide-react"
+
 import { colaboratorFormData } from "@/types/colaboratorFormData"
 import { InputType } from "@/types/inputTypes"
 import { Label } from "@/components/ui/label";
 
-import { Control, Controller, FieldValues, Path } from "react-hook-form";
-import { useState } from "react"
+import { Control, Controller } from "react-hook-form";
 
 
 interface ColaboradorStepProps {
@@ -19,7 +15,7 @@ interface ColaboradorStepProps {
     readOnly?: boolean;
 }
 
-export function CheckInputComponent({ label, name, type, placeholder, control, readOnly }: ColaboradorStepProps) {
+export function CheckInputComponent({ label, name, control, readOnly }: ColaboradorStepProps) {
     //   const [isChecked, setIsChecked] = useState(true);  // marcado por padrão
 
     

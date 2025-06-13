@@ -14,7 +14,6 @@ import Link from "next/link"
 
 import axios from "axios";
 import { useState } from "react";
-import router from "next/router"
 import ModalForm from "../modalForm/ModalForm"
 
 interface StepperProps {

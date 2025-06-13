@@ -19,22 +19,22 @@ export default function ListarContratos() {
 
     // "pending" | "processing" | "success" | "failed"
     // const [colaboradores, setColaboradores] = useState([]);
-    const [carregando, setCarregando] = useState(true);
+    // const [carregando, setCarregando] = useState(true);
     useEffect(() => {
         axios
             .get("https://gestaocontratual.onrender.com/colaboradores")
             .then((res) => {
                 setColaboradores(res.data);
-                setCarregando(false);
+                // setCarregando(false);
             })
             .catch((err) => {
                 console.error("Erro ao buscar dados da API:", err);
-                setCarregando(false);
+                // setCarregando(false);
             });
     }, []);
 
     const handleDelete = async (id: number) => {
-        setCarregando(true)
+        // setCarregando(true)
         try {
             await axios.delete(`https://gestaocontratual.onrender.com/colaboradores/${id}`);
             setColaboradores((prev) => prev.filter((colaboradores) => colaboradores.id !== id));
@@ -43,7 +43,7 @@ export default function ListarContratos() {
             alert("Erro ao deletar colaborador.");
 
         } finally {
-            setCarregando(false)
+            // setCarregando(false)
         }
     };
 

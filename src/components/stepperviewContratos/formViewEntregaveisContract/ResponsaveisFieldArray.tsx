@@ -3,10 +3,11 @@ import { Control, useFieldArray } from "react-hook-form";
 import { InputComponent } from "@/components/inputComponent/Input";
 import { SelectInput } from "@/components/inputComponent/Select";
 import { Trash, Plus } from "lucide-react";
+import { ContractFormData } from "@/types/contractFormData"; // Importe ContractFormData
 
 interface Props {
-    control: Control<any>;
-    index: number;
+    control: Control<ContractFormData>; // Tipo corrigido para ContractFormData
+    index: number; // Índice do entregável pai
     colaborators: { id: number; nome: string; cargo: string }[];
 }
 
@@ -25,7 +26,8 @@ export function ResponsaveisFieldArray({ control, index, colaborators }: Props) 
             <h3 className="text-lg font-semibold">Responsáveis pelo Entregável</h3>
 
             {responsaveis.map((resp, rIndex) => (
-                <div key={resp.id} className="grid grid-cols-1 md:grid-cols-3 gap-2 items-end">
+                // Correção da key: usa resp.id se existir, senão usa rIndex
+                <div key={resp.id || rIndex} className="grid grid-cols-1 md:grid-cols-3 gap-2 items-end">
                     <SelectInput
                         name={`entregaveis.${index}.responsaveis.${rIndex}.id`}
                         label="Nome do Agregado"
@@ -57,7 +59,7 @@ export function ResponsaveisFieldArray({ control, index, colaborators }: Props) 
 
             <button
                 type="button"
-                onClick={() => append({ id: "", funcaoContrato: "" })}
+                onClick={() => append({ id: "", funcaoContrato: "" })} // id vazio para o novo item
                 className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
             >
                 <Plus className="inline-block mr-1" size={16} /> Adicionar Responsável

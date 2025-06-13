@@ -1,6 +1,5 @@
 import { InputComponent } from "@/components/inputComponent/Input";
 import { EmpresaFormData } from "@/types/EmpresaFormData";
-import { formBankProps } from "@/types/formPropsType";
 import { Control } from "react-hook-form";
 
 interface LegalCompanyStepProps {

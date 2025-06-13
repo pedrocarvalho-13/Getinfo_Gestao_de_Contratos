@@ -10,12 +10,12 @@ interface DataContractStepProps {
     control: Control<ContractFormData>;
 }
 
-interface Contratante {
-    idContratante: number;
-    cnpj: string;
-    nomeFantasia: string;
-    tipoEmpresa: number;
-}
+// interface Contratante {
+//     idContratante: number;
+//     cnpj: string;
+//     nomeFantasia: string;
+//     tipoEmpresa: number;
+// }
 
 
 
@@ -27,10 +27,10 @@ export default function DataViewContractStep({ control }: DataContractStepProps)
         name: "contratante"
     });
 
-    const statusContrato = useWatch({
-        control,
-        name: "status" 
-    });
+    // const statusContrato = useWatch({
+    //     control,
+    //     name: "status" 
+    // });
 
     const [displayedTipoContrato, setDisplayedTipoContrato] = useState<string>("")
 

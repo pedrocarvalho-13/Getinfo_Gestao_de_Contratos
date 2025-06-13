@@ -1,6 +1,6 @@
 "use client"
 
-import { CheckIcon, ClipboardMinus, Files, LayoutListIcon, LoaderCircle, MapPin, Phone, Scale, User } from "lucide-react"
+import { CheckIcon, ClipboardMinus, Files, LayoutListIcon, LoaderCircle, Scale, User } from "lucide-react"
 import { useForm, SubmitHandler } from "react-hook-form"
 
 import { EmpresaFormData } from "@/types/EmpresaFormData"
@@ -14,7 +14,6 @@ import Link from "next/link"
 
 import axios from "axios";
 import { useEffect, useState } from "react";
-import router from "next/router"
 import ModalForm from "../modalForm/ModalForm"
 
 interface StepperProps {

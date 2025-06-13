@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { InputComponent } from "./Input"
-import { FieldValues, InternalFieldName, FieldArrayPath, FieldArray, FieldErrors, FieldName, ReadFormState, FormState, RegisterOptions, UseFormRegisterReturn, SubmitHandler, SubmitErrorHandler, FieldError, ErrorOption, Control } from "react-hook-form"
+import { Control } from "react-hook-form"
 import { Plus } from "lucide-react"
 import { colaboratorFormData } from "@/types/colaboratorFormData"
 import { InputType } from "@/types/inputTypes"

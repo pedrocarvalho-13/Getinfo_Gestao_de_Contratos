@@ -12,8 +12,6 @@ import { useForm } from "react-hook-form"
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { colaboratorFormData } from "@/types/colaboratorFormData"
-// import DataAgregadoStep from "../stepperAgregadoComponent/formDataCompany/DataAgregadoStep";
-import { useRouter } from "next/navigation";
 import DataAgregadoViewStep from "./formViewAgregado/FormViewAgregado";
 import Link from "next/link";
 
@@ -24,7 +22,8 @@ interface StepperProps {
 
 
 export default function AgregadosViewForm({ params }: { params: { id: string } }) {
-    // const [currentStep, setCurrentStep] = useState<number>(1);
+    const [currentStep, setCurrentStep] = useState<number>(1);
+    setCurrentStep(1)
 
     const [colaborador, setColaborador] = useState<colaboratorFormData | null>(null);
 
@@ -50,32 +49,32 @@ export default function AgregadosViewForm({ params }: { params: { id: string } }
     if (!colaborador) return <LoaderCircle className="text-[#03a796] m-auto animate-spin size-15" />;
 
 
-    const router = useRouter();
+    // const router = useRouter();
 
 
     return (
         <div className="container mx-auto py-8 px-4">
             <div className="max-w-5xl mx-auto bg-white rounded-lg shadow-md">
                 <div className="p-6">
-                    {/* <Stepper currentStep={currentStep} /> */}
+                    <Stepper currentStep={currentStep} />
 
                     <form className="mt-8">
-                        {/* {currentStep === 1 && ( */}
-                        <div>
+                        {currentStep === 1 && (
+                            <div>
 
-                            <DataAgregadoViewStep control={control} />
-                            <div className="my-8 flex items-center justify-between">
+                                <DataAgregadoViewStep control={control} />
+                                <div className="my-8 flex items-center justify-between">
 
-                                <Link
-                                    href={"../listarColaboradores"}
-                                    className="px-4 py-2 bg-[#5fe0d5] text-gray-800 rounded-md hover:bg-[#4bc0b5]"
-                                >
-                                    Sair
-                                </Link>
+                                    <Link
+                                        href={"../listarColaboradores"}
+                                        className="px-4 py-2 bg-[#5fe0d5] text-gray-800 rounded-md hover:bg-[#4bc0b5]"
+                                    >
+                                        Sair
+                                    </Link>
 
+                                </div>
                             </div>
-                        </div>
-                        {/* )} */}
+                        )}
                     </form>
                 </div>
             </div>
@@ -89,7 +88,7 @@ function Stepper({ currentStep }: StepperProps) {
             {[Users].map((Icon, index) => {
                 const step = index + 1;
                 const active = currentStep >= step;
-                const done = currentStep > step;
+                // const done = currentStep > step;
 
                 return (
                     <li

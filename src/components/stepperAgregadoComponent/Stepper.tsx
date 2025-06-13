@@ -16,14 +16,13 @@ interface StepperProps {
 
 export default function AgregadosRegistrationForm() {
     const [currentStep, setCurrentStep] = useState<number>(1);
-
     const [showModal, setShowModal] = useState(false);
     const [modalMessage, setModalMessage] = useState("");
     const [modalHref, setModalHref] = useState("");
 
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const { control, handleSubmit, trigger } = useForm<colaboratorFormData>({
+    const { control, handleSubmit } = useForm<colaboratorFormData>({
         defaultValues: {
             cpf: "",
             nome: "",
@@ -32,15 +31,15 @@ export default function AgregadosRegistrationForm() {
         },
     });
 
-    const nextStep = async () => {
-        const isValid = await trigger();
-        if (!isValid) return;
-        setCurrentStep((prev) => Math.min(prev + 1, 5));
-    };
+    // const nextStep = async () => {
+    //     const isValid = await trigger();
+    //     if (!isValid) return;
+    //     setCurrentStep((prev) => Math.min(prev + 1, 5));
+    // };
 
-    const prevStep = () => {
-        setCurrentStep((prev) => Math.max(prev - 1, 1));
-    };
+    // const prevStep = () => {
+    //     setCurrentStep((prev) => Math.max(prev - 1, 1));
+    // };
 
     const onSubmit: SubmitHandler<colaboratorFormData> = async (data) => {
         console.log(data);

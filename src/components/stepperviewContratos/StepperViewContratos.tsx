@@ -1,6 +1,6 @@
 "use client"
 
-import { CheckIcon, ClipboardMinus, Files, LayoutListIcon, LoaderCircle, MapPin, Phone, Scale, User } from "lucide-react"
+import { CheckIcon, ClipboardMinus, Files, LayoutListIcon, LoaderCircle, Scale, User } from "lucide-react"
 import { useForm } from "react-hook-form"
 
 // import { EmpresaFormData } from "@/types/EmpresaFormData"
@@ -12,7 +12,7 @@ import { useForm } from "react-hook-form"
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 
 import { ContractFormData } from "@/types/contractFormData";
 import DataViewContractStep from "./formViewDataCompany/DataViewCompanyStep";
@@ -97,8 +97,6 @@ export default function EmpresasViewForm({ params }: { params: { idContrato: str
 
     if (!contrato) return <LoaderCircle className="text-[#03a796] m-auto animate-spin size-15" />;
 
-
-    const router = useRouter();
 
 
     return (

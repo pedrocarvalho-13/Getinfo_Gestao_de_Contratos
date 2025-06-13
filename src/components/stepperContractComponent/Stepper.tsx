@@ -1,18 +1,14 @@
 "use client"
 
-import { BookUp, Building2, CheckIcon, ClipboardMinus, Files, FileStack, LayoutListIcon, User, Users } from "lucide-react"
-import { useForm, SubmitHandler } from "react-hook-form"
+import { CheckIcon, ClipboardMinus, Files, LayoutListIcon, User } from "lucide-react"
+import { useForm } from "react-hook-form"
 import Link from "next/link"
 import ColaboradoresContractStep from "./formColaboradoresContract/ColaboradoresContractStep"
 import AnexoDocsStep from "./formAnexoDocsContract/AnexoDocsStep"
 import DataContractStep from "./formDataCompany/DataCompanyStep"
 import ContractEntregaveisStep from "./formEntregaveisContract/ContactEntregaveisStep"
 import { ContractFormData } from "@/types/contractFormData"
-
-import axios from "axios";
 import { useState } from "react";
-import PostosContractStep from "./formPostosContract/PostosContract"
-import router from "next/router"
 import ModalForm from "../modalForm/ModalForm"
 
 
@@ -77,7 +73,6 @@ export default function ContractRegistrationForm() {
         setIsSubmitting(true);
 
         try {
-
             const formData = new FormData();
 
             const contratoBlob = new Blob([JSON.stringify(data)], {
@@ -103,15 +98,30 @@ export default function ContractRegistrationForm() {
 
             const responseText = await response.text();
             console.log("Contrato cadastrado com sucesso:", responseText);
-            // alert("Contrato cadastrado com sucesso!");
             setModalMessage("Contrato cadastrado com sucesso!");
             setModalHref("listarContratos");
             setShowModal(true);
 
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error("Erro ao cadastrar contrato:", error);
-            // alert(`Erro: ${error.message}`);
-            setModalMessage("Erro ao cadastrar contrato");
+
+            let errorMessage = "Ocorreu um erro desconhecido ao cadastrar o contrato.";
+
+            if (error instanceof Error) {
+                // Se o erro é uma instância de Error, ele definitivamente tem 'message'
+                errorMessage = `Erro: ${error.message}`;
+            } else if (typeof error === 'string') {
+                // Se o erro for uma string
+                errorMessage = `Erro: ${error}`;
+            } else if (typeof error === 'object' && error !== null && 'message' in error) {
+                // Se o erro for um objeto e possui a propriedade 'message'
+                // O TypeScript agora sabe que 'error' é um objeto com 'message'.
+                // Podemos criar um tipo auxiliar para ajudar o TS aqui.
+                const errWithMessage = error as { message: string }; // Refina o tipo para um objeto com 'message'
+                errorMessage = `Erro: ${errWithMessage.message}`;
+            }
+
+            setModalMessage(errorMessage);
             setModalHref("listarContratos");
             setShowModal(true);
         } finally {

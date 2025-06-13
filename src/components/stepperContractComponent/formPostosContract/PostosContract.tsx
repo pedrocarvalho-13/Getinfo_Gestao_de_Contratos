@@ -1,12 +1,9 @@
 "use client";
 
 import { InputComponent } from "@/components/inputComponent/Input";
-import { SelectInput } from "@/components/inputComponent/Select";
 import { Textarea } from "@/components/ui/textarea";
 import { ContractFormData } from "@/types/contractFormData";
-import axios from "axios";
-import { Trash } from "lucide-react";
-import { useEffect, useState } from "react";
+
 import { Control, Controller, useFieldArray } from "react-hook-form";
 
 interface ColaboradoresContractProps {
@@ -16,7 +13,7 @@ interface ColaboradoresContractProps {
 
 export default function PostosContractStep({ control }: ColaboradoresContractProps) {
     // Hook para array de campos
-    const { fields, append, remove } = useFieldArray({
+    const { fields, append } = useFieldArray({
         control,
         name: "postos",
     });

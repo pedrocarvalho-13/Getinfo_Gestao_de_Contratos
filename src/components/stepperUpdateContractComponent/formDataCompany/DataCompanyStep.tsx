@@ -62,7 +62,7 @@ export default function DataContractStep({ control }: DataContractStepProps) {
     }, []);
 
     useEffect(() => {
-        axios.get("https://gestaocontratual.onrender.com/statusContrato/listarStatus") // <-- Altere a URL para sua rota real
+        axios.get("https://gestaocontratual.onrender.com/statusContrato/listarStatus")
             .then((response) => {
                 setStatus(response.data);
             })
@@ -103,11 +103,11 @@ export default function DataContractStep({ control }: DataContractStepProps) {
                     />
 
                     <SelectInputS
-                        name={"id"}
+                        name={"responsavel"} 
                         label="Responsável pelo Contrato"
                         placeholder={"Nome Completo"}
                         control={control}
-                        options={colaborators.map(c => ({ label: c.nome, value: c.id.toString(), key: c.id }))}
+                        options={colaborators.map(c => ({ label: c.nome, value: c.nome, key: c.id }))} 
                     />
                     {/* <InputComponent
                         name={"responsavel"}
@@ -142,23 +142,17 @@ export default function DataContractStep({ control }: DataContractStepProps) {
                         placeholder={"Desenvolvimento de Software"}
                         control={control}
                     />
-                    <SelectInput
-                        label="Status"
-                        name={"status"}
-                        placeholder={"Desenvolvimento de Software"}
-                        control={control}
-                        options={[
-                            { label: "Ativo", value: "Ativo" },
-                            { label: "Arquivado", value: "Arquivado"}
-                        ]} />
-
-                    {/* <SelectInput
-                        name={"idStatus"}
+                    <SelectInputS
+                        name={"status"} 
                         label="Status do Contrato"
-                        placeholder={"Ativo"}
+                        placeholder={"Selecione o status"}
                         control={control}
-                        options={status.map(c => ({ label: c.nome.toLocaleUpperCase(), value: c.idStatus}))}
-                    /> */}
+                        options={status.map(c => ({ 
+                            label: c.nome.toLocaleUpperCase(), 
+                            value: String(c.nome),
+                            key: c.idStatus
+                        }))}
+                    />
 
                 </div>
             </div>

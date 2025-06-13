@@ -1,4 +1,5 @@
 // import { contract } from "@/types/contractType"
+import { RawContractData } from "@/types/contractType"; // Ajuste o caminho se você colocou em contractType.ts
 
 export const contractList = {
     contracts: [
@@ -110,5 +111,5 @@ export const contractList = {
             tipo_contrato: "Infraestrutura",
             dt_final_contrato: "03/12/2025"
         },
-    ]
+    ] as RawContractData[],
 }

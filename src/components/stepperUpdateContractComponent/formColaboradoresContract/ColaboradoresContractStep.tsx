@@ -21,6 +21,7 @@ interface Colaborador {
 
 export default function ColaboradoresContractStep({ control, idContrato }: ColaboradoresContractProps) {
     const [colaboratorsList, setColaboratorsList] = useState<Colaborador[]>([]);
+    const [allColaborators, setAllColaborators] = useState<Colaborador[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
     const { fields, append, remove, replace } = useFieldArray({
@@ -28,7 +29,6 @@ export default function ColaboradoresContractStep({ control, idContrato }: Colab
         name: "colaboradores",
     });
 
-    // Busca os colaboradores existentes no contrato e popula o form
     useEffect(() => {
         let isMounted = true;
 
@@ -40,14 +40,12 @@ export default function ColaboradoresContractStep({ control, idContrato }: Colab
                         funcaoContrato: colab.funcaoContrato || "",
                     }));
 
-                    replace(agregados); // popula os campos com os agregados existentes
+                    replace(agregados);
                     setColaboratorsList(response.data);
-                    setIsLoading(false);
                 }
             })
             .catch((error) => {
                 console.error("Erro ao buscar agregados:", error);
-                setIsLoading(false);
             });
 
         return () => {
@@ -55,8 +53,20 @@ export default function ColaboradoresContractStep({ control, idContrato }: Colab
         };
     }, [idContrato, replace]);
 
-    if (isLoading) return <LoaderCircle className="text-[#03a796] m-auto animate-spin size-10" />;
+    useEffect(() => {
+        axios.get("https://gestaocontratual.onrender.com/colaboradores")
+            .then((response) => {
+                setAllColaborators(response.data);
+                setIsLoading(false);
+            })
+            .catch((error) => {
+                console.error("Erro ao buscar todos os colaboradores:", error);
+                setIsLoading(false);
+            });
+    }, []);
 
+    if (isLoading) return <LoaderCircle className="text-[#03a796] m-auto animate-spin size-10" />;
+    console.log(colaboratorsList)
     return (
         <div className="w-full">
             <h2 className="text-2xl font-bold mb-6">Agregados</h2>
@@ -71,7 +81,7 @@ export default function ColaboradoresContractStep({ control, idContrato }: Colab
                         label="Nome do Agregado"
                         placeholder="Selecione um agregado"
                         control={control}
-                        options={colaboratorsList.map(c => ({
+                        options={allColaborators.map(c => ({
                             label: c.nome,
                             value: c.id,
                         }))}
@@ -98,7 +108,7 @@ export default function ColaboradoresContractStep({ control, idContrato }: Colab
 
             <button
                 type="button"
-                onClick={() => append({ id: colaboratorsList[0]?.id ?? 0, funcaoContrato: "" })}
+                onClick={() => append({ id: 0, funcaoContrato: "" })}
                 className="mt-4 px-4 py-2 bg-[#5fe0d5] text-black rounded hover:bg-[#68c0ba] focus:bg-[#5fe0d5] transition"
             >
                 Adicionar Novo Agregado

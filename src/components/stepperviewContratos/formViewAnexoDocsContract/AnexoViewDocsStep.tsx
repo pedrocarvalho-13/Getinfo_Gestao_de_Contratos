@@ -39,17 +39,21 @@ export default function AnexoViewDocsStep({ idContrato }: AnexoDocsStepProps) {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-      {documentos.map(doc => (
-        <div
-          key={doc.idDocumento}
-          className="border rounded-lg p-4 shadow hover:shadow-lg cursor-pointer"
-          onClick={() => abrirDocumento(doc.url)}
-        >
-          <h2 className="text-lg font-bold">{doc.nome}</h2>
-          
-        </div>
-      ))}
+    <div className="flex flex-col gap-4">
+
+      <h1 className="text-lg font-bold">Anexos do Contrato</h1>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {documentos.map(doc => (
+          <div
+            key={doc.idDocumento}
+            className="border rounded-lg p-4 shadow hover:shadow-lg cursor-pointer"
+            onClick={() => abrirDocumento(doc.url)}
+          >
+            <h2 className="text-md font-bold overflow-hidden">{doc.nome}</h2>
+
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

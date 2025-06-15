@@ -23,7 +23,7 @@ interface StepperProps {
 
 export default function AgregadosViewForm({ params }: { params: { id: string } }) {
     const [currentStep, setCurrentStep] = useState<number>(1);
-    setCurrentStep(1)
+    // setCurrentStep(1)
 
     const [colaborador, setColaborador] = useState<colaboratorFormData | null>(null);
 

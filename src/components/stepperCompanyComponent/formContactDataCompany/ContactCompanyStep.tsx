@@ -29,7 +29,7 @@ export default function ContactCompanyStep({ control }: ContactCompanyStepProps)
                     placeholder={"(99) 99999-9999"}
                     control={control}
                     maxLength={11}
-                    mask="(__) _________-"
+                    mask="(__) _____-____"
                 />
                 
                 {/* Email Corporativo */}

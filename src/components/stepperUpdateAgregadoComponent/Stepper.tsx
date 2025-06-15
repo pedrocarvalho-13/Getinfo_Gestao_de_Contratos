@@ -30,7 +30,7 @@ interface AgregadosUpdateFormProps {
 export default function AgregadosUpdateForm({ params }: AgregadosUpdateFormProps) {
     const [currentStep, setCurrentStep] = useState<number>(1);
     const [colaborador, setColaborador] = useState<colaboratorFormData | null>(null);
-    setCurrentStep(1)
+    // setCurrentStep(1)
     const [showModal, setShowModal] = useState(false);
     const [modalMessage, setModalMessage] = useState("");
     const [modalHref, setModalHref] = useState("");
